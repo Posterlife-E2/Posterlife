@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+https://stackoverflow.com/questions/13929877/how-to-make-gradient-background-in-android
+-->
+    <shape
+        android:shape = "rectangle"
+        xmlns:android = "http://schemas.android.com/apk/res/android" >
+
+        <gradient
+            android:startColor = "#A8A8A8"
+            android:endColor = "#555555"
+            android:type = "linear" />
+
+        <corners android:bottomRightRadius="8dp"
+            android:bottomLeftRadius="8dp"
+            android:topRightRadius="8dp"
+            android:topLeftRadius="8dp"/>
+    </shape>
