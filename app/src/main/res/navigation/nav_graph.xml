@@ -9,5 +9,14 @@
         android:id="@+id/login"
         android:name="com.example.posterlife.Login"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/loginToBruger"
+            app:destination="@id/opretBruger" />
+    </fragment>
+    <fragment
+        android:id="@+id/opretBruger"
+        android:name="com.example.posterlife.OpretBruger"
+        android:label="fragment_opret_bruger"
+        tools:layout="@layout/fragment_opret_bruger" />
 </navigation>
