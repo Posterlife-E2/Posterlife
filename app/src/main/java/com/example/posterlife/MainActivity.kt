@@ -8,7 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.posterlife.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    //something
+    //something +
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
