@@ -13,7 +13,43 @@
         android:layout_height="63dp"
         android:fillColor="#868686"
         android:background="#868686"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <ImageView
+            android:id="@+id/mine_design_botMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:translationX="330dp"
+            app:srcCompat="@drawable/star_icon" />
+
+        <ImageView
+            android:id="@+id/profil_botMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:translationX="260dp"
+            app:srcCompat="@drawable/profile_icon" />
+
+        <ImageView
+            android:id="@+id/kamera_botMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:translationX="180"
+            app:srcCompat="@drawable/camera_icon" />
+
+        <ImageView
+            android:id="@+id/inspiration_botMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:translationX="100dp"
+            app:srcCompat="@drawable/bulb_icon" />
+
+        <ImageView
+            android:id="@+id/hjem_botMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:translationX="20dp"
+            app:srcCompat="@drawable/home_icon" />
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/TopBar"
@@ -47,7 +83,7 @@
             android:layout_height="28dp"
             android:translationX="330dp"
             android:translationY="16dp"
-            app:srcCompat="@drawable/favorite" />
+            app:srcCompat="@drawable/favorite_icon" />
 
         <ImageView
             android:id="@+id/shoppingcart"
@@ -56,7 +92,7 @@
             android:contentDescription="shoppingcart"
             android:translationX="370dp"
             android:translationY="16dp"
-            app:srcCompat="@drawable/shoppingcart" />
+            app:srcCompat="@drawable/shopping_cart" />
 
         <ImageView
             android:id="@+id/searchloop"
