@@ -19,4 +19,34 @@
         android:name="com.example.posterlife.OpretBruger"
         android:label="fragment_opret_bruger"
         tools:layout="@layout/fragment_opret_bruger" />
+
+    <navigation android:id="@+id/inspirationNav"
+        app:startDestination="@id/inspirationFrontpage">
+
+        <fragment
+            android:id="@+id/inspirationFrontpage"
+            android:name="com.example.posterlife.inspirationFrontpage"
+            android:label="fragment_inspiration_frontpage"
+            tools:layout="@layout/fragment_inspiration_frontpage">
+            <action
+                android:id="@+id/action_inspirationFrontpage_to_inspiration2"
+                app:destination="@id/inspiration2" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/inspiration2"
+            android:name="com.example.posterlife.inspiration2"
+            android:label="fragment_inspiration_2"
+            tools:layout="@layout/fragment_inspiration_2">
+            <action
+                android:id="@+id/action_inspiration2_to_inspirationBluelady"
+                app:destination="@id/inspirationBluelady" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/inspirationBluelady"
+            android:name="com.example.posterlife.inspiration_bluelady"
+            android:label="fragment_inspiration_bluelady"
+            tools:layout="@layout/fragment_inspiration_bluelady" />
+    </navigation>
 </navigation>
