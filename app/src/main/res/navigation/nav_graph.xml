@@ -14,6 +14,7 @@
             android:id="@+id/loginToBruger"
             app:destination="@id/opretBruger" />
     </fragment>
+
     <fragment
         android:id="@+id/opretBruger"
         android:name="com.example.posterlife.OpretBruger"
