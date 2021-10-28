@@ -3,19 +3,34 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3723958333333333" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/drawable/knap_out_of_focus.xml" value="0.21458333333333332" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/drawable/knap_standard.xml" value="0.21458333333333332" />
         <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_inspiration_2.xml" value="0.24818840579710144" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_inspiration_bluelady.xml" value="0.24818840579710144" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_inspiration_frontpage.xml" value="0.24818840579710144" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_login.xml" value="0.25905797101449274" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_opret_bruger.xml" value="0.24818840579710144" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.4197916666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_cameraswitch_24.xml" value="0.40520833333333334" />
+        <entry key="app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.40520833333333334" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.4197916666666667" />
+        <entry key="app/src/main/res/drawable/ic_round_up.xml" value="0.4197916666666667" />
+        <entry key="app/src/main/res/drawable/knap_out_of_focus.xml" value="0.40520833333333334" />
+        <entry key="app/src/main/res/drawable/knap_standard.xml" value="0.40520833333333334" />
+        <entry key="app/src/main/res/font/roboto.xml" value="0.4192708333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/asd.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_fragmentcamera.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragment_opencamera.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_opret_bruger.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/fragmentcameraa.xml" value="0.3890625" />
+        <entry key="app/src/main/res/layout/open_camera.xml" value="0.33" />
       </map>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.5" />
+      </ProjectState>
+    </option>
   </component>
 </project>
