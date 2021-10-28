@@ -30,7 +30,7 @@
             android:label="fragment_inspiration_frontpage"
             tools:layout="@layout/fragment_inspiration_frontpage">
             <action
-                android:id="@+id/action_inspirationFrontpage_to_inspiration2"
+                android:id="@+id/goToInspiration2"
                 app:destination="@id/inspiration2" />
         </fragment>
 
@@ -40,7 +40,7 @@
             android:label="fragment_inspiration_2"
             tools:layout="@layout/fragment_inspiration_2">
             <action
-                android:id="@+id/action_inspiration2_to_inspirationBluelady"
+                android:id="@+id/goToPosterPage"
                 app:destination="@id/inspirationBluelady" />
         </fragment>
 
