@@ -14,9 +14,20 @@
             android:id="@+id/loginToBruger"
             app:destination="@id/opretBruger" />
     </fragment>
+
     <fragment
         android:id="@+id/opretBruger"
         android:name="com.example.posterlife.OpretBruger"
         android:label="fragment_opret_bruger"
-        tools:layout="@layout/fragment_opret_bruger" />
+        tools:layout="@layout/fragment_opret_bruger">
+        <action
+            android:id="@+id/toInsFrontpage"
+            app:destination="@id/inspirationFrontpage" />
+    </fragment>
+    <fragment
+        android:id="@+id/inspirationFrontpage"
+        android:name="com.example.posterlife.inspirationFrontpage"
+        android:label="inspirationFrontpage"
+        tools:layout="@layout/fragment_inspiration_frontpage"/>
+
 </navigation>

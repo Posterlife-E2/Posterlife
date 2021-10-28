@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/opretBrugerLogin"
+        android:id="@+id/opretBrugerRegistrer"
         android:layout_width="220dp"
         android:layout_height="44dp"
         android:background="@drawable/knap_standard"
