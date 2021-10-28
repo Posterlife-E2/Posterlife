@@ -18,5 +18,9 @@
         android:id="@+id/opretBruger"
         android:name="com.example.posterlife.OpretBruger"
         android:label="fragment_opret_bruger"
-        tools:layout="@layout/fragment_opret_bruger" />
+        tools:layout="@layout/fragment_opret_bruger" >
+        <action
+            android:id="@+id/toInspiration"
+            app:destination="@id/inspirationNav" />
+    </fragment>
 </navigation>

@@ -6,6 +6,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.posterlife.databinding.ActivityMainBinding
 
+/**
+ * @source https://developer.android.com/codelabs/basic-android-kotlin-training-fragments-navigation-component#10
+ *      https://youtu.be/Q2HY58s9cHs
+ */
 class MainActivity : AppCompatActivity() {
     //something +
     override fun onCreate(savedInstanceState: Bundle?) {
