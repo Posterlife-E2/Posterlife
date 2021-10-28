@@ -51,7 +51,7 @@ class Login : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.opretBrugerLogin.setOnClickListener{
-            Navigation.findNavController(it).navigate(LoginDirections.loginToBruger())
+          Navigation.findNavController(it).navigate(LoginDirections.loginToBruger())
         }
     }
 

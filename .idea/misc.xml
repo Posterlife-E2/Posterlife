@@ -3,12 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/krist/AndroidStudioProjects/Posterlife/app/src/main/res/drawable/knap_out_of_focus.xml" value="0.4203125" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/Posterlife/app/src/main/res/drawable/knap_standard.xml" value="0.4203125" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/Posterlife/app/src/main/res/layout/activity_main.xml" value="0.33469202898550726" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/Posterlife/app/src/main/res/layout/fragment_login.xml" value="0.4" />
-        <entry key="..\:/Users/krist/AndroidStudioProjects/Posterlife/app/src/main/res/layout/fragment_opret_bruger.xml" value="0.6" />
+        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3723958333333333" />
         <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_inspiration_2.xml" value="0.24818840579710144" />
+        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_inspiration_bluelady.xml" value="0.24818840579710144" />
+        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_inspiration_frontpage.xml" value="0.24818840579710144" />
+        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_login.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/krist/AndroidStudioProjects/PosterlifeGit/app/src/main/res/layout/fragment_opret_bruger.xml" value="0.24818840579710144" />
       </map>
     </option>
   </component>
