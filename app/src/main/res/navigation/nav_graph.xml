@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/camera">
+    app:startDestination="@id/login">
 
     <fragment
         android:id="@+id/login"
@@ -21,8 +21,8 @@
         android:label="fragment_opret_bruger"
         tools:layout="@layout/fragment_opret_bruger">
         <action
-            android:id="@+id/toInsFrontpage"
-            app:destination="@id/inspirationFrontpage" />
+            android:id="@+id/action_opretBruger_to_camera"
+            app:destination="@id/camera" />
     </fragment>
     <fragment
         android:id="@+id/inspirationFrontpage"

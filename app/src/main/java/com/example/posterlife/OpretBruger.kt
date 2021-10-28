@@ -50,6 +50,7 @@ class OpretBruger : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.opretBrugerRegistrer.setOnClickListener {
+            Navigation.findNavController(it).navigate(OpretBrugerDirections.actionOpretBrugerToCamera())
       }
     }
 
