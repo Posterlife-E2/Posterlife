@@ -49,7 +49,7 @@ class OpretBruger : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.opretBrugerLogin.setOnClickListener {
+        binding.opretBrugerRegistrer.setOnClickListener {
       }
     }
 
