@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/login">
+    app:startDestination="@id/camera">
 
     <fragment
         android:id="@+id/login"
@@ -29,5 +29,10 @@
         android:name="com.example.posterlife.inspirationFrontpage"
         android:label="inspirationFrontpage"
         tools:layout="@layout/fragment_inspiration_frontpage"/>
+    <fragment
+        android:id="@+id/camera"
+        android:name="com.example.posterlife.Camera"
+        android:label="camera"
+        tools:layout="@layout/fragment_camera"/>
 
 </navigation>
