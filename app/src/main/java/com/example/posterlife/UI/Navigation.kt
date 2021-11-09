@@ -27,9 +27,9 @@ sealed class Navigation(var route: String, var icon: Int, var title: String) {
 @Composable
 fun Navigation(navController: NavController) {
 
-    NavHost(navController = navController as NavHostController, startDestination = Inspiration.InspirationStart.rute) {
+    NavHost(navController = navController as NavHostController, startDestination = Navigation.Inspiration.route) {
         composable(Navigation.Hjem.route) {}
-        composable(route = Inspiration.InspirationStart.rute) {
+        composable(route = Navigation.Inspiration.route) {
             InspirationMainUI(navController = navController)
         }
         composable(route = Inspiration.InspirationOther.rute) {
