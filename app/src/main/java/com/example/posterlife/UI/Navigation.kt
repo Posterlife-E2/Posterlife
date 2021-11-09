@@ -2,6 +2,8 @@ package com.example.posterlife.UI
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,15 +25,20 @@ sealed class Navigation(var route: String, var icon: Int, var title: String) {
 }
 
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Inspiration.InspirationStart.rute) {
+fun Navigation(navController: NavController) {
+
+    NavHost(navController = navController as NavHostController, startDestination = Inspiration.InspirationStart.rute) {
+        composable(Navigation.Hjem.route) {}
         composable(route = Inspiration.InspirationStart.rute) {
             InspirationMainUI(navController = navController)
         }
         composable(route = Inspiration.InspirationOther.rute) {
             InspirationOtherUI(navController = navController)
         }
+        composable(Navigation.Kamera.route) {}
+        composable(Navigation.Profil.route) {}
+        composable(Navigation.MineDesign.route) {}
+
     }
 
 }
