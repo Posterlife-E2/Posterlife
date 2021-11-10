@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 
 sealed class Profil(val rute: String) {
@@ -22,7 +23,7 @@ sealed class Profil(val rute: String) {
                 Modifier
                     .background(Color(0xFFFCFCF0))
                     .fillMaxWidth()
-                    .padding(300.dp)
+                    .padding(357.dp) //Garbage måde at håndtere det på, men sådan er det for nu.. TODO: Fix det.
             ) {
 
             }
@@ -31,4 +32,5 @@ sealed class Profil(val rute: String) {
 
         }
     }
+
 }
