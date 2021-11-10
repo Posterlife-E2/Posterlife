@@ -38,7 +38,9 @@ fun Navigation(navController: NavController) {
             InspirationOtherUI(navController = navController)
         }
         composable(Navigation.Kamera.route) {}
-        composable(Navigation.Profil.route) {}
+        composable(Navigation.Profil.route) {
+            Profil.ProfilUI.ProfilUI(navController = navController)
+        }
         composable(Navigation.MineDesign.route) {}
 
     }

@@ -10,7 +10,7 @@ sealed class Hjem (route: String){
 
         @Composable
         fun HjemStartUI(navController: NavController) {
-            Text("Get Scuffed mofo")
+            Text(";This is hjem")
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.navigation.NavController
 
 /**
@@ -29,6 +30,7 @@ sealed class Inspiration(val rute: String) {
         fun InspirationOtherUI(navController: NavController) {
             Text("Get Scuffed")
         }
+
     }
 
 }

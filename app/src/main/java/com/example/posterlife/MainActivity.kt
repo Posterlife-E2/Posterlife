@@ -25,6 +25,8 @@ fun SetupStart() {
 
     BundNavBar(navController)
     Navigation(navController)
+
+
 }
 
 
