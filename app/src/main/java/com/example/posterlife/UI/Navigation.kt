@@ -29,13 +29,24 @@ fun Navigation(navController: NavController) {
 
     NavHost(navController = navController as NavHostController, startDestination = Navigation.Inspiration.route) {
         composable(Navigation.Hjem.route) {
-            Hjem.HjemStart.HjemStartUI(navController = navController)
+            Scaffold(
+                content = {
+                Hjem.HjemStart.HjemStartUI(navController = navController)
+            },
+                bottomBar = { BottomNavigationBar(navController = navController) }
+            )
         }
-        composable(route = Navigation.Inspiration.route) {
-            InspirationMainUI(navController = navController)
+        composable(Navigation.Inspiration.route) {
+            Scaffold(
+                content = {
+                    InspirationMainUI(navController = navController)
+                },
+                bottomBar = { BottomNavigationBar(navController = navController) }
+            )
         }
-        composable(route = Inspiration.InspirationOther.rute) {
-            InspirationOtherUI(navController = navController)
+        composable(Inspiration.InspirationOther.rute) {
+           // InspirationOtherUI(navController = navController)
+            ScaffoldControl(contentUnit = InspirationOtherUI(navController = navController), navController = navController)
         }
         composable(Navigation.Kamera.route) {}
         composable(Navigation.Profil.route) {
@@ -46,3 +57,14 @@ fun Navigation(navController: NavController) {
     }
 
 }
+
+@Composable
+fun ScaffoldControl (contentUnit: Unit, navController: NavController) {
+    Scaffold(
+        content = {
+            contentUnit
+        },
+        bottomBar = { BottomNavigationBar(navController = navController) }
+    )
+}
+
