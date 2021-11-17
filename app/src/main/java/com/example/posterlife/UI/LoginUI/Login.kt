@@ -9,16 +9,10 @@ sealed class Login(val rute: String)  {
 
         @Composable
         fun LoginStart() {
-            auth
+
         }
 
 
-//        @Composable
-//        fun LoginStart(viewModel: LoginVM) {
-//
-//            var userEmail by remember
-//
-//        }
-    }
 
+    }
 }

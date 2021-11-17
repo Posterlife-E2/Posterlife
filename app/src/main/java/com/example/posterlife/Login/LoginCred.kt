@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.withContext
 
 /**
  * @Source https://firebase.google.com/docs/auth/android/password-auth?authuser=0
@@ -15,12 +14,13 @@ import kotlinx.coroutines.withContext
 
 class LoginCred {
 
+    private val authentication = Firebase.auth
 
-    fun LoginCred(email: String, password: String) {
-        Firebase.auth.signInWithEmailAndPassword(email, password)
+    fun loginCred(email: String, password: String) {
+        authentication.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = Firebase.auth.currentUser
+                    val user = authentication.currentUser
                     //UI update med user her
                 }
                 else {
@@ -29,8 +29,8 @@ class LoginCred {
             }
     }
 
-    fun LoginSignOut() {
-        Firebase.auth.signOut()
+    fun loginSignOut() {
+        authentication.signOut()
     }
 
 
