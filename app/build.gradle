@@ -64,6 +64,7 @@ dependencies {
     // Integration with observables
     implementation("androidx.compose.runtime:runtime-livedata:1.1.0-beta02")
     implementation("androidx.compose.runtime:runtime-rxjava2:1.1.0-beta02")
+    implementation ("androidx.compose.material:material-icons-extended:1.1.0-beta02")
 
     // UI Tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.0-beta02")
@@ -82,5 +83,6 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.firebaseui:firebase-ui-database:7.2.0'
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
 
 }

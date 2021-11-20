@@ -14,9 +14,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //test
-       val Login = LoginCred()
-       Login.loginCred("goat@cheese.dk","Testgoat")
         setContent {
             SetupStart()
         }

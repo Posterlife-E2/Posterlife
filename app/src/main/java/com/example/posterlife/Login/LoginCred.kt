@@ -16,17 +16,16 @@ class LoginCred {
 
     private val authentication = Firebase.auth
 
-    fun loginCred(email: String, password: String) {
+    fun loginCred(email: String, password: String) : Boolean {
+        var loginSuccess = false
         authentication.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = authentication.currentUser
-                    //UI update med user her
-                }
-                else {
-                    //UI update et eller andet her
+                    loginSuccess = true
                 }
             }
+        return loginSuccess
     }
 
     fun loginSignOut() {
@@ -34,6 +33,7 @@ class LoginCred {
     }
 
 
+    //TODO This shit ain't working like it should
     @Composable
     fun ToastError() {
         Column(
