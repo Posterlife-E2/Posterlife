@@ -11,6 +11,7 @@ import com.example.posterlife.R
 import com.example.posterlife.UI.Inspiration.InspirationOther.InspirationOtherUI
 import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationMainUI
 import com.example.posterlife.UI.LoginUI.Login
+import com.example.posterlife.UI.LoginUI.SignUp
 
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
@@ -26,11 +27,15 @@ sealed class Navigation(var route: String, var icon: Int, var title: String) {
 }
 
 @Composable
-fun Navigation(navController: NavController) {
+fun Navigation() {
+
+    val navController = rememberNavController()
+
+    BundNavBar(navController)
 
     NavHost(
         navController = navController as NavHostController,
-        startDestination = Login.LoginPrompt.route
+        startDestination = Login.LoginScreen.route
     ) {
         composable(Navigation.Hjem.route) {
             Scaffold(
@@ -60,8 +65,11 @@ fun Navigation(navController: NavController) {
             Profil.ProfilUI.ProfilUI(navController = navController)
         }
         composable(Navigation.MineDesign.route) {}
-        composable(Login.LoginPrompt.route) {
-            Login.LoginPrompt.LoginStart()
+        composable(Login.LoginScreen.route) {
+            Login.LoginScreen.LoginStart(navController = navController)
+        }
+        composable(SignUp.SignUpScreen.route) {
+            SignUp.SignUpScreen.SignUpScreen(navController = navController)
         }
 
     }

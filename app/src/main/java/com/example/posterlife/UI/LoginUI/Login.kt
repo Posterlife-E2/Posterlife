@@ -22,19 +22,30 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.posterlife.Login.LoginCred
+import androidx.navigation.NavController
+import com.example.posterlife.UI.Navigation
+import com.example.posterlife.UI.Profil
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-sealed class Login(val route: String) {
+open class Login(val route: String) {
 
-    object LoginPrompt : Login("login") {
+    object LoginScreen : Login("login") {
 
-        //val login = LoginCred
         /**
          * @Source https://foso.github.io/Jetpack-Compose-Playground/material/textfield/
          * @Source https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
          */
         @Composable
-        fun LoginStart() {
+        fun LoginStart(navController: NavController) {
+
+            authentication = Firebase.auth
+
+            val user = authentication.currentUser
+            if(user != null) {
+                //noget med at den bare skal finde getUser og komme videre i sit liv.
+            }
 
             Column(Modifier.padding(16.dp)) {
 
@@ -113,24 +124,52 @@ sealed class Login(val route: String) {
                         }
                     }
                 )
-                /**Button (onClick = {login.loginCred(emailValue,passwordValue)}) {
+                        // log in
+                TextButton (onClick = {signIn(emailValue, passwordValue, navController)},
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
 
-                }**/
+                    colors = ButtonDefaults.textButtonColors(
+                        backgroundColor = Color.Black, contentColor = Color.White)
+
+                ) {
+                    Text(text = "Log ind")
+                }
+
+                //opret bruger
+                OutlinedButton (onClick = {navController.navigate(SignUp.SignUpScreen.route)},
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+
+                    colors = ButtonDefaults.textButtonColors(
+                        backgroundColor = Color.White, contentColor = Color.Black)
+
+                ) {
+                    Text(text = "Opret Bruger")
+                }
             }
 
+        }
+
+        private lateinit var authentication: FirebaseAuth
+
+        fun signIn(email: String, password: String, navController: NavController) {
+            authentication.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        authentication.currentUser
+                        navController.navigate(Profil.ProfilUI.rute)
+                    }
+                }
+        }
+
+        fun loginSignOut() {
+            authentication.signOut()
         }
 
 
     }
 
-}
-
-//Så man kan preview det man laver.
-@Preview
-    (
-    showBackground = true
-)
-@Composable
-fun PreviewLogin() {
-    Login.LoginPrompt.LoginStart()
 }
