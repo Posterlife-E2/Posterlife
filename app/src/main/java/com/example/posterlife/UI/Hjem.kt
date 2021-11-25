@@ -11,6 +11,7 @@ sealed class Hjem (route: String){
         @Composable
         fun HjemStartUI(navController: NavController) {
             Text(";This is hjem")
+
         }
     }
 }

@@ -3,14 +3,14 @@ package com.example.posterlife.UI
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.util.Log.d
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.*
-import androidx.camera.core.Logger.d
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.compiler.plugins.kotlin.ComposeFqNames
-import androidx.compose.compiler.plugins.kotlin.ComposeFqNames.remember
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -20,28 +20,86 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.example.posterlife.R
-import com.jetpack.camera.ui.theme.Purple500
-import java.io.File
+import com.google.accompanist.permissions.rememberPermissionState
+import com.jetpack.camera.ui.theme.CameraTheme
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import java.io.File
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import android.Manifest
+import androidx.activity.ComponentActivity
+import androidx.navigation.NavController
+import com.example.posterlife.MainActivity
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
+
+
+
+
+
+
+
+sealed class CameraCamera () {
+
+    object CameraStart :CameraCamera(){
+
+
+        @ExperimentalPermissionsApi
+        @Composable
+        fun CameraStartUI(navController: NavController){
+
+            CameraTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        val cameraPermissionState = rememberPermissionState(
+                            permission = Manifest.permission.CAMERA
+                        )
+
+                        Button(
+                            onClick = {
+                                cameraPermissionState.launchPermissionRequest()
+                            }
+                        ) {
+                            Text(text = "Permission")
+                        }
+                        Spacer(modifier = Modifier.height(30.dp))
+                        CameraOpen(getDirectory())
+                    }
+                }
+            }
+        }
+    }
+
+
+}
 
 @Composable
-fun CamerOpen(directory: File) {
+fun CameraOpen(directory: File) {
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current

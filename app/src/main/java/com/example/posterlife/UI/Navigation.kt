@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.posterlife.R
 import com.example.posterlife.UI.Inspiration.InspirationOther.InspirationOtherUI
 import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationMainUI
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
@@ -22,6 +23,8 @@ sealed class Navigation(var route: String, var icon: Int, var title: String) {
     object MineDesign : Navigation("mine design", R.drawable.ic_minedesign, "Mine Design")
 }
 
+
+@ExperimentalPermissionsApi
 @Composable
 fun Navigation(navController: NavController) {
 
@@ -36,7 +39,7 @@ fun Navigation(navController: NavController) {
             InspirationOtherUI(navController = navController)
         }
         composable(Navigation.Camera.route) {
-
+            CameraCamera.CameraStart.CameraStartUI(navController = navController)
 
         }
         composable(Navigation.Profil.route) {
