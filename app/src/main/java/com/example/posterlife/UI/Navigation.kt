@@ -1,12 +1,10 @@
 package com.example.posterlife.UI
 
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.posterlife.R
 import com.example.posterlife.UI.Inspiration.InspirationOther.InspirationOtherUI
 import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationMainUI
@@ -19,7 +17,7 @@ import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationMainUI
 sealed class Navigation(var route: String, var icon: Int, var title: String) {
     object Hjem : Navigation("hjem", R.drawable.ic_hjem, "Hjem")
     object Inspiration : Navigation("inspiration", R.drawable.ic_lightbulb, "Inspiration")
-    object Kamera : Navigation("kamera", R.drawable.ic_kamera, "Kamera")
+    object Camera : Navigation("kamera", R.drawable.ic_kamera, "Kamera")
     object Profil: Navigation("profil", R.drawable.ic_profil, "Profil")
     object MineDesign : Navigation("mine design", R.drawable.ic_minedesign, "Mine Design")
 }
@@ -37,7 +35,10 @@ fun Navigation(navController: NavController) {
         composable(route = Inspiration.InspirationOther.rute) {
             InspirationOtherUI(navController = navController)
         }
-        composable(Navigation.Kamera.route) {}
+        composable(Navigation.Camera.route) {
+
+
+        }
         composable(Navigation.Profil.route) {
             Profil.ProfilUI.ProfilUI(navController = navController)
         }
