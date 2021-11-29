@@ -30,7 +30,5 @@ sealed class Inspiration(val rute: String) {
         fun InspirationOtherUI(navController: NavController) {
             Text("Get Scuffed")
         }
-
     }
-
 }
