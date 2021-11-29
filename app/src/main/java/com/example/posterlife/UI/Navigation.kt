@@ -1,7 +1,13 @@
 package com.example.posterlife.UI
 
+import androidx.compose.foundation.background
+import androidx.compose.material.DrawerValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberDrawerState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -31,58 +37,38 @@ fun Navigation() {
 
     val navController = rememberNavController()
 
-    BundNavBar(navController)
-
-    NavHost(
-        navController = navController as NavHostController,
-        startDestination = Login.LoginScreen.route
-    ) {
-        composable(Navigation.Hjem.route) {
-            Scaffold(
-                content = {
-                    Hjem.HjemStart.HjemStartUI(navController = navController)
-                },
-                bottomBar = { BottomNavigationBar(navController = navController) }
-            )
-        }
-        composable(Navigation.Inspiration.route) {
-            Scaffold(
-                content = {
-                    InspirationMainUI(navController = navController)
-                },
-                bottomBar = { BottomNavigationBar(navController = navController) }
-            )
-        }
-        composable(Inspiration.InspirationOther.rute) {
-            // InspirationOtherUI(navController = navController)
-            ScaffoldControl(
-                contentUnit = InspirationOtherUI(navController = navController),
-                navController = navController
-            )
-        }
-        composable(Navigation.Kamera.route) {}
-        composable(Navigation.Profil.route) {
-            Profil.ProfilUI.ProfilUI(navController = navController)
-        }
-        composable(Navigation.MineDesign.route) {}
-        composable(Login.LoginScreen.route) {
-            Login.LoginScreen.LoginStart(navController = navController)
-        }
-        composable(SignUp.SignUpScreen.route) {
-            SignUp.SignUpScreen.SignUpScreen(navController = navController)
-        }
-
-    }
-
-}
-
-@Composable
-fun ScaffoldControl(contentUnit: Unit, navController: NavController) {
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     Scaffold(
+        scaffoldState = scaffoldState,
+        bottomBar = { BottomNavigationBar(navController) },
         content = {
-            contentUnit
-        },
-        bottomBar = { BottomNavigationBar(navController = navController) }
+            NavHost(
+                navController = navController,
+                startDestination = Login.LoginScreen.route
+            ) {
+                composable(Navigation.Hjem.route) {
+                    Hjem.HjemStart.HjemStartUI(navController = navController)
+                }
+                composable(Navigation.Inspiration.route) {
+                    InspirationMainUI(navController = navController)
+                }
+                composable(Inspiration.InspirationOther.rute) {
+                    InspirationOtherUI(navController = navController)
+                }
+                composable(Navigation.Kamera.route) {}
+                composable(Navigation.Profil.route) {
+                    Profil.ProfilUI.ProfilUI(navController = navController)
+                }
+                composable(Navigation.MineDesign.route) {}
+                composable(Login.LoginScreen.route) {
+                    Login.LoginScreen.LoginStart(navController = navController)
+                }
+                composable(SignUp.SignUpScreen.route) {
+                    SignUp.SignUpScreen.SignUpScreen(navController = navController)
+                }
+
+            }
+        }
     )
 }
 
