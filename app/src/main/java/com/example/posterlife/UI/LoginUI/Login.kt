@@ -1,5 +1,6 @@
 package com.example.posterlife.UI.LoginUI
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.BasicTextField
@@ -23,11 +24,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.posterlife.LoginController.AuthenticationLogin
 import com.example.posterlife.UI.Navigation
 import com.example.posterlife.UI.Profil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import androidx.compose.foundation.layout.*
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import com.example.posterlife.R
+import androidx.compose.foundation.Image
 
 open class Login(val route: String) {
 
@@ -40,14 +47,23 @@ open class Login(val route: String) {
         @Composable
         fun LoginStart(navController: NavController) {
 
-            authentication = Firebase.auth
+            Column(
+                Modifier
+                    .background(Color(0xfffcfcf0))
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+            ) {
 
-            val user = authentication.currentUser
-            if(user != null) {
-                //noget med at den bare skal finde getUser og komme videre i sit liv.
-            }
+                //Logo
+                val Logo: Painter = painterResource(id = R.drawable.posterlife_logo)
+                Image(
+                    painter = Logo, contentDescription = "",
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .height(150.dp)
+                )
 
-            Column(Modifier.padding(16.dp)) {
 
                 //Email
                 var emailValue by remember { mutableStateOf("") }
@@ -125,7 +141,7 @@ open class Login(val route: String) {
                     }
                 )
                         // log in
-                TextButton (onClick = {signIn(emailValue, passwordValue, navController)},
+                TextButton (onClick = {AuthenticationLogin.signIn(emailValue, passwordValue, navController)},
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
@@ -153,21 +169,7 @@ open class Login(val route: String) {
 
         }
 
-        private lateinit var authentication: FirebaseAuth
 
-        fun signIn(email: String, password: String, navController: NavController) {
-            authentication.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        authentication.currentUser
-                        navController.navigate(Profil.ProfilUI.rute)
-                    }
-                }
-        }
-
-        fun loginSignOut() {
-            authentication.signOut()
-        }
 
 
     }
