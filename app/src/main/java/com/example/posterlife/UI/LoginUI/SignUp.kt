@@ -22,10 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.LoginController.AuthenticationSignUp
 import com.example.posterlife.R
-import com.example.posterlife.UI.Profil
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+
 
 sealed class SignUp(val route: String) {
 
@@ -126,6 +123,7 @@ sealed class SignUp(val route: String) {
                     }
                 )
                 //Password
+                //TODO check at passwordconfirm = password før at den kan sign up.
                 var passwordConfirmValue by remember { mutableStateOf("") }
                 var passwordConfirmVisibility by remember { mutableStateOf(false) }
                 OutlinedTextField(
