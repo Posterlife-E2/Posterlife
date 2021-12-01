@@ -8,8 +8,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.ui.core.ContextAmbient
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.example.posterlife.JsonParser.PlakatInfo
@@ -31,7 +33,9 @@ sealed class Inspiration(val rute: String) {
         @Composable
         fun InspirationMainUI(navController: NavController) {
 
-            val plakatInfo = PlakatInfo()
+            val context = LocalContext.current
+
+            val plakatInfo = PlakatInfo(context)
             val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
 
             Column(modifier = Modifier

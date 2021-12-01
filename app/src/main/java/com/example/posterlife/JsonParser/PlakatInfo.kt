@@ -17,15 +17,17 @@ import java.nio.channels.AsynchronousFileChannel.open
  * @Source https://github.com/cbeust/klaxon#streaming-api
  */
 
-class PlakatInfo {
+class PlakatInfo(context: Context) {
 
     //private val context = applicationContext
 
-    private val json = File("src/assets/posterlife.json").inputStream()
 
-    //private val json = context.assets.open("posterlife.json")
+    //private val json = File("./src/main/assets/posterlife.json").inputStream()
+
+    private val json = context.assets.open("posterlife.json")
 
     fun getPlakatInfo(): ArrayList<Plakat> {
+
         val klaxon = Klaxon()
         JsonReader(InputStreamReader(json)).use { reader ->
             val plakatResult = arrayListOf<Plakat>()
@@ -35,7 +37,6 @@ class PlakatInfo {
                     plakat?.let { plakatResult.add(it) }
                 }
             }
-            print(plakatResult.get(1).title)
             return plakatResult
         }
     }
