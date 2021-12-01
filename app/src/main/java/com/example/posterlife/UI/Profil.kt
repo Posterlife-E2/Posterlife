@@ -22,7 +22,8 @@ sealed class Profil(val rute: String) {
         @Composable
         fun ProfilUI(navController: NavController) {
 
-            Column(Modifier
+            Column(
+                Modifier
                     .background(Color(0xfffcfcf0))
                     .fillMaxWidth()
                     .fillMaxHeight()

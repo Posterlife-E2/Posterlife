@@ -1,18 +1,13 @@
 package com.example.posterlife.UI
 
-import androidx.compose.foundation.background
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.posterlife.R
-import com.example.posterlife.UI.Inspiration.InspirationOther.InspirationOtherUI
-import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationMainUI
+import com.example.posterlife.UI.Inspiration.InspirationFocusImage.InspirationFocusImage
+import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.UI.LoginUI.Login
 import com.example.posterlife.UI.LoginUI.SignUp
 
@@ -47,10 +42,10 @@ fun Navigation() {
                     Hjem.HjemStart.HjemStartUI(navController = navController)
                 }
                 composable(Navigation.Inspiration.route) {
-                    InspirationMainUI(navController = navController)
+                    InspirationOverview(navController = navController)
                 }
-                composable(Inspiration.InspirationOther.rute) {
-                    InspirationOtherUI(navController = navController)
+                composable(Inspiration.InspirationStart.rute) {
+                    InspirationFocusImage(navController = navController)
                 }
                 composable(Navigation.Kamera.route) {}
                 composable(Navigation.Profil.route) {

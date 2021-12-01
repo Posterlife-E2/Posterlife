@@ -93,12 +93,11 @@ open class Login(val route: String) {
 
                     visualTransformation =
 
-                    if(passwordVisibility) {
+                    if (passwordVisibility) {
                         VisualTransformation.None
-                    }
-                    else {
+                    } else {
                         PasswordVisualTransformation()
-                         },
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
 
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -127,27 +126,37 @@ open class Login(val route: String) {
                         }
                     }
                 )
-                        // log in
-                TextButton (onClick = {AuthenticationLogin.signIn(emailValue, passwordValue, navController)},
+                // log in
+                TextButton(
+                    onClick = {
+                        AuthenticationLogin.signIn(
+                            emailValue,
+                            passwordValue,
+                            navController
+                        )
+                    },
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
 
                     colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = Color.Black, contentColor = Color.White)
+                        backgroundColor = Color.Black, contentColor = Color.White
+                    )
 
                 ) {
                     Text(text = "Log ind")
                 }
 
                 //opret bruger
-                OutlinedButton (onClick = {navController.navigate(SignUp.SignUpScreen.route)},
+                OutlinedButton(
+                    onClick = { navController.navigate(SignUp.SignUpScreen.route) },
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
 
                     colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = Color.White, contentColor = Color.Black)
+                        backgroundColor = Color.White, contentColor = Color.Black
+                    )
 
                 ) {
                     Text(text = "Opret Bruger")
@@ -155,8 +164,6 @@ open class Login(val route: String) {
             }
 
         }
-
-
 
 
     }

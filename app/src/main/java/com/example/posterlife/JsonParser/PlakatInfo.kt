@@ -38,8 +38,6 @@ class PlakatInfo(context: Context) {
                     plakat?.let { plakatResult.add(it) }
                 }
             }
-
-
             return plakatResult
         }
     }
