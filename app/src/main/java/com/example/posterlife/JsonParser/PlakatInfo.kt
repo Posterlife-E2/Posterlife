@@ -10,6 +10,8 @@ import com.beust.klaxon.Klaxon
 import com.example.posterlife.MainActivity
 import com.example.posterlife.Model.Plakat
 import com.example.posterlife.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.io.*
 import java.nio.channels.AsynchronousFileChannel.open
 
@@ -19,17 +21,16 @@ import java.nio.channels.AsynchronousFileChannel.open
 
 class PlakatInfo(context: Context) {
 
-    //private val context = applicationContext
-
-
-    //private val json = File("./src/main/assets/posterlife.json").inputStream()
-
     private val json = context.assets.open("posterlife.json")
+
 
     fun getPlakatInfo(): ArrayList<Plakat> {
 
+
         val klaxon = Klaxon()
+
         JsonReader(InputStreamReader(json)).use { reader ->
+
             val plakatResult = arrayListOf<Plakat>()
             reader.beginArray {
                 while (reader.hasNext()) {
@@ -37,6 +38,8 @@ class PlakatInfo(context: Context) {
                     plakat?.let { plakatResult.add(it) }
                 }
             }
+
+
             return plakatResult
         }
     }
