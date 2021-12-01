@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.posterlife.LoginController.AuthenticationSignUp
 import com.example.posterlife.R
 import com.example.posterlife.UI.Profil
 import com.google.firebase.auth.FirebaseAuth
@@ -32,12 +33,6 @@ sealed class SignUp(val route: String) {
 
         @Composable
         fun SignUpScreen(navController: NavController) {
-
-            authentication = Firebase.auth
-
-            val user = authentication.currentUser
-            if (user != null) {
-            }
 
             Column(
                 Modifier
@@ -181,7 +176,7 @@ sealed class SignUp(val route: String) {
                 )
                 TextButton(
                     onClick = {
-                        SignUpUser(
+                        AuthenticationSignUp.SignUpUser(
                             emailValue,
                             passwordValue,
                             navController
@@ -199,25 +194,6 @@ sealed class SignUp(val route: String) {
                     Text(text = "Opret Bruger")
                 }
             }
-
-
-        }
-
-        private lateinit var authentication: FirebaseAuth
-
-        fun SignUpUser(email: String, password: String, navController: NavController) {
-
-            authentication.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        authentication.currentUser
-                        navController.navigate(Profil.ProfilUI.rute)
-                        //UpdateUI something here.
-                    } else {
-                    }
-                    //Update UI something here
-
-                }
         }
     }
 }
