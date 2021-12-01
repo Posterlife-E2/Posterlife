@@ -1,4 +1,9 @@
 package com.example.posterlife.UI
 
-class Kamera {
+sealed class Kamera(val route: String) {
+
+    object KameraAccess: Kamera("start") {
+
+
+    }
 }

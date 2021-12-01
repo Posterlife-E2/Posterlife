@@ -20,15 +20,6 @@ import androidx.navigation.compose.rememberNavController
  */
 
 @Composable
-fun BundNavBar(navController: NavController) {
-    Scaffold(
-        bottomBar = {BottomNavigationBar(navController)}
-    ) {
-
-    }
-}
-
-@Composable
 fun BottomNavigationBar(navController: NavController) {
 
     val items = listOf(
