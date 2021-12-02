@@ -55,10 +55,9 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
 
-
-
-
-
+/**
+ * @source https://www.youtube.com/watch?v=gRMznojSHxE
+ */
 
 sealed class CameraCamera () {
 
