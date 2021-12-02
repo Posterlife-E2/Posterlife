@@ -68,6 +68,8 @@ sealed class CameraCamera () {
         @Composable
         fun CameraStartUI(navController: NavController){
 
+
+
             CameraTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     Column(
@@ -87,7 +89,7 @@ sealed class CameraCamera () {
                             Text(text = "Permission")
                         }
                         Spacer(modifier = Modifier.height(30.dp))
-                        CameraOpen(getDirectory())
+                        CameraOpen(MainActivity.instance.getDirectory())
                     }
                 }
             }

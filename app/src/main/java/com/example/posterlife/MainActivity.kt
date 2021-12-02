@@ -14,6 +14,18 @@ import java.io.File
 
 class MainActivity : ComponentActivity() {
 
+
+    // jeg har lavet MainActivity som en singleton .
+    // det er build pattern . den er en af dem som vi har lært. den  er nødvendigt til at kamera kan virke.
+    companion object{
+        lateinit var instance : MainActivity
+    }
+    init {
+        instance = this;
+    }
+
+
+
     @ExperimentalPermissionsApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
