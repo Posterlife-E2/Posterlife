@@ -3,10 +3,6 @@ package com.example.posterlife.UI
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -23,81 +19,92 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.example.posterlife.R
 import com.google.accompanist.permissions.rememberPermissionState
 import com.jetpack.camera.ui.theme.CameraTheme
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import java.io.File
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import android.Manifest
-import androidx.activity.ComponentActivity
 import androidx.navigation.NavController
 import com.example.posterlife.MainActivity
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-
-
+import com.google.accompanist.permissions.PermissionRequired
 
 /**
  * @source https://www.youtube.com/watch?v=gRMznojSHxE
  */
 
-sealed class CameraCamera () {
+sealed class CameraCamera() {
 
-    object CameraStart :CameraCamera(){
+    object CameraStart : CameraCamera() {
 
 
         @ExperimentalPermissionsApi
         @Composable
-        fun CameraStartUI(navController: NavController){
-
-
-
+        fun CameraStartUI(navController: NavController) {
             CameraTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        val cameraPermissionState = rememberPermissionState(
-                            permission = Manifest.permission.CAMERA
-                        )
-
-                        Button(
-                            onClick = {
-                                cameraPermissionState.launchPermissionRequest()
-                            }
-                        ) {
-                            Text(text = "Permission")
-                        }
-                        Spacer(modifier = Modifier.height(30.dp))
-                        CameraOpen(MainActivity.instance.getDirectory())
-                    }
-                }
+                Permission()
+                CameraOpen(MainActivity.instance.getDirectory())
             }
         }
     }
-
-
 }
+
+@ExperimentalPermissionsApi
+@Composable
+fun Permission(
+    permission: String = android.Manifest.permission.CAMERA,
+    rationale: String = "This permission is important for this app. Please grant the permission.",
+    permissionNotAvailableContent: @Composable () -> Unit = { },
+    content: @Composable () -> Unit = { }
+) {
+    val permissionState = rememberPermissionState(permission)
+    PermissionRequired(
+        permissionState = permissionState,
+        permissionNotGrantedContent = {
+            Rationale(
+                text = rationale,
+                onRequestPermission = { permissionState.launchPermissionRequest() }
+            )
+        },
+        permissionNotAvailableContent = permissionNotAvailableContent,
+        content = content
+    )
+}
+
+@Composable
+private fun Rationale(
+    text: String,
+    onRequestPermission: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = { /* Don't */ },
+        title = {
+            Text(text = "Permission request")
+        },
+        text = {
+            Text(text)
+        },
+        confirmButton = {
+            Button(onClick = onRequestPermission) {
+                Text("Ok")
+            }
+        }
+    )
+}
+
 
 @Composable
 fun CameraOpen(directory: File) {
