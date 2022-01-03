@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.posterlife.JsonParser.PlakatInfo
 import com.example.posterlife.Model.Plakat
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -69,7 +68,7 @@ sealed class Inspiration(val rute: String) {
                                 .size(500.dp)
                                 .padding(16.dp)
                                 .clickable {
-                                    navController.navigate(Inspiration.InspirationFocusImage.rute)
+                                    navController.navigate("focusImage/$index")
                                 }
                         )
                         Text(
@@ -83,11 +82,21 @@ sealed class Inspiration(val rute: String) {
             }
         }
     }
-    object InspirationFocusImage : Inspiration("focusImage") {
+    object InspirationFocusImage : Inspiration("focusImage/{plakatIndex}") {
 
         @Composable
-        fun InspirationFocusImage(navController: NavController) {
-            Text("Get Scuffed")
+        fun InspirationFocusImage(plakatIndex: Int?) {
+
+            val context = LocalContext.current
+            val plakatInfo = PlakatInfo(context)
+            val plakatHolder = plakatIndex?.let { plakatInfo.getPlakatInfo().get(it) }
+
+            if (plakatHolder != null) {
+
+                //SKRIV KODE HER
+
+                Text(plakatHolder.title)
+            }
         }
     }
 }
