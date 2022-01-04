@@ -1,5 +1,7 @@
 package com.example.posterlife.ui
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -50,6 +52,16 @@ fun Navigation() {
                 //---- Kamera ----
 
                 composable(Navigation.Kamera.route) {
+                    Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
+                        Log.d(TAG, "Image Uri Captured from Camera View")
+
+                    }, onError = { imageCaptureException ->
+                        navController.navigate("inspirationStart")
+                    })
+                }
+
+                composable(Kamera.KameraAccess.route) {
+                    navController.navigate(Navigation.Kamera.route)
                 }
 
                 //----------------

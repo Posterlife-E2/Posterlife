@@ -28,7 +28,7 @@ import com.example.posterlife.jsonParser.PlakatInfo
 
 sealed class Inspiration(val rute: String) {
 
-    object InspirationStart : Inspiration("start") {
+    object InspirationStart : Inspiration("inspirationStart") {
 
         @ExperimentalCoilApi
         @Composable
