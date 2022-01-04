@@ -49,6 +49,10 @@ import kotlin.coroutines.suspendCoroutine
 
 /**
  * @Source https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+ *
+ * Ift. implementeringen af CameraX har vi stort set udlukkende brugt hvordan MK fra Devbitsandbytes har implementeret, og ændret i den
+ * så den passer til vores app. Vi har selv tilføjet permissions, da Android ikke selv kunne finde frem til at spørge efter permissions.
+ *
  * @Source https://gabrieltanner.org/blog/android-camerax
  * @Source https://developer.android.com/training/camerax/architecture#permissions
  */
@@ -72,7 +76,7 @@ sealed class Kamera(val route: String) {
 
             val context = LocalContext.current
 
-            if(hasNoPermissions(context)) {
+            if (hasNoPermissions(context)) {
                 requestPermission(context)
             }
 
@@ -304,17 +308,27 @@ sealed class Kamera(val route: String) {
         }
 
         //Taget fra https://gabrieltanner.org/blog/android-camerax
-        private val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        private val permissions = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
 
-        private fun hasNoPermissions(context: Context): Boolean{
-            return ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(context,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+        private fun hasNoPermissions(context: Context): Boolean {
+            return ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
         }
 
-        fun requestPermission(context: Context){
-            ActivityCompat.requestPermissions(context as Activity, permissions,0)
+        fun requestPermission(context: Context) {
+            ActivityCompat.requestPermissions(context as Activity, permissions, 0)
         }
     }
 }
