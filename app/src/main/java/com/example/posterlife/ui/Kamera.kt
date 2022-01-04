@@ -314,6 +314,7 @@ sealed class Kamera(val route: String) {
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
+        // Taget fra https://gabrieltanner.org/blog/android-camerax
         private fun hasNoPermissions(context: Context): Boolean {
             return ContextCompat.checkSelfPermission(
                 context,
@@ -327,6 +328,7 @@ sealed class Kamera(val route: String) {
             ) != PackageManager.PERMISSION_GRANTED
         }
 
+        // Taget fra https://gabrieltanner.org/blog/android-camerax
         fun requestPermission(context: Context) {
             ActivityCompat.requestPermissions(context as Activity, permissions, 0)
         }
