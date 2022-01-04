@@ -4,11 +4,15 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.ui.loginUI.Login
@@ -20,6 +24,7 @@ import com.example.posterlife.ui.loginUI.SignUp
  */
 
 
+@ExperimentalCoilApi
 @Composable
 fun Navigation() {
 
@@ -28,7 +33,10 @@ fun Navigation() {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = { BottomNavigationBar(navController) },
+        bottomBar = {
+            if (navController.currentBackStackEntry?.destination?.route != "openKamera")
+            BottomNavigationBar(navController)
+                    },
         content = {
             NavHost(
                 navController = navController,
@@ -95,4 +103,5 @@ fun Navigation() {
         }
     )
 }
+
 
