@@ -96,8 +96,12 @@ fun Navigation() {
                 composable(SignUp.SignUpScreen.route) {
                     SignUp.SignUpScreen.SignUpScreen(navController = navController)
                 }
-
                 //------------------------
+
+                //---- Redigering -----
+                composable(BilledRedigering.BilledRed.rute) {
+                    BilledRedigering.BilledRed.BilledRedigering()
+                }
 
             }
         }

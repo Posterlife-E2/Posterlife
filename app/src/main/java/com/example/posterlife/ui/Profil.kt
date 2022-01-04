@@ -25,7 +25,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxHeight()
             ) {
 
-                Button(onClick = { navController.navigate(Login.LoginScreen.route) }) {
+                Button(onClick = { navController.navigate("billedRed") }) {
                     Text("Login")
                 }
             }
