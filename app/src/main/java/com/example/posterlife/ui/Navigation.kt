@@ -1,4 +1,4 @@
-package com.example.posterlife.UI
+package com.example.posterlife.ui
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -7,10 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.posterlife.UI.Inspiration.InspirationFocusImage.InspirationFocusImage
-import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationOverview
-import com.example.posterlife.UI.LoginUI.Login
-import com.example.posterlife.UI.LoginUI.SignUp
+import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
+import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
+import com.example.posterlife.ui.loginUI.Login
+import com.example.posterlife.ui.loginUI.SignUp
 
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
@@ -32,6 +32,7 @@ fun Navigation() {
                 navController = navController,
                 startDestination = Login.LoginScreen.route
             ) {
+                //---- Inspiration ----
                 composable(Navigation.Inspiration.route) {
                     InspirationOverview(navController = navController)
                 }
@@ -40,26 +41,43 @@ fun Navigation() {
                     Inspiration.InspirationFocusImage.rute,
                     arguments = listOf(navArgument("plakatIndex") { type = NavType.IntType })
 
-                ) {
-                    backStackEntry -> InspirationFocusImage(backStackEntry.arguments?.getInt("plakatIndex"))
+                ) { backStackEntry ->
+                    InspirationFocusImage(backStackEntry.arguments?.getInt("plakatIndex"))
                 }
+
+                //--------------------
+
+                //---- Kamera ----
 
                 composable(Navigation.Kamera.route) {
-
                 }
 
+                //----------------
+
+                //---- Profil ----
                 composable(Navigation.Profil.route) {
                     Profil.ProfilUI.ProfilUI(navController = navController)
                 }
 
-                composable(Navigation.MineDesign.route) {}
+                composable(Profil.ProfilUI.rute) {
+                    Profil.ProfilUI.ProfilUI(navController = navController)
+                }
+                //----------------
 
+                //---- Mine Design ----
+
+                composable(Navigation.MineDesign.route) {}
+                //---------------------
+
+                //---- Login & Sign Up ----
                 composable(Login.LoginScreen.route) {
                     Login.LoginScreen.LoginStart(navController = navController)
                 }
                 composable(SignUp.SignUpScreen.route) {
                     SignUp.SignUpScreen.SignUpScreen(navController = navController)
                 }
+
+                //------------------------
 
             }
         }

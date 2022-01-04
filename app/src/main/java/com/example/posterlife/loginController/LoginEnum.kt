@@ -1,4 +1,4 @@
-package com.example.posterlife.LoginController
+package com.example.posterlife.loginController
 
 enum class LoginEnum {
     LOGGEDIN, LOGGEDOUT

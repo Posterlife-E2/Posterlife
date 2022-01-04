@@ -1,19 +1,10 @@
-package com.example.posterlife.JsonParser
+package com.example.posterlife.jsonParser
 
-import android.app.Application
 import android.content.Context
-import android.content.res.Resources
-import android.os.Environment
-import androidx.activity.ComponentActivity
 import com.beust.klaxon.JsonReader
 import com.beust.klaxon.Klaxon
-import com.example.posterlife.MainActivity
-import com.example.posterlife.Model.Plakat
-import com.example.posterlife.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.example.posterlife.model.Plakat
 import java.io.*
-import java.nio.channels.AsynchronousFileChannel.open
 
 /**
  * @Source https://github.com/cbeust/klaxon#streaming-api

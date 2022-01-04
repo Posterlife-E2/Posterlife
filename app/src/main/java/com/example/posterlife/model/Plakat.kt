@@ -1,4 +1,4 @@
-package com.example.posterlife.Model
+package com.example.posterlife.model
 
 import com.beust.klaxon.Json
 

@@ -1,4 +1,4 @@
-package com.example.posterlife.UI
+package com.example.posterlife.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,10 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.example.posterlife.JsonParser.PlakatInfo
-import com.example.posterlife.Model.Plakat
-import kotlin.collections.ArrayList
+import com.example.posterlife.jsonParser.PlakatInfo
 
 /**
  * @source https://developer.android.com/jetpack/compose/navigation
@@ -31,12 +30,14 @@ sealed class Inspiration(val rute: String) {
 
     object InspirationStart : Inspiration("start") {
 
+        @ExperimentalCoilApi
         @Composable
         fun InspirationOverview(navController: NavController) {
 
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
-            val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
+            val plakatHolder = plakatInfo.getPlakatInfo()
+
 
             Column(
                 Modifier
@@ -59,6 +60,7 @@ sealed class Inspiration(val rute: String) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(plakatHolder.size) { index ->
+
                         Image(
                             painter = rememberImagePainter(
                                 data = plakatHolder.get(index).imageURL,
@@ -71,6 +73,8 @@ sealed class Inspiration(val rute: String) {
                                     navController.navigate("focusImage/$index")
                                 }
                         )
+
+
                         Text(
                             plakatHolder.get(index).title,
                             modifier = Modifier
@@ -82,6 +86,7 @@ sealed class Inspiration(val rute: String) {
             }
         }
     }
+
     object InspirationFocusImage : Inspiration("focusImage/{plakatIndex}") {
 
         @Composable

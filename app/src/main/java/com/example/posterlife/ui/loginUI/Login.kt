@@ -1,4 +1,4 @@
-package com.example.posterlife.UI.LoginUI
+package com.example.posterlife.ui.loginUI
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.posterlife.LoginController.AuthenticationLogin
+import com.example.posterlife.loginController.AuthenticationLogin
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.example.posterlife.R
@@ -148,7 +148,7 @@ open class Login(val route: String) {
 
                 //opret bruger
                 OutlinedButton(
-                    onClick = { navController.navigate(SignUp.SignUpScreen.route) },
+                    onClick = { navController.navigate("signUpScreen") },
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),

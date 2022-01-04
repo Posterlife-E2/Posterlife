@@ -1,4 +1,4 @@
-package com.example.posterlife.UI.LoginUI
+package com.example.posterlife.ui.loginUI
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +20,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.posterlife.LoginController.AuthenticationSignUp
+import com.example.posterlife.loginController.AuthenticationSignUp
 import com.example.posterlife.R
 
 

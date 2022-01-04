@@ -1,23 +1,19 @@
-package com.example.posterlife.UI
+package com.example.posterlife.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import com.example.posterlife.UI.LoginUI.Login
-import com.google.firebase.auth.FirebaseUser
+import com.example.posterlife.ui.loginUI.Login
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 
 
 sealed class Profil(val rute: String) {
 
-    object ProfilUI : Profil("start") {
+    object ProfilUI : Profil("profilStart") {
 
         @Composable
         fun ProfilUI(navController: NavController) {
