@@ -112,7 +112,7 @@ sealed class BilledRedigering(var rute: String) {
                                         modifier = Modifier
                                             .padding(8.dp),
                                         text = "Tilføj Tekst",
-                                        fontSize =  18.sp
+                                        fontSize = 18.sp
                                     )
                                     TextField(
                                         value = textFieldVal,
@@ -125,6 +125,8 @@ sealed class BilledRedigering(var rute: String) {
                                         colors = TextFieldDefaults.textFieldColors(
                                             focusedLabelColor = Color(colorValg),
                                             focusedIndicatorColor = Color(colorValg),
+                                            unfocusedLabelColor = Color(colorValg),
+                                            unfocusedIndicatorColor = Color(colorValg),
                                             textColor = Color(colorValg)
                                         )
                                     )
