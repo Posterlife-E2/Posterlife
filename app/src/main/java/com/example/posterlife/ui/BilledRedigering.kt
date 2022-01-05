@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -59,11 +60,13 @@ sealed class BilledRedigering(var rute: String) {
             Column(
                 modifier = Modifier
                     .background(Color(0xfffcfcf0))
+
             ) {
 
                 BoxWithConstraints(
                     modifier = Modifier
                         .background(Color(0xfffcfcf0)),
+                    contentAlignment = Alignment.Center
 
                     ) {
                     if (maxHeight < 700.dp) {
@@ -167,7 +170,7 @@ sealed class BilledRedigering(var rute: String) {
                                     contentAlignment = Alignment.Center
                                 )
                                 {
-                                    Button(
+                                    TextButton(
                                         onClick = {
                                             if (!textFieldVal.equals("")) {
                                                 billedRedTool.addText(
@@ -179,7 +182,12 @@ sealed class BilledRedigering(var rute: String) {
                                             }
                                         },
                                         modifier = Modifier
-                                            .offset(y = -20.dp)
+                                            .offset(y = -20.dp),
+                                        shape = RectangleShape,
+                                        colors = ButtonDefaults.textButtonColors(
+                                            backgroundColor = Color.Black, contentColor = Color.White
+                                        ),
+
                                     ) {
                                         Text("Indsæt")
                                     }
