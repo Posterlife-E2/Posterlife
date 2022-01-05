@@ -102,4 +102,6 @@ dependencies {
 
     //Til billedRedigering
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
+
+    implementation 'com.godaddy.android.colorpicker:compose-color-picker:0.3.1'
 }

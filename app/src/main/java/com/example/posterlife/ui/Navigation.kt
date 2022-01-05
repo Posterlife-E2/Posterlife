@@ -66,7 +66,7 @@ fun Navigation() {
                         Log.d(TAG, "Image Uri Captured from Camera View")
 
                     }, onError = { imageCaptureException ->
-                        navController.navigate("inspirationStart")
+                        navController.navigate(Navigation.Inspiration.route)
                     })
                 }
 
