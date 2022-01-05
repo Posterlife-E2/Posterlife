@@ -42,7 +42,7 @@ fun Navigation() {
         content = {
             NavHost(
                 navController = navController,
-                startDestination = Login.LoginScreen.route
+                startDestination = /*Login.LoginScreen.route*/BilledRedigering.BilledRed.rute
             ) {
                 //---- Inspiration ----
                 composable(Navigation.Inspiration.route) {

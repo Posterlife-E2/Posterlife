@@ -59,17 +59,29 @@ sealed class BilledRedigering(var rute: String) {
             Column(
                 modifier = Modifier
                     .background(Color(0xfffcfcf0))
-                    .fillMaxWidth()
-                    .fillMaxHeight()
             ) {
 
-                AndroidView(
-                    factory = { billedRedView },
+                BoxWithConstraints(
                     modifier = Modifier
-                        .background(Color(0xfffcfcf0))
-                )
+                        .background(Color(0xfffcfcf0)),
 
-                Row() {
+                    ) {
+                    if (maxHeight < 700.dp) {
+                        AndroidView(
+                            factory = { billedRedView },
+                            Modifier.width(350.dp),
+                        )
+                    } else {
+                        AndroidView(
+                            factory = { billedRedView },
+                        )
+                    }
+
+                }
+                Row(
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     TextButton(
                         onClick = {
                             if (billedRedTool.brushDrawableMode != true) {
@@ -86,6 +98,8 @@ sealed class BilledRedigering(var rute: String) {
                     }
 
                     TextButton(
+                        modifier = Modifier
+                            .padding(4.dp),
                         onClick = {
                             visPopUp.value = true
                         },
@@ -163,7 +177,9 @@ sealed class BilledRedigering(var rute: String) {
                                                 textFieldVal = ""
                                                 visPopUp.value = false
                                             }
-                                        }
+                                        },
+                                        modifier = Modifier
+                                            .offset(y = -20.dp)
                                     ) {
                                         Text("Indsæt")
                                     }
