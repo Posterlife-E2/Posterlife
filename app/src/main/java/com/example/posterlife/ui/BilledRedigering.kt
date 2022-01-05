@@ -1,5 +1,6 @@
 package com.example.posterlife.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -8,9 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.toColor
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
@@ -52,12 +57,17 @@ sealed class BilledRedigering(var rute: String) {
                 .setDefaultTextTypeface(tekstFont)
                 .build()
 
-            Column() {
+            Column(
+                modifier = Modifier
+                    .background(Color(0xfffcfcf0))
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ) {
 
                 AndroidView(
                     factory = { billedRedView },
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .background(Color(0xfffcfcf0))
                 )
 
                 Row() {
@@ -92,25 +102,46 @@ sealed class BilledRedigering(var rute: String) {
                     var textFieldVal by remember { mutableStateOf("") }
 
                     if (visPopUp.value) {
-                        var colorValg = 2147483647
+                        //-16777216 er sort i AARRBBGG farve koden.
+                        var colorValg = remember { -16777216 }
                         AlertDialog(onDismissRequest = { visPopUp.value = false },
-                            title = {
-                                Text("Tilføj Tekst")
-                            },
+                            backgroundColor = Color(0xfffcfcf0),
+                            title = null,
 
                             text = {
                                 Column {
-
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(8.dp),
+                                        text = "Tilføj Tekst",
+                                        fontSize =  18.sp
+                                    )
                                     TextField(
                                         value = textFieldVal,
-                                        onValueChange = { textFieldVal = it })
+                                        onValueChange = { textFieldVal = it },
+                                        modifier = Modifier
+                                            .padding(4.dp),
+                                        textStyle = TextStyle(
+                                            fontSize = 20.sp,
+                                        ),
+                                        colors = TextFieldDefaults.textFieldColors(
+                                            focusedLabelColor = Color(colorValg),
+                                            focusedIndicatorColor = Color(colorValg),
+                                            textColor = Color(colorValg)
+                                        )
+                                    )
                                     ClassicColorPicker(
                                         onColorChanged = { color: HsvColor ->
                                             colorValg = color.toColor().toArgb()
+
+                                            //Lille finte til at opdatere vores farve på textField uden at lave listeners og alt muligt halløj.
+                                            val textFieldTemp = textFieldVal
+                                            textFieldVal += "1"
+                                            textFieldVal = textFieldTemp
                                         },
                                         modifier = Modifier
                                             .height(300.dp)
-                                            .padding(5.dp)
+                                            .padding(10.dp)
                                     )
                                 }
                             },
@@ -119,13 +150,11 @@ sealed class BilledRedigering(var rute: String) {
                                 Button(
                                     onClick = {
                                         if (!textFieldVal.equals("")) {
-
-                                            val COLOR_BLACK = android.graphics.Color.parseColor("#000000")
-
                                             billedRedTool.addText(
                                                 tekstFont,
                                                 textFieldVal, colorValg
                                             )
+                                            textFieldVal = ""
                                             visPopUp.value = false
                                         }
                                     }
