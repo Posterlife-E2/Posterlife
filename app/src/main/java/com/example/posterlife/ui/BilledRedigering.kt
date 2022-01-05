@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -147,34 +148,27 @@ sealed class BilledRedigering(var rute: String) {
                             },
 
                             confirmButton = {
-                                Button(
-                                    onClick = {
-                                        if (!textFieldVal.equals("")) {
-                                            billedRedTool.addText(
-                                                tekstFont,
-                                                textFieldVal, colorValg
-                                            )
-                                            textFieldVal = ""
-                                            visPopUp.value = false
+                                Box(
+                                    Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                )
+                                {
+                                    Button(
+                                        onClick = {
+                                            if (!textFieldVal.equals("")) {
+                                                billedRedTool.addText(
+                                                    tekstFont,
+                                                    textFieldVal, colorValg
+                                                )
+                                                textFieldVal = ""
+                                                visPopUp.value = false
+                                            }
                                         }
+                                    ) {
+                                        Text("Indsæt")
                                     }
-                                ) {
-                                    Text("Accepter")
                                 }
-
-
-                            },
-                            dismissButton = {
-                                Button(
-                                    onClick = {
-                                        visPopUp.value = false
-                                    }
-                                ) {
-                                    Text("Luk")
-                                }
-
                             }
-
                         )
                     }
                 }
