@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -37,7 +38,7 @@ sealed class BilledRedigering(var rute: String) {
 
     object BilledRed : BilledRedigering("billedRed") {
 
-        private val visPopUp = mutableStateOf(false)
+        private val visTekstPopUp = mutableStateOf(false)
 
 
         @ExperimentalComposeUiApi
@@ -107,7 +108,7 @@ sealed class BilledRedigering(var rute: String) {
                         modifier = Modifier
                             .padding(4.dp),
                         onClick = {
-                            visPopUp.value = true
+                            visTekstPopUp.value = true
                         },
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = Color.Black, contentColor = Color.White
@@ -115,7 +116,7 @@ sealed class BilledRedigering(var rute: String) {
                     ) {
                         Text("Tekst")
                     }
-                    if (visPopUp.value) {
+                    if (visTekstPopUp.value) {
                         PopUpTekstVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
                     }
                 }
@@ -127,7 +128,7 @@ sealed class BilledRedigering(var rute: String) {
             var textFieldVal by remember { mutableStateOf("") }
             //-16777216 er sort i AARRBBGG farve koden.
             var colorValg = remember { -16777216 }
-            AlertDialog(onDismissRequest = { visPopUp.value = false },
+            AlertDialog(onDismissRequest = { visTekstPopUp.value = false },
                 backgroundColor = Color(0xfffcfcf0),
                 title = null,
 
@@ -153,8 +154,12 @@ sealed class BilledRedigering(var rute: String) {
                                 unfocusedLabelColor = Color(colorValg),
                                 unfocusedIndicatorColor = Color(colorValg),
                                 textColor = Color(colorValg),
-                                cursorColor = Color(colorValg)
-                            )
+                                cursorColor = Color(colorValg),
+                                placeholderColor = Color.Gray
+                            ),
+                            placeholder = {
+                                Text(text = "Indsæt tekst")
+                            }
                         )
                         ClassicColorPicker(
                             onColorChanged = { color: HsvColor ->
@@ -186,11 +191,11 @@ sealed class BilledRedigering(var rute: String) {
                                         textFieldVal, colorValg
                                     )
                                     textFieldVal = ""
-                                    visPopUp.value = false
+                                    visTekstPopUp.value = false
                                 }
                             },
                             modifier = Modifier
-                                .offset(y = -20.dp),
+                                .offset(y = (-20).dp),
                             shape = RectangleShape,
                             colors = ButtonDefaults.textButtonColors(
                                 backgroundColor = Color.Black, contentColor = Color.White
