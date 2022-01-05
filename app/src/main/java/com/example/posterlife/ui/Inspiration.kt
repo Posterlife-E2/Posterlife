@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.jsonParser.PlakatInfo
+import com.example.posterlife.model.Plakat
 
 /**
  * @source https://developer.android.com/jetpack/compose/navigation
@@ -84,6 +85,11 @@ sealed class Inspiration(val rute: String) {
                     }
                 }
             }
+        }
+
+        fun getForfatter(plakat: Plakat) {
+
+            plakat.title
         }
     }
 

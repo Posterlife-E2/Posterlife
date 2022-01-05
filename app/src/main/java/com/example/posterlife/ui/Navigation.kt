@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -24,6 +25,7 @@ import com.example.posterlife.ui.loginUI.SignUp
  */
 
 
+@ExperimentalComposeUiApi
 @ExperimentalCoilApi
 @Composable
 fun Navigation() {
@@ -40,7 +42,7 @@ fun Navigation() {
         content = {
             NavHost(
                 navController = navController,
-                startDestination = Login.LoginScreen.route
+                startDestination = /*Login.LoginScreen.route*/BilledRedigering.BilledRed.rute
             ) {
                 //---- Inspiration ----
                 composable(Navigation.Inspiration.route) {
