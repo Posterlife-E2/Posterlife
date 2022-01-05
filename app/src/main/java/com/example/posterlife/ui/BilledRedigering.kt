@@ -1,5 +1,6 @@
 package com.example.posterlife.ui
 
+import android.graphics.Typeface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -60,15 +61,17 @@ sealed class BilledRedigering(var rute: String) {
             Column(
                 modifier = Modifier
                     .background(Color(0xfffcfcf0))
+                    .fillMaxSize(),
 
-            ) {
+                ) {
 
                 BoxWithConstraints(
                     modifier = Modifier
-                        .background(Color(0xfffcfcf0)),
-                    contentAlignment = Alignment.Center
+                        .background(Color(0xfffcfcf0))
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.TopCenter
 
-                    ) {
+                ) {
                     if (maxHeight < 700.dp) {
                         AndroidView(
                             factory = { billedRedView },
@@ -79,10 +82,10 @@ sealed class BilledRedigering(var rute: String) {
                             factory = { billedRedView },
                         )
                     }
-
                 }
                 Row(
-                    modifier = Modifier,
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     TextButton(
@@ -111,92 +114,94 @@ sealed class BilledRedigering(var rute: String) {
                         )
                     ) {
                         Text("Tekst")
-
-
                     }
-
-                    var textFieldVal by remember { mutableStateOf("") }
-
                     if (visPopUp.value) {
-                        //-16777216 er sort i AARRBBGG farve koden.
-                        var colorValg = remember { -16777216 }
-                        AlertDialog(onDismissRequest = { visPopUp.value = false },
-                            backgroundColor = Color(0xfffcfcf0),
-                            title = null,
-
-                            text = {
-                                Column {
-                                    Text(
-                                        modifier = Modifier
-                                            .padding(8.dp),
-                                        text = "Tilføj Tekst",
-                                        fontSize = 18.sp
-                                    )
-                                    TextField(
-                                        value = textFieldVal,
-                                        onValueChange = { textFieldVal = it },
-                                        modifier = Modifier
-                                            .padding(4.dp),
-                                        textStyle = TextStyle(
-                                            fontSize = 20.sp,
-                                        ),
-                                        colors = TextFieldDefaults.textFieldColors(
-                                            focusedLabelColor = Color(colorValg),
-                                            focusedIndicatorColor = Color(colorValg),
-                                            unfocusedLabelColor = Color(colorValg),
-                                            unfocusedIndicatorColor = Color(colorValg),
-                                            textColor = Color(colorValg)
-                                        )
-                                    )
-                                    ClassicColorPicker(
-                                        onColorChanged = { color: HsvColor ->
-                                            colorValg = color.toColor().toArgb()
-
-                                            //Lille finte til at opdatere vores farve på textField uden at lave listeners og alt muligt halløj.
-                                            val textFieldTemp = textFieldVal
-                                            textFieldVal += "1"
-                                            textFieldVal = textFieldTemp
-                                        },
-                                        modifier = Modifier
-                                            .height(300.dp)
-                                            .padding(10.dp)
-                                    )
-                                }
-                            },
-
-                            confirmButton = {
-                                Box(
-                                    Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                )
-                                {
-                                    TextButton(
-                                        onClick = {
-                                            if (!textFieldVal.equals("")) {
-                                                billedRedTool.addText(
-                                                    tekstFont,
-                                                    textFieldVal, colorValg
-                                                )
-                                                textFieldVal = ""
-                                                visPopUp.value = false
-                                            }
-                                        },
-                                        modifier = Modifier
-                                            .offset(y = -20.dp),
-                                        shape = RectangleShape,
-                                        colors = ButtonDefaults.textButtonColors(
-                                            backgroundColor = Color.Black, contentColor = Color.White
-                                        ),
-
-                                    ) {
-                                        Text("Indsæt")
-                                    }
-                                }
-                            }
-                        )
+                        PopUpTekstVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
                     }
                 }
             }
+        }
+
+        @Composable
+        private fun PopUpTekstVindue(billedRedTool: PhotoEditor, tekstFont: Typeface?) {
+            var textFieldVal by remember { mutableStateOf("") }
+            //-16777216 er sort i AARRBBGG farve koden.
+            var colorValg = remember { -16777216 }
+            AlertDialog(onDismissRequest = { visPopUp.value = false },
+                backgroundColor = Color(0xfffcfcf0),
+                title = null,
+
+                text = {
+                    Column {
+                        Text(
+                            modifier = Modifier
+                                .padding(8.dp),
+                            text = "Tilføj Tekst",
+                            fontSize = 18.sp
+                        )
+                        TextField(
+                            value = textFieldVal,
+                            onValueChange = { textFieldVal = it },
+                            modifier = Modifier
+                                .padding(4.dp),
+                            textStyle = TextStyle(
+                                fontSize = 20.sp,
+                            ),
+                            colors = TextFieldDefaults.textFieldColors(
+                                focusedLabelColor = Color(colorValg),
+                                focusedIndicatorColor = Color(colorValg),
+                                unfocusedLabelColor = Color(colorValg),
+                                unfocusedIndicatorColor = Color(colorValg),
+                                textColor = Color(colorValg),
+                                cursorColor = Color(colorValg)
+                            )
+                        )
+                        ClassicColorPicker(
+                            onColorChanged = { color: HsvColor ->
+                                colorValg = color.toColor().toArgb()
+
+                                //Lille finte til at opdatere vores farve på textField uden at lave listeners og alt muligt halløj.
+                                val textFieldTemp = textFieldVal
+                                textFieldVal += "1"
+                                textFieldVal = textFieldTemp
+                            },
+                            modifier = Modifier
+                                .height(300.dp)
+                                .padding(10.dp)
+                        )
+                    }
+                },
+
+                confirmButton = {
+                    Box(
+                        Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    )
+                    {
+                        TextButton(
+                            onClick = {
+                                if (!textFieldVal.equals("")) {
+                                    billedRedTool.addText(
+                                        tekstFont,
+                                        textFieldVal, colorValg
+                                    )
+                                    textFieldVal = ""
+                                    visPopUp.value = false
+                                }
+                            },
+                            modifier = Modifier
+                                .offset(y = -20.dp),
+                            shape = RectangleShape,
+                            colors = ButtonDefaults.textButtonColors(
+                                backgroundColor = Color.Black, contentColor = Color.White
+                            ),
+
+                            ) {
+                            Text("Indsæt")
+                        }
+                    }
+                }
+            )
         }
     }
 }
