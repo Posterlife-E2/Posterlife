@@ -1,11 +1,14 @@
 package com.example.posterlife.UI.Theme
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+
 
 /**
  * https://developer.android.com/jetpack/compose/themes/material
@@ -37,12 +40,27 @@ fun PosterlifeTheme(
     )
 }
 
-@Preview("testItem")
+@Preview("testItem1")
 @Composable
 private fun testItem() {
     PosterlifeTheme {
-        Column {
-            Text(text = "testmig")
+        Column(
+            Modifier
+                .background(MaterialTheme.colors.primary)
+        ) {
+            Text(text = "testmig æøå 123")
+        }
+    }
+}
+
+@Preview("testItem2")
+@Composable
+private fun testItemTwo() {
+    PosterlifeTheme {
+        Column(Modifier
+            .background(MaterialTheme.colors.secondary)) {
+            Text(text = "testmigigen æøå 123",
+                 style = MaterialTheme.typography.h4)
         }
     }
 }

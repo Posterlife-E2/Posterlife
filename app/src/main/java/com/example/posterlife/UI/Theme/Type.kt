@@ -19,10 +19,34 @@ private val Khand = FontFamily(
 
 //skal redigeres/tilføjes flere fonts
 val PosterlifeTypography = Typography(
+    h4 = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.Bold,
+        fontSize = 30.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp
+    ),
+    h6 = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp
+    ),
     body1 = TextStyle(
         fontFamily = Khand,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    ),
+    button = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp
     )
-
 )
