@@ -43,7 +43,6 @@ sealed class BilledRedigering(var rute: String) {
 
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
-        private val resetBillede = mutableStateOf(false)
 
         private var penselSizeValueHolder = 25F
         private var switchPenselStateTemp = false
