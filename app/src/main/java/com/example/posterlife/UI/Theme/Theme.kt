@@ -35,7 +35,7 @@ fun PosterlifeTheme(
     MaterialTheme(
         colors = if (darkTheme) DarkTheme else LightTheme,
         typography = PosterlifeTypography,
-        shapes = PosterlifeShapes,
+        //shapes = PosterlifeShapes,
         content = content
     )
 }
