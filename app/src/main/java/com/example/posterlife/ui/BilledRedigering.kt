@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.toColor
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
@@ -41,6 +42,9 @@ sealed class BilledRedigering(var rute: String) {
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
 
+        private var penselSizeValueHolder = 1F
+        private var switchPenselStateTemp = false
+
         @ExperimentalComposeUiApi
         @Composable
         fun BilledRedigering(/*billedSti: String*/) {
@@ -58,6 +62,7 @@ sealed class BilledRedigering(var rute: String) {
                 .setClipSourceImage(true)
                 .setDefaultTextTypeface(tekstFont)
                 .build()
+
 
             Column(
                 modifier = Modifier
@@ -95,6 +100,7 @@ sealed class BilledRedigering(var rute: String) {
                         },
                         modifier = Modifier
                             .padding(4.dp),
+                        shape = RectangleShape,
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = Color.Black, contentColor = Color.White
                         )
@@ -108,6 +114,7 @@ sealed class BilledRedigering(var rute: String) {
                     TextButton(
                         modifier = Modifier
                             .padding(4.dp),
+                        shape = RectangleShape,
                         onClick = {
                             visTekstPopUp.value = true
                         },
@@ -214,6 +221,10 @@ sealed class BilledRedigering(var rute: String) {
         private fun PopUpPenselVindue(billedRedTool: PhotoEditor, tekstFont: Typeface?) {
             var penselSize by remember { mutableStateOf(1F) }
             var switchPenselState by remember { mutableStateOf(false) }
+
+            penselSize = penselSizeValueHolder
+            switchPenselState = switchPenselStateTemp
+
             AlertDialog(onDismissRequest = { visPenselPopUp.value = false },
                 title = null,
                 text = {
@@ -239,12 +250,17 @@ sealed class BilledRedigering(var rute: String) {
                                     } else if (switchPenselState) {
                                         billedRedTool.setBrushDrawingMode(true)
                                     }
-                                })
+                                    switchPenselStateTemp = switchPenselState
+                                },
+                                colors = SwitchDefaults.colors(
+
+                                )
+                            )
                         }
 
 
                         billedRedTool.brushDrawableMode
-                        var colorValgPensel: Int
+                        var colorValgPensel = remember { -16777216 }
                         Text(text = penselSize.toInt().toString() + "px")
                         Slider(
                             value = penselSize,
@@ -254,12 +270,22 @@ sealed class BilledRedigering(var rute: String) {
                                 //Fjerner decimaler ved at udnytte hvordan ints og floats fungerer.
                                 penselSize = penselSize.toInt().toFloat()
                                 billedRedTool.brushSize = penselSize
-                            }
+                                penselSizeValueHolder = penselSize
+                            },
+                            colors = SliderDefaults.colors(
+                                thumbColor = Color(colorValgPensel),
+                                activeTrackColor = Color(colorValgPensel)
+                            )
                         )
                         ClassicColorPicker(
                             onColorChanged = { color: HsvColor ->
                                 colorValgPensel = color.toColor().toArgb()
                                 billedRedTool.brushColor = colorValgPensel
+
+                                //Presser den til at skifte farve.
+                                val penselSizeTemp = penselSize
+                                penselSize += 1
+                                penselSize = penselSizeTemp
                             },
                             modifier = Modifier
                                 .height(300.dp)
