@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -23,6 +22,7 @@ import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
+import ja.burhanrashid52.photoeditor.shape.ShapeBuilder
 
 /**
  * @Source https://github.com/burhanrashid52/PhotoEditor
@@ -39,7 +39,7 @@ sealed class BilledRedigering(var rute: String) {
     object BilledRed : BilledRedigering("billedRed") {
 
         private val visTekstPopUp = mutableStateOf(false)
-
+        private val visPenselPopUp = mutableStateOf(false)
 
         @ExperimentalComposeUiApi
         @Composable
@@ -91,9 +91,7 @@ sealed class BilledRedigering(var rute: String) {
                 ) {
                     TextButton(
                         onClick = {
-                            if (billedRedTool.brushDrawableMode != true) {
-                                billedRedTool.setBrushDrawingMode(true)
-                            } else billedRedTool.setBrushDrawingMode(false)
+                            visPenselPopUp.value = true
                         },
                         modifier = Modifier
                             .padding(4.dp),
@@ -102,6 +100,9 @@ sealed class BilledRedigering(var rute: String) {
                         )
                     ) {
                         Text("Pensel")
+                    }
+                    if (visPenselPopUp.value) {
+                        PopUpPenselVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
                     }
 
                     TextButton(
@@ -199,14 +200,94 @@ sealed class BilledRedigering(var rute: String) {
                             shape = RectangleShape,
                             colors = ButtonDefaults.textButtonColors(
                                 backgroundColor = Color.Black, contentColor = Color.White
-                            ),
+                            )
 
-                            ) {
+                        ) {
                             Text("Indsæt")
                         }
                     }
                 }
             )
+        }
+
+        @Composable
+        private fun PopUpPenselVindue(billedRedTool: PhotoEditor, tekstFont: Typeface?) {
+            var penselSize by remember { mutableStateOf(1F) }
+            var switchPenselState by remember { mutableStateOf(false) }
+            AlertDialog(onDismissRequest = { visPenselPopUp.value = false },
+                title = null,
+                text = {
+                    Column {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Pensel",
+                                modifier = Modifier
+                                    .padding(8.dp),
+                                fontSize = 18.sp
+                            )
+
+                            Switch(
+                                modifier = Modifier,
+                                checked = switchPenselState,
+                                onCheckedChange = {
+                                    switchPenselState = it
+                                    if (!switchPenselState) {
+                                        billedRedTool.setBrushDrawingMode(false)
+                                    } else if (switchPenselState) {
+                                        billedRedTool.setBrushDrawingMode(true)
+                                    }
+                                })
+                        }
+
+
+                        billedRedTool.brushDrawableMode
+                        var colorValgPensel: Int
+                        Text(text = penselSize.toInt().toString() + "px")
+                        Slider(
+                            value = penselSize,
+                            onValueChange = { penselSize = it },
+                            valueRange = 1F..50F,
+                            onValueChangeFinished = {
+                                //Fjerner decimaler ved at udnytte hvordan ints og floats fungerer.
+                                penselSize = penselSize.toInt().toFloat()
+                                billedRedTool.brushSize = penselSize
+                            }
+                        )
+                        ClassicColorPicker(
+                            onColorChanged = { color: HsvColor ->
+                                colorValgPensel = color.toColor().toArgb()
+                                billedRedTool.brushColor = colorValgPensel
+                            },
+                            modifier = Modifier
+                                .height(300.dp)
+                                .padding(10.dp)
+                        )
+
+
+                    }
+                },
+                confirmButton = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        TextButton(
+                            onClick = { visPenselPopUp.value = false },
+                            modifier = Modifier
+                                .offset(y = (-20).dp),
+                            shape = RectangleShape,
+                            colors = ButtonDefaults.textButtonColors(
+                                backgroundColor = Color.Black, contentColor = Color.White
+                            )
+                        ) {
+                            Text("Accepter")
+                        }
+                    }
+                })
         }
     }
 }
