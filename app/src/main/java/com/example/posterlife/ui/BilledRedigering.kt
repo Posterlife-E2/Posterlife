@@ -1,11 +1,10 @@
 package com.example.posterlife.ui
 
+import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
-import android.inputmethodservice.Keyboard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,21 +14,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.toColor
+import androidx.navigation.compose.rememberNavController
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
-import ja.burhanrashid52.photoeditor.shape.ShapeBuilder
 
 /**
  * @Source https://github.com/burhanrashid52/PhotoEditor
@@ -47,10 +43,14 @@ sealed class BilledRedigering(var rute: String) {
 
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
+        private val resetBillede = mutableStateOf(false)
 
         private var penselSizeValueHolder = 25F
         private var switchPenselStateTemp = false
         private var penselColorState = -16777216
+
+
+        private lateinit var billedRedViewResetState: PhotoEditorView
 
         @ExperimentalComposeUiApi
         @Composable
@@ -64,12 +64,15 @@ sealed class BilledRedigering(var rute: String) {
             val billedRedView = remember { PhotoEditorView(context) }
             billedRedView.source.setImageResource(R.drawable.test_image)
 
-            val billedRedTool = remember { PhotoEditor.Builder(context, billedRedView) }
+            var billedRedTool = remember { PhotoEditor.Builder(context, billedRedView) }
                 .setPinchTextScalable(true)
                 .setClipSourceImage(true)
                 .setDefaultTextTypeface(tekstFont)
                 .build()
 
+            billedRedViewResetState = billedRedView
+
+            var eraserState by remember { mutableStateOf(false) }
 
             Column(
                 modifier = Modifier
@@ -92,7 +95,7 @@ sealed class BilledRedigering(var rute: String) {
                         )
                     } else {
                         AndroidView(
-                            factory = { billedRedView },
+                            factory = { billedRedView }
                         )
                     }
                 }
@@ -101,6 +104,21 @@ sealed class BilledRedigering(var rute: String) {
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
+                    TextButton(
+                        modifier = Modifier
+                            .padding(4.dp),
+                        shape = RectangleShape,
+                        onClick = {
+                            billedRedTool.undo()
+
+                        },
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = Color.Black, contentColor = Color.White
+                        )
+                    ) {
+                        Text("Undo")
+                    }
+
                     TextButton(
                         onClick = {
                             visPenselPopUp.value = true
@@ -118,6 +136,30 @@ sealed class BilledRedigering(var rute: String) {
                         PopUpPenselVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
                     }
 
+                    Button(
+                        onClick = {
+                            if (!eraserState) {
+                                billedRedTool.brushEraser()
+                                eraserState = true
+                            } else {
+                                billedRedTool.setBrushDrawingMode(false)
+                                switchPenselStateTemp = false
+                                eraserState = false
+                            }
+                        }, modifier = Modifier
+                            .padding(4.dp),
+                        shape = RectangleShape,
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = Color.Black, contentColor = Color.White
+                        )
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.eraser),
+                            contentDescription = "",
+                            Modifier.size(20.dp)
+                        )
+                    }
+
                     TextButton(
                         modifier = Modifier
                             .padding(4.dp),
@@ -133,6 +175,7 @@ sealed class BilledRedigering(var rute: String) {
                     }
                     if (visTekstPopUp.value) {
                         PopUpTekstVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
+                        switchPenselStateTemp = false
                     }
                 }
             }
@@ -229,9 +272,8 @@ sealed class BilledRedigering(var rute: String) {
         @Composable
         private fun PopUpPenselVindue(billedRedTool: PhotoEditor, tekstFont: Typeface?) {
             var penselSize by remember { mutableStateOf(0F) }
-            var switchPenselState by remember { mutableStateOf(false) }
             var colorValgPensel: Int
-
+            var switchPenselState by remember { mutableStateOf(false) }
             colorValgPensel = penselColorState
             penselSize = penselSizeValueHolder
             switchPenselState = switchPenselStateTemp
