@@ -48,7 +48,8 @@ private fun testItem() {
             Modifier
                 .background(MaterialTheme.colors.primary)
         ) {
-            Text(text = "testmig æøå 123")
+            Text(text = "testmig æøå 123",
+                 style = MaterialTheme.typography.button)
         }
     }
 }
@@ -61,6 +62,7 @@ private fun testItemTwo() {
             .background(MaterialTheme.colors.secondary)) {
             Text(text = "testmigigen æøå 123",
                  style = MaterialTheme.typography.h4)
+
         }
     }
 }

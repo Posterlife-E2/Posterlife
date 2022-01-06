@@ -34,6 +34,16 @@ val PosterlifeTypography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     ),
+    subtitle1 = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp
+    ),
     body1 = TextStyle(
         fontFamily = Khand,
         fontWeight = FontWeight.Normal,
@@ -45,6 +55,16 @@ val PosterlifeTypography = Typography(
         fontSize = 14.sp
     ),
     button = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp
+    ),
+    caption = TextStyle(
+        fontFamily = Khand,
+        fontWeight = FontWeight.Light,
+        fontSize = 14.sp
+    ),
+    overline = TextStyle(
         fontFamily = Khand,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp
