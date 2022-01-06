@@ -4,6 +4,8 @@ import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -64,70 +66,70 @@ sealed class BilledRedigering(var rute: String) {
             billedRedView.source.setImageResource(R.drawable.test_image)
 
             var billedRedTool = remember { PhotoEditor.Builder(context, billedRedView) }
-                .setPinchTextScalable(true)
-                .setClipSourceImage(true)
-                .setDefaultTextTypeface(tekstFont)
-                .build()
+                    .setPinchTextScalable(true)
+                    .setClipSourceImage(true)
+                    .setDefaultTextTypeface(tekstFont)
+                    .build()
 
             billedRedViewResetState = billedRedView
 
             var eraserState by remember { mutableStateOf(false) }
 
             Column(
-                modifier = Modifier
-                    .background(Color(0xfffcfcf0))
-                    .fillMaxSize(),
+                    modifier = Modifier
+                            .background(Color(0xfffcfcf0))
+                            .fillMaxSize(),
 
-                ) {
+                    ) {
 
                 BoxWithConstraints(
-                    modifier = Modifier
-                        .background(Color(0xfffcfcf0))
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.TopCenter
+                        modifier = Modifier
+                                .background(Color(0xfffcfcf0))
+                                .fillMaxWidth(),
+                        contentAlignment = Alignment.TopCenter
 
                 ) {
                     if (maxHeight < 700.dp) {
                         AndroidView(
-                            factory = { billedRedView },
-                            Modifier.width(350.dp),
+                                factory = { billedRedView },
+                                Modifier.width(350.dp),
                         )
                     } else {
                         AndroidView(
-                            factory = { billedRedView }
+                                factory = { billedRedView }
                         )
                     }
                 }
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                        modifier = Modifier
+                                .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
                 ) {
                     TextButton(
-                        modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        onClick = {
-                            billedRedTool.undo()
+                            modifier = Modifier
+                                    .padding(4.dp),
+                            shape = RectangleShape,
+                            onClick = {
+                                billedRedTool.undo()
 
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
+                            },
+                            colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
+                            )
                     ) {
                         Text("Undo")
                     }
 
                     TextButton(
-                        onClick = {
-                            visPenselPopUp.value = true
-                        },
-                        modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
+                            onClick = {
+                                visPenselPopUp.value = true
+                            },
+                            modifier = Modifier
+                                    .padding(4.dp),
+                            shape = RectangleShape,
+                            colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
+                            )
                     ) {
                         Text("Pensel")
                     }
@@ -135,40 +137,44 @@ sealed class BilledRedigering(var rute: String) {
                         PopUpPenselVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
                     }
 
+                    val eraserKnapFarve = remember { MutableInteractionSource() }
+                    val eraserFarve = if (!eraserState ) Color.Black else Color(0xff239023)
                     Button(
-                        onClick = {
-                            if (!eraserState) {
-                                billedRedTool.brushEraser()
-                                eraserState = true
-                            } else {
-                                billedRedTool.setBrushDrawingMode(false)
-                                switchPenselStateTemp = false
-                                eraserState = false
-                            }
-                        }, modifier = Modifier
+                            onClick = {
+                                if (!eraserState) {
+                                    billedRedTool.brushEraser()
+                                    billedRedTool.brushSize = 100F
+                                    eraserState = true
+                                } else {
+                                    billedRedTool.setBrushDrawingMode(false)
+                                    switchPenselStateTemp = false
+                                    eraserState = false
+                                }
+                            }, modifier = Modifier
                             .padding(4.dp),
-                        shape = RectangleShape,
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
+                            shape = RectangleShape,
+                            interactionSource = eraserKnapFarve,
+                            colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = eraserFarve, contentColor = Color.White
+                            )
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.eraser),
-                            contentDescription = "",
-                            Modifier.size(20.dp)
+                                painter = painterResource(id = R.drawable.eraser),
+                                contentDescription = "",
+                                Modifier.size(20.dp)
                         )
                     }
 
                     TextButton(
-                        modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        onClick = {
-                            visTekstPopUp.value = true
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
+                            modifier = Modifier
+                                    .padding(4.dp),
+                            shape = RectangleShape,
+                            onClick = {
+                                visTekstPopUp.value = true
+                            },
+                            colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
+                            )
                     ) {
                         Text("Tekst")
                     }
@@ -188,83 +194,83 @@ sealed class BilledRedigering(var rute: String) {
             //-16777216 er en sort farve i AARRBBGG farve koden.
             var colorValg = remember { -16777216 }
             AlertDialog(onDismissRequest = { visTekstPopUp.value = false },
-                backgroundColor = Color(0xfffcfcf0),
-                title = null,
+                    backgroundColor = Color(0xfffcfcf0),
+                    title = null,
 
-                text = {
-                    Column {
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp),
-                            text = "Tilføj Tekst",
-                            fontSize = 18.sp
-                        )
-                        TextField(
-                            value = textFieldVal,
-                            onValueChange = { textFieldVal = it },
-                            modifier = Modifier
-                                .padding(4.dp),
-                            textStyle = TextStyle(
-                                fontSize = 20.sp,
-                            ),
-                            colors = TextFieldDefaults.textFieldColors(
-                                focusedLabelColor = Color(colorValg),
-                                focusedIndicatorColor = Color(colorValg),
-                                unfocusedLabelColor = Color(colorValg),
-                                unfocusedIndicatorColor = Color(colorValg),
-                                textColor = Color(colorValg),
-                                cursorColor = Color(colorValg),
-                                placeholderColor = Color.Gray
-                            ),
-                            placeholder = {
-                                Text(text = "Indsæt tekst")
-                            }
-                        )
-                        ClassicColorPicker(
-                            onColorChanged = { color: HsvColor ->
-                                colorValg = color.toColor().toArgb()
-
-                                //Lille finte til at opdatere vores farve på textField uden at lave listeners og alt muligt halløj.
-                                val textFieldTemp = textFieldVal
-                                textFieldVal += "1"
-                                textFieldVal = textFieldTemp
-                            },
-                            modifier = Modifier
-                                .height(300.dp)
-                                .padding(10.dp)
-                        )
-                    }
-                },
-
-                confirmButton = {
-                    Box(
-                        Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    )
-                    {
-                        TextButton(
-                            onClick = {
-                                if (!textFieldVal.equals("")) {
-                                    billedRedTool.addText(
-                                        tekstFont,
-                                        textFieldVal, colorValg
-                                    )
-                                    textFieldVal = ""
-                                    visTekstPopUp.value = false
-                                }
-                            },
-                            modifier = Modifier
-                                .offset(y = (-20).dp),
-                            shape = RectangleShape,
-                            colors = ButtonDefaults.textButtonColors(
-                                backgroundColor = Color.Black, contentColor = Color.White
+                    text = {
+                        Column {
+                            Text(
+                                    modifier = Modifier
+                                            .padding(8.dp),
+                                    text = "Tilføj Tekst",
+                                    fontSize = 18.sp
                             )
+                            TextField(
+                                    value = textFieldVal,
+                                    onValueChange = { textFieldVal = it },
+                                    modifier = Modifier
+                                            .padding(4.dp),
+                                    textStyle = TextStyle(
+                                            fontSize = 20.sp,
+                                    ),
+                                    colors = TextFieldDefaults.textFieldColors(
+                                            focusedLabelColor = Color(colorValg),
+                                            focusedIndicatorColor = Color(colorValg),
+                                            unfocusedLabelColor = Color(colorValg),
+                                            unfocusedIndicatorColor = Color(colorValg),
+                                            textColor = Color(colorValg),
+                                            cursorColor = Color(colorValg),
+                                            placeholderColor = Color.Gray
+                                    ),
+                                    placeholder = {
+                                        Text(text = "Indsæt tekst")
+                                    }
+                            )
+                            ClassicColorPicker(
+                                    onColorChanged = { color: HsvColor ->
+                                        colorValg = color.toColor().toArgb()
 
-                        ) {
-                            Text("Indsæt")
+                                        //Lille finte til at opdatere vores farve på textField uden at lave listeners og alt muligt halløj.
+                                        val textFieldTemp = textFieldVal
+                                        textFieldVal += "1"
+                                        textFieldVal = textFieldTemp
+                                    },
+                                    modifier = Modifier
+                                            .height(300.dp)
+                                            .padding(10.dp)
+                            )
+                        }
+                    },
+
+                    confirmButton = {
+                        Box(
+                                Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                        )
+                        {
+                            TextButton(
+                                    onClick = {
+                                        if (!textFieldVal.equals("")) {
+                                            billedRedTool.addText(
+                                                    tekstFont,
+                                                    textFieldVal, colorValg
+                                            )
+                                            textFieldVal = ""
+                                            visTekstPopUp.value = false
+                                        }
+                                    },
+                                    modifier = Modifier
+                                            .offset(y = (-20).dp),
+                                    shape = RectangleShape,
+                                    colors = ButtonDefaults.textButtonColors(
+                                            backgroundColor = Color.Black, contentColor = Color.White
+                                    )
+
+                            ) {
+                                Text("Indsæt")
+                            }
                         }
                     }
-                }
             )
         }
 
@@ -278,95 +284,96 @@ sealed class BilledRedigering(var rute: String) {
             switchPenselState = switchPenselStateTemp
 
             AlertDialog(onDismissRequest = { visPenselPopUp.value = false },
-                title = null,
-                text = {
-                    Column {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Pensel",
-                                modifier = Modifier
-                                    .padding(8.dp),
-                                fontSize = 18.sp
-                            )
-
-                            Switch(
-                                modifier = Modifier
-                                    .offset(y = (-3).dp),
-                                checked = switchPenselState,
-                                onCheckedChange = {
-                                    switchPenselState = it
-                                    if (!switchPenselState) {
-                                        billedRedTool.setBrushDrawingMode(false)
-                                    } else if (switchPenselState) {
-                                        billedRedTool.setBrushDrawingMode(true)
-                                    }
-                                    switchPenselStateTemp = switchPenselState
-                                },
-                                colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Color(colorValgPensel),
-                                    uncheckedThumbColor = Color.LightGray
+                    title = null,
+                    text = {
+                        Column {
+                            Row(
+                                    modifier = Modifier
+                                            .fillMaxWidth()
+                            ) {
+                                Text(
+                                        text = "Pensel",
+                                        modifier = Modifier
+                                                .padding(8.dp),
+                                        fontSize = 18.sp
                                 )
+
+                                Switch(
+                                        modifier = Modifier
+                                                .offset(y = (-3).dp),
+                                        checked = switchPenselState,
+                                        onCheckedChange = {
+                                            switchPenselState = it
+                                            if (!switchPenselState) {
+                                                billedRedTool.setBrushDrawingMode(false)
+                                            } else if (switchPenselState) {
+                                                billedRedTool.setBrushDrawingMode(true)
+                                            }
+                                            switchPenselStateTemp = switchPenselState
+                                            billedRedTool.brushSize = penselSize
+                                        },
+                                        colors = SwitchDefaults.colors(
+                                                checkedThumbColor = Color(colorValgPensel),
+                                                uncheckedThumbColor = Color.LightGray
+                                        )
+                                )
+                            }
+
+                            Text(text = penselSize.toInt().toString() + "px")
+                            Slider(
+                                    value = penselSize,
+                                    onValueChange = { penselSize = it },
+                                    valueRange = 1F..50F,
+                                    onValueChangeFinished = {
+                                        //Fjerner decimaler ved at udnytte hvordan ints og floats fungerer.
+                                        penselSize = penselSize.toInt().toFloat()
+                                        billedRedTool.brushSize = penselSize
+                                        penselSizeValueHolder = penselSize
+                                    },
+                                    colors = SliderDefaults.colors(
+                                            thumbColor = Color(colorValgPensel),
+                                            activeTrackColor = Color(colorValgPensel)
+                                    )
                             )
+                            ClassicColorPicker(
+                                    color = Color(colorValgPensel),
+                                    onColorChanged = { color: HsvColor ->
+                                        colorValgPensel = color.toColor().toArgb()
+                                        billedRedTool.brushColor = colorValgPensel
+
+                                        penselColorState = colorValgPensel
+                                        //Presser den til at skifte farve.
+                                        val penselSizeTemp = penselSize
+                                        penselSize += 1
+                                        penselSize = penselSizeTemp
+                                    },
+
+                                    modifier = Modifier
+                                            .height(300.dp)
+                                            .padding(10.dp)
+                            )
+
                         }
-
-                        Text(text = penselSize.toInt().toString() + "px")
-                        Slider(
-                            value = penselSize,
-                            onValueChange = { penselSize = it },
-                            valueRange = 1F..50F,
-                            onValueChangeFinished = {
-                                //Fjerner decimaler ved at udnytte hvordan ints og floats fungerer.
-                                penselSize = penselSize.toInt().toFloat()
-                                billedRedTool.brushSize = penselSize
-                                penselSizeValueHolder = penselSize
-                            },
-                            colors = SliderDefaults.colors(
-                                thumbColor = Color(colorValgPensel),
-                                activeTrackColor = Color(colorValgPensel)
-                            )
-                        )
-                        ClassicColorPicker(
-                            color = Color(colorValgPensel),
-                            onColorChanged = { color: HsvColor ->
-                                colorValgPensel = color.toColor().toArgb()
-                                billedRedTool.brushColor = colorValgPensel
-
-                                penselColorState = colorValgPensel
-                                //Presser den til at skifte farve.
-                                val penselSizeTemp = penselSize
-                                penselSize += 1
-                                penselSize = penselSizeTemp
-                            },
-
-                            modifier = Modifier
-                                .height(300.dp)
-                                .padding(10.dp)
-                        )
-
-                    }
-                },
-                confirmButton = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        TextButton(
-                            onClick = { visPenselPopUp.value = false },
-                            modifier = Modifier
-                                .offset(y = (-20).dp),
-                            shape = RectangleShape,
-                            colors = ButtonDefaults.textButtonColors(
-                                backgroundColor = Color.Black, contentColor = Color.White
-                            )
+                    },
+                    confirmButton = {
+                        Box(
+                                modifier = Modifier
+                                        .fillMaxWidth(),
+                                contentAlignment = Alignment.Center
                         ) {
-                            Text("Accepter")
+                            TextButton(
+                                    onClick = { visPenselPopUp.value = false },
+                                    modifier = Modifier
+                                            .offset(y = (-20).dp),
+                                    shape = RectangleShape,
+                                    colors = ButtonDefaults.textButtonColors(
+                                            backgroundColor = Color.Black, contentColor = Color.White
+                                    )
+                            ) {
+                                Text("Accepter")
+                            }
                         }
-                    }
-                })
+                    })
         }
     }
 }
