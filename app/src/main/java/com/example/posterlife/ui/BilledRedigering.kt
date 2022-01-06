@@ -1,8 +1,11 @@
 package com.example.posterlife.ui
 
 import android.graphics.Typeface
+import android.inputmethodservice.Keyboard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -12,7 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -42,8 +48,9 @@ sealed class BilledRedigering(var rute: String) {
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
 
-        private var penselSizeValueHolder = 1F
+        private var penselSizeValueHolder = 25F
         private var switchPenselStateTemp = false
+        private var penselColorState = -16777216
 
         @ExperimentalComposeUiApi
         @Composable
@@ -131,10 +138,12 @@ sealed class BilledRedigering(var rute: String) {
             }
         }
 
+        //Keyboard håndtering source: https://stackoverflow.com/questions/59133100/how-to-close-the-virtual-keyboard-from-a-jetpack-compose-textfield
+        @ExperimentalComposeUiApi
         @Composable
         private fun PopUpTekstVindue(billedRedTool: PhotoEditor, tekstFont: Typeface?) {
             var textFieldVal by remember { mutableStateOf("") }
-            //-16777216 er sort i AARRBBGG farve koden.
+            //-16777216 er en sort farve i AARRBBGG farve koden.
             var colorValg = remember { -16777216 }
             AlertDialog(onDismissRequest = { visTekstPopUp.value = false },
                 backgroundColor = Color(0xfffcfcf0),
@@ -219,9 +228,11 @@ sealed class BilledRedigering(var rute: String) {
 
         @Composable
         private fun PopUpPenselVindue(billedRedTool: PhotoEditor, tekstFont: Typeface?) {
-            var penselSize by remember { mutableStateOf(1F) }
+            var penselSize by remember { mutableStateOf(0F) }
             var switchPenselState by remember { mutableStateOf(false) }
+            var colorValgPensel: Int
 
+            colorValgPensel = penselColorState
             penselSize = penselSizeValueHolder
             switchPenselState = switchPenselStateTemp
 
@@ -241,7 +252,8 @@ sealed class BilledRedigering(var rute: String) {
                             )
 
                             Switch(
-                                modifier = Modifier,
+                                modifier = Modifier
+                                    .offset(y = (-3).dp),
                                 checked = switchPenselState,
                                 onCheckedChange = {
                                     switchPenselState = it
@@ -253,14 +265,12 @@ sealed class BilledRedigering(var rute: String) {
                                     switchPenselStateTemp = switchPenselState
                                 },
                                 colors = SwitchDefaults.colors(
-
+                                    checkedThumbColor = Color(colorValgPensel),
+                                    uncheckedThumbColor = Color.LightGray
                                 )
                             )
                         }
 
-
-                        billedRedTool.brushDrawableMode
-                        var colorValgPensel = remember { -16777216 }
                         Text(text = penselSize.toInt().toString() + "px")
                         Slider(
                             value = penselSize,
@@ -278,20 +288,22 @@ sealed class BilledRedigering(var rute: String) {
                             )
                         )
                         ClassicColorPicker(
+                            color = Color(colorValgPensel),
                             onColorChanged = { color: HsvColor ->
                                 colorValgPensel = color.toColor().toArgb()
                                 billedRedTool.brushColor = colorValgPensel
 
+                                penselColorState = colorValgPensel
                                 //Presser den til at skifte farve.
                                 val penselSizeTemp = penselSize
                                 penselSize += 1
                                 penselSize = penselSizeTemp
                             },
+
                             modifier = Modifier
                                 .height(300.dp)
                                 .padding(10.dp)
                         )
-
 
                     }
                 },
