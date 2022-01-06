@@ -29,7 +29,7 @@ import com.example.posterlife.model.Plakat
 
 sealed class Inspiration(val rute: String) {
 
-    object InspirationStart : Inspiration("inspirationStart") {
+        object InspirationStart : Inspiration("inspirationStart") {
 
         @ExperimentalCoilApi
         @Composable
