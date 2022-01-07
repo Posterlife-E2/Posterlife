@@ -14,7 +14,7 @@ import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
-import com.example.posterlife.ui.Favorit.FavoritStart.FavoritTopBar
+import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
 import com.example.posterlife.ui.loginUI.Login
 import com.example.posterlife.ui.loginUI.SignUp
 
@@ -59,7 +59,7 @@ fun Navigation() {
 
                 //----Favorit ----
                 composable(Navigation.Favorit.route) {
-                        FavoritTopBar(navigation = navController)
+                        FavoritOverview(navigation = navController)
                 }
 
                 //---- Kamera ----
