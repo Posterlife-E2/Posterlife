@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -159,13 +160,20 @@ sealed class Kamera(val route: String) {
                     AndroidView({ previewView }, modifier = Modifier.fillMaxSize()) {
 
                     }
-                    TopAppBar(
-                        backgroundColor = Color.Black.copy(alpha = 0.5f),
+                    Row(
+                        Modifier
+                            .background(Black.copy(alpha = 0.5f))
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     )
                     {
 
                         IconButton(onClick = { TODO() }){
-                            Icon(Icons.Filled.ArrowBack, contentDescription = "Back", Modifier.size(40.dp), tint = White)
+                            Icon(Icons.Filled.ArrowBack,
+                                 contentDescription = "Back",
+                                 Modifier.size(46.dp),
+                                 tint = White)
                         }
                         CameraControl(
                             Icons.Sharp.FlipCameraAndroid,
