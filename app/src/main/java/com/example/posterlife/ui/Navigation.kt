@@ -2,20 +2,19 @@ package com.example.posterlife.ui
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
+import com.example.posterlife.ui.Favorit.FavoritStart.FavoritTopBar
 import com.example.posterlife.ui.loginUI.Login
 import com.example.posterlife.ui.loginUI.SignUp
 
@@ -25,6 +24,7 @@ import com.example.posterlife.ui.loginUI.SignUp
  */
 
 
+@ExperimentalFoundationApi
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
 @Composable
@@ -42,7 +42,7 @@ fun Navigation() {
         content = {
             NavHost(
                 navController = navController,
-                startDestination = Login.LoginScreen.route
+                startDestination = /*Login.LoginScreen.route*/BilledRedigering.BilledRed.rute
             ) {
                 //---- Inspiration ----
                 composable(Navigation.Inspiration.route) {
@@ -57,7 +57,10 @@ fun Navigation() {
                     InspirationFocusImage(backStackEntry.arguments?.getInt("plakatIndex"))
                 }
 
-                //--------------------
+                //----Favorit ----
+                composable(Navigation.Favorit.route) {
+                        FavoritTopBar(navigation = navController)
+                }
 
                 //---- Kamera ----
 
