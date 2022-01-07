@@ -4,6 +4,8 @@ import android.graphics.Typeface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,17 +20,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.res.ResourcesCompat
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
+import ja.burhanrashid52.photoeditor.PhotoFilter
 
 /**
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/Yalantis/uCrop
  * @Source https://github.com/godaddy/compose-color-picker
+ *
+ * Material Sources
+ * @Source https://foso.github.io/Jetpack-Compose-Playground/foundation/lazyrow/
  */
 
 sealed class BilledRedigering(var rute: String) {
@@ -41,13 +49,12 @@ sealed class BilledRedigering(var rute: String) {
 
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
+        private val visFilterMenu = mutableStateOf(false)
 
         private var penselSizeValueHolder = 25F
         private var switchPenselStateTemp = false
         private var penselColorState = -16777216
 
-
-        private lateinit var billedRedViewResetState: PhotoEditorView
 
         @ExperimentalComposeUiApi
         @Composable
@@ -58,16 +65,15 @@ sealed class BilledRedigering(var rute: String) {
 
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
-            val billedRedView = remember { PhotoEditorView(context) }
-            billedRedView.source.setImageResource(R.drawable.test_image)
+            val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
+            billedRedView.value.source.setImageResource(R.drawable.test_image)
 
-            val billedRedTool = remember { PhotoEditor.Builder(context, billedRedView) }
-                    .setPinchTextScalable(true)
-                    .setClipSourceImage(true)
-                    .setDefaultTextTypeface(tekstFont)
-                    .build()
-
-            billedRedViewResetState = billedRedView
+            val billedRedTool =
+                    remember { PhotoEditor.Builder(context, billedRedView.value) }
+                            .setPinchTextScalable(true)
+                            .setClipSourceImage(true)
+                            .setDefaultTextTypeface(tekstFont)
+                            .build()
 
             var eraserState by remember { mutableStateOf(false) }
 
@@ -87,12 +93,12 @@ sealed class BilledRedigering(var rute: String) {
                 ) {
                     if (maxHeight < 700.dp) {
                         AndroidView(
-                                factory = { billedRedView },
+                                factory = { billedRedView.value },
                                 Modifier.width(350.dp),
                         )
                     } else {
                         AndroidView(
-                                factory = { billedRedView }
+                                factory = { billedRedView.value }
                         )
                     }
                 }
@@ -134,7 +140,7 @@ sealed class BilledRedigering(var rute: String) {
                     }
 
                     val eraserKnapFarve = remember { MutableInteractionSource() }
-                    val eraserFarve = if (!eraserState ) Color.Black else Color(0xff239023)
+                    val eraserFarve = if (!eraserState) Color.Black else Color(0xff239023)
                     Button(
                             onClick = {
                                 if (!eraserState) {
@@ -177,6 +183,22 @@ sealed class BilledRedigering(var rute: String) {
                     if (visTekstPopUp.value) {
                         PopUpTekstVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
                         switchPenselStateTemp = false
+                    }
+                    TextButton(
+                            modifier = Modifier
+                                    .padding(4.dp),
+                            shape = RectangleShape,
+                            onClick = {
+                                visFilterMenu.value = true
+                            },
+                            colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
+                            )
+                    ) {
+                        Text("Filter")
+                    }
+                    if (visFilterMenu.value) {
+                        billedFilter(billedRedTool = billedRedTool)
                     }
                 }
             }
@@ -348,7 +370,6 @@ sealed class BilledRedigering(var rute: String) {
                                             .height(300.dp)
                                             .padding(10.dp)
                             )
-
                         }
                     },
                     confirmButton = {
@@ -371,5 +392,51 @@ sealed class BilledRedigering(var rute: String) {
                         }
                     })
         }
+
+        @ExperimentalComposeUiApi
+        @Composable
+        private fun billedFilter(billedRedTool: PhotoEditor) {
+
+            val filtre: List<PhotoFilter> = listOf(
+                    PhotoFilter.NONE,
+                    PhotoFilter.BRIGHTNESS,
+                    PhotoFilter.AUTO_FIX,
+                    PhotoFilter.BLACK_WHITE,
+                    PhotoFilter.CONTRAST,
+                    PhotoFilter.CROSS_PROCESS,
+                    PhotoFilter.DOCUMENTARY,
+                    PhotoFilter.DUE_TONE,
+                    PhotoFilter.FILL_LIGHT,
+                    PhotoFilter.FISH_EYE,
+                    PhotoFilter.FLIP_HORIZONTAL,
+                    PhotoFilter.FLIP_VERTICAL,
+                    PhotoFilter.GRAIN,
+                    PhotoFilter.GRAY_SCALE,
+                    PhotoFilter.LOMISH,
+                    PhotoFilter.NEGATIVE,
+                    PhotoFilter.POSTERIZE,
+                    PhotoFilter.SATURATE,
+                    PhotoFilter.SEPIA,
+                    PhotoFilter.SHARPEN,
+                    PhotoFilter.TEMPERATURE,
+                    PhotoFilter.TINT,
+                    PhotoFilter.VIGNETTE,
+                    PhotoFilter.ROTATE
+            )
+
+            billedRedTool.setFilterEffect(PhotoFilter.BRIGHTNESS)
+
+            LazyRow(modifier = Modifier
+                    .fillMaxWidth()) {
+                items(items = filtre, itemContent = { item ->
+                    Button(onClick = {billedRedTool.setFilterEffect(filtre.get(item))}) {
+
+                    }
+                })
+            }
+
+
+        }
     }
 }
+
