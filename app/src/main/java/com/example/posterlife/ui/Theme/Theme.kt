@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @SuppressLint("ConflictingOnColor")
 private val LightTheme = lightColors(
-    primary = KnækketHvid,
+    primary = KnaekketHvid,
     primaryVariant = Hvid,
     onPrimary = Sort,
     secondary = Grå,
