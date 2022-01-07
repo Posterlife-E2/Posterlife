@@ -27,43 +27,49 @@ sealed class Favorit(val rute: String) {
 
     @ExperimentalFoundationApi
     @Composable
-    fun FavoritTopBar(navigation: NavHostController) {
-
-        var favoritPlakater: ArrayList<Plakat>
-
+    fun FavoritOverview(navigation: NavHostController) {
+        val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
         Scaffold(
-
+            scaffoldState = scaffoldState,
             topBar = {
-                TopAppBar(
-                    title = {
+                FavoritTopBar()
 
-                        Text(
-                            text = "Favoritter",
-                            color = Color.Black,
-                            fontSize = 30.sp
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                Icons.Filled.Favorite,
-                                tint = Color.Red,
-                                contentDescription = null
-                            )
-                        }
-
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(Icons.Filled.ShoppingCart, contentDescription = null)
-                        }
-                    },
-                    backgroundColor = Color(0xfffcfcf0),
-
-                    elevation = 12.dp
-                )
+            },
+            content = {
+                MainFavoritePage()
             }
-        ) {
-            MainFavoritePage()
-        }
+        )
+    }
+
+    @Composable
+    fun FavoritTopBar(){
+        TopAppBar(
+            title = {
+
+                Text(
+                    text = "Favoritter",
+                    color = Color.Black,
+                    fontSize = 30.sp
+                )
+            },
+            actions = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        Icons.Filled.Favorite,
+                        tint = Color.Red,
+                        contentDescription = null
+                    )
+                }
+
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                }
+            },
+            backgroundColor = Color(0xfffcfcf0),
+
+            elevation = 12.dp
+        )
+
     }
 
     @ExperimentalFoundationApi
