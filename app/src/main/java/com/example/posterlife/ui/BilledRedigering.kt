@@ -1,11 +1,8 @@
 package com.example.posterlife.ui
 
-import android.content.res.Resources
-import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -22,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
-import androidx.navigation.compose.rememberNavController
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
@@ -65,7 +61,7 @@ sealed class BilledRedigering(var rute: String) {
             val billedRedView = remember { PhotoEditorView(context) }
             billedRedView.source.setImageResource(R.drawable.test_image)
 
-            var billedRedTool = remember { PhotoEditor.Builder(context, billedRedView) }
+            val billedRedTool = remember { PhotoEditor.Builder(context, billedRedView) }
                     .setPinchTextScalable(true)
                     .setClipSourceImage(true)
                     .setDefaultTextTypeface(tekstFont)
@@ -134,7 +130,7 @@ sealed class BilledRedigering(var rute: String) {
                         Text("Pensel")
                     }
                     if (visPenselPopUp.value) {
-                        PopUpPenselVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
+                        PopUpPenselVindue(billedRedTool = billedRedTool)
                     }
 
                     val eraserKnapFarve = remember { MutableInteractionSource() }
@@ -275,7 +271,7 @@ sealed class BilledRedigering(var rute: String) {
         }
 
         @Composable
-        private fun PopUpPenselVindue(billedRedTool: PhotoEditor, tekstFont: Typeface?) {
+        private fun PopUpPenselVindue(billedRedTool: PhotoEditor) {
             var penselSize by remember { mutableStateOf(0F) }
             var colorValgPensel: Int
             var switchPenselState by remember { mutableStateOf(false) }
