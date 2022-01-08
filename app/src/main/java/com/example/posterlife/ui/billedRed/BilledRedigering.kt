@@ -197,7 +197,7 @@ sealed class BilledRedigering(var rute: String) {
                     }
                     if (visFilterMenu.value) {
                         val billedFilterShower = BilledFilterShower(billedURI)
-                        billedFilterShower.BilledFilter(billedRedTool = billedRedTool)
+                        billedFilterShower.BilledFilter()
                     }
                     billedRedTool.setFilterEffect(filterValg)
                 }

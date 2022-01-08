@@ -19,11 +19,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.DialogProperties
-import com.example.posterlife.R
 import com.example.posterlife.ui.billedRed.BilledRedigering.BilledRed.filterValg
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
+import android.graphics.Bitmap
+import android.util.Log
+import androidx.annotation.NonNull
+import ja.burhanrashid52.photoeditor.OnSaveBitmap
+import java.lang.Exception
+
+
+/**
+ * @Source @Source https://github.com/burhanrashid52/PhotoEditor
+ */
 
 class BilledFilterShower(private val billedURI: Int) {
 
@@ -54,11 +63,40 @@ class BilledFilterShower(private val billedURI: Int) {
         PhotoFilter.ROTATE
     )
 
+    private val filterNavn: List<String> = listOf(
+        "Ingen",
+        "Lys",
+        "Auto",
+        "Sort/Hvid",
+        "Contrast",
+        "Cross",
+        "Dokumentar",
+        "Gul",
+        "Fyldt lys",
+        "Oval",
+        "FlipH",
+        "FlipV",
+        "Gryn",
+        "Lusket",
+        "Grå",
+        "Negativ",
+        "Positiv",
+        "Farve",
+        "Sepia",
+        "Skarp",
+        "Temperatur",
+        "Tint",
+        "Vignet",
+        "Roter"
+        )
+
+
+
     private val tempFilter = filterValg
 
     @ExperimentalComposeUiApi
     @Composable
-    fun BilledFilter(billedRedTool: PhotoEditor) {
+    fun BilledFilter() {
 
         val context = LocalContext.current
 
@@ -83,13 +121,12 @@ class BilledFilterShower(private val billedURI: Int) {
             onDismissRequest = { BilledRedigering.BilledRed.visFilterMenu.value = false },
             properties = DialogProperties(usePlatformDefaultWidth = false),
             modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xfffcfcf0)),
+                .fillMaxSize(),
+            backgroundColor = Color(0xfffcfcf0),
             title = null,
             text = {
                 BoxWithConstraints(
                     modifier = Modifier
-                        .background(Color(0xfffcfcf0))
                         .fillMaxSize(),
                     contentAlignment = Alignment.TopCenter
 
@@ -98,7 +135,7 @@ class BilledFilterShower(private val billedURI: Int) {
                     if (maxHeight < 700.dp) {
                         AndroidView(
                             factory = { billedTempRedView },
-                            Modifier.width(350.dp),
+                            Modifier.width(350.dp)
                         )
                     } else {
                         AndroidView(
@@ -109,6 +146,9 @@ class BilledFilterShower(private val billedURI: Int) {
 
                 billedTempRedTool.setFilterEffect(filterValg)
 
+
+            },
+            confirmButton = {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -116,24 +156,28 @@ class BilledFilterShower(private val billedURI: Int) {
                     LazyRow(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .align(Alignment.BottomCenter)
                             .padding(4.dp)
                     ) {
                         items(filtre.size) { index ->
-                            Button(onClick = {
-                                billedTempRedTool.setFilterEffect(filtre.get(index))
-                                filterValg = filtre.get(index)
-                            }) {
-                                Text("test")
+                            Button(modifier = Modifier
+                                .padding(4.dp),
+                                shape = RectangleShape,
+                                colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
+                                ),
+                                onClick = {
+                                    billedTempRedTool.setFilterEffect(filtre.get(index))
+                                    filterValg = filtre.get(index)
+                                }) {
+                                Text(filterNavn[index])
                             }
                         }
                     }
                 }
-            },
-            confirmButton = {
                 Button(
                     onClick = {
-                        BilledRedigering.BilledRed.visFilterMenu.value = false },
+                        BilledRedigering.BilledRed.visFilterMenu.value = false
+                    },
                     shape = RectangleShape,
                     colors = ButtonDefaults.textButtonColors(
                         backgroundColor = Color.Black, contentColor = Color.White
@@ -143,6 +187,7 @@ class BilledFilterShower(private val billedURI: Int) {
                 }
             },
             dismissButton = {
+
                 Button(
                     onClick = {
                         filterValg = tempFilter
