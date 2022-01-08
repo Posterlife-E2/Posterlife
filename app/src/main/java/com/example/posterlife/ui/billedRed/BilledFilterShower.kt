@@ -54,6 +54,8 @@ class BilledFilterShower(private val billedURI: Int) {
         PhotoFilter.ROTATE
     )
 
+    private val tempFilter = filterValg
+
     @ExperimentalComposeUiApi
     @Composable
     fun BilledFilter(billedRedTool: PhotoEditor) {
@@ -104,6 +106,9 @@ class BilledFilterShower(private val billedURI: Int) {
                         )
                     }
                 }
+
+                billedTempRedTool.setFilterEffect(filterValg)
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -140,6 +145,7 @@ class BilledFilterShower(private val billedURI: Int) {
             dismissButton = {
                 Button(
                     onClick = {
+                        filterValg = tempFilter
                         BilledRedigering.BilledRed.visFilterMenu.value = false
                     },
                     shape = RectangleShape,
