@@ -47,10 +47,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import androidx.ui.graphics.BlendMode
 import com.example.posterlife.R
-import com.example.posterlife.ui.billedRed.BilledRedigering
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -173,7 +170,10 @@ sealed class Kamera(val route: String) {
                     )
                     {
 
-                        IconButton(onClick = { navController.navigateUp() }){
+                        IconButton(
+                            onClick = {
+                            navController.popBackStack()
+                        }){
                             Icon(Icons.Filled.ArrowBack,
                                  contentDescription = "Back",
                                  Modifier.size(46.dp),
