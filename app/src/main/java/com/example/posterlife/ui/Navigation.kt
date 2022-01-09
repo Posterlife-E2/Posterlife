@@ -95,8 +95,9 @@ fun Navigation() {
 
                 //---- Mine Design ----
 
-                composable(Navigation.MineDesign.route) {}
-                //---------------------
+                composable(Navigation.MineDesign.route) {
+                    MineDesign.MineDesignStart.MineDesignStart()
+                }
 
                 //---- Login & Sign Up ----
                 composable(Login.LoginScreen.route) {
