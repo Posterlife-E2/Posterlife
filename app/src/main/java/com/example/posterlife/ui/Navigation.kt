@@ -18,6 +18,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
+import com.example.posterlife.ui.billedRed.BilledRedigering
 import com.example.posterlife.ui.loginUI.Login
 import com.example.posterlife.ui.loginUI.SignUp
 
@@ -68,7 +69,7 @@ fun Navigation() {
                 //---- Kamera ----
 
                 composable(Navigation.Kamera.route) {
-                    Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
+                    Kamera.KameraAccess.KameraAccess(navController, onImageCaptured = { uri, fromGallery ->
                         Log.d(TAG, "Image Uri Captured from Camera View")
 
                     }, onError = { imageCaptureException ->

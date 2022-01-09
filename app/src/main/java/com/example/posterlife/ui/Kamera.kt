@@ -50,6 +50,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.ui.graphics.BlendMode
 import com.example.posterlife.R
+import com.example.posterlife.ui.billedRed.BilledRedigering
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -80,6 +81,7 @@ sealed class Kamera(val route: String) {
         //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @Composable
         fun KameraAccess(
+            navController: NavController,
             onImageCaptured: (Uri, Boolean) -> Unit,
             onError: (ImageCaptureException) -> Unit
         ) {
@@ -103,6 +105,7 @@ sealed class Kamera(val route: String) {
             }
 
             CameraPreviewView(
+                navController,
                 imageCapture,
                 backKamera
             ) { cameraUIAction ->
@@ -129,6 +132,7 @@ sealed class Kamera(val route: String) {
         @SuppressLint("RestrictedApi")
         @Composable
         private fun CameraPreviewView(
+            navController: NavController,
             imageCapture: ImageCapture,
             lensFacing: Int = CameraSelector.LENS_FACING_BACK,
             cameraUIAction: (CameraUIAction) -> Unit
@@ -169,7 +173,7 @@ sealed class Kamera(val route: String) {
                     )
                     {
 
-                        IconButton(onClick = { TODO() }){
+                        IconButton(onClick = { navController.navigateUp() }){
                             Icon(Icons.Filled.ArrowBack,
                                  contentDescription = "Back",
                                  Modifier.size(46.dp),
