@@ -50,6 +50,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.ui.graphics.BlendMode
 import com.example.posterlife.R
+import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
