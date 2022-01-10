@@ -40,9 +40,13 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
+import com.example.posterlife.ui.billedRed.BilledRedigering
 import java.io.File
+import java.lang.NullPointerException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
@@ -69,14 +73,22 @@ sealed class Kamera(val route: String) {
 
     object KameraAccess : Kamera("openKamera") {
 
+        @SuppressLint("StaticFieldLeak")
+        private lateinit var navControllerKamera: NavController
+        private lateinit var cropSavedUri: String
+
         //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @Composable
         fun KameraAccess(
             onImageCaptured: (Uri, Boolean) -> Unit,
-            onError: (ImageCaptureException) -> Unit
+            onError: (ImageCaptureException) -> Unit,
+            navController: NavController
         ) {
 
+            navControllerKamera = navController
             val context = LocalContext.current
+
+            //navController = rememberNavController()
 
             if (hasNoPermissions(context)) {
                 requestPermission(context)
@@ -94,6 +106,8 @@ sealed class Kamera(val route: String) {
                 if (uri != null) onImageCaptured(uri, true)
             }
 
+
+
             CameraPreviewView(
                 imageCapture,
                 backKamera
@@ -101,6 +115,11 @@ sealed class Kamera(val route: String) {
                 when (cameraUIAction) {
                     is CameraUIAction.OnCameraClick -> {
                         imageCapture.takePicture(context, backKamera, onImageCaptured, onError)
+//                        try {
+//                            navControllerKamera.navigate("billedConfirm/$cropSavedUri")
+//                        } catch (e: Exception) {
+//                            e.printStackTrace()
+//                        }
                     }
                     is CameraUIAction.OnSwitchCameraClick -> {
                         backKamera =
@@ -239,7 +258,7 @@ sealed class Kamera(val route: String) {
         private const val PHOTO_EXTENSION = ".jpg"
 
 
-        fun ImageCapture.takePicture(
+        private fun ImageCapture.takePicture(
             context: Context,
             lensFacing: Int,
             onImageCaptured: (Uri, Boolean) -> Unit,
@@ -256,6 +275,8 @@ sealed class Kamera(val route: String) {
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
+
+                        cropSavedUri = savedUri.toString()
                         UploadImage.uploadImage(savedUri,context)
                         // If the folder selected is an external media directory, this is
                         // unnecessary but otherwise other apps will not be able to access our
@@ -270,6 +291,8 @@ sealed class Kamera(val route: String) {
                         }
 
                         onImageCaptured(savedUri, false)
+
+
                     }
 
                     override fun onError(exception: ImageCaptureException) {

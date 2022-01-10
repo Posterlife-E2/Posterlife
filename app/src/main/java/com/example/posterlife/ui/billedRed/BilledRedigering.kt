@@ -48,8 +48,13 @@ import java.lang.Exception
 
 sealed class BilledRedigering(var rute: String) {
 
-    object BilledConfirm : BilledRedigering("billedConfirm") {
+    object BilledConfirm : BilledRedigering("billedConfirm/{billedURI}") {
 
+        @Composable
+        fun BilledConfirm(billedURI: String?){
+
+            Text(text = "test")
+        }
     }
 
     object BilledRed : BilledRedigering("billedRed") {

@@ -41,8 +41,8 @@ fun Navigation() {
         scaffoldState = scaffoldState,
         bottomBar = {
             if (navController.currentBackStackEntry?.destination?.route != "openKamera")
-            BottomNavigationBar(navController)
-                    },
+                BottomNavigationBar(navController)
+        },
         content = {
             NavHost(
                 navController = navController,
@@ -63,7 +63,7 @@ fun Navigation() {
 
                 //----Favorit ----
                 composable(Navigation.Favorit.route) {
-                        FavoritOverview(navigation = navController)
+                    FavoritOverview(navigation = navController)
                 }
 
                 //---- Kamera ----
@@ -74,7 +74,9 @@ fun Navigation() {
 
                     }, onError = { imageCaptureException ->
                         navController.navigate(Navigation.Inspiration.route)
-                    })
+                    },
+                        navController = navController
+                    )
                 }
 
                 composable(Kamera.KameraAccess.route) {
@@ -111,6 +113,16 @@ fun Navigation() {
                 //---- Redigering -----
                 composable(BilledRedigering.BilledRed.rute) {
                     BilledRedigering.BilledRed.BilledRedigering()
+                }
+                composable(
+                    BilledRedigering.BilledConfirm.rute,
+                    arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    BilledRedigering.BilledConfirm.BilledConfirm(
+                        backStackEntry.arguments?.getString(
+                            "billedURI"
+                        )
+                    )
                 }
 
             }

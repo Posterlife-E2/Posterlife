@@ -28,7 +28,7 @@ sealed class UploadImage{
         val dataList = ArrayList<String>()
         fun uploadImage(filePath: Uri,context:Context) {
 
-            var file = File(filePath.path).name;
+            val file = File(filePath.path).name;
 
             firebaseStore = FirebaseStorage.getInstance()
             storageReference = FirebaseStorage.getInstance()
