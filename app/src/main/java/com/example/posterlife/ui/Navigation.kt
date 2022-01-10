@@ -4,10 +4,8 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,18 +33,19 @@ import com.example.posterlife.ui.loginUI.SignUp
 fun Navigation() {
 
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            if (navController.currentBackStackEntry?.destination?.route != "openKamera")
-            BottomNavigationBar(navController)
+            if (navBackStackEntry?.destination?.route != Navigation.Kamera.route)
+                BottomNavigationBar(navController)
                     },
         content = {
             NavHost(
                 navController = navController,
-                startDestination = /*Login.LoginScreen.route*/BilledRedigering.BilledRed.rute
+                startDestination = /*Login.LoginScreen.routeBilled*/BilledRedigering.BilledRed.rute
             ) {
                 //---- Inspiration ----
                 composable(Navigation.Inspiration.route) {
@@ -69,7 +68,7 @@ fun Navigation() {
                 //---- Kamera ----
 
                 composable(Navigation.Kamera.route) {
-                    Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
+                    Kamera.KameraAccess.KameraAccess(navController, onImageCaptured = { uri, fromGallery ->
                         Log.d(TAG, "Image Uri Captured from Camera View")
 
                     }, onError = { imageCaptureException ->
@@ -112,7 +111,6 @@ fun Navigation() {
                 composable(BilledRedigering.BilledRed.rute) {
                     BilledRedigering.BilledRed.BilledRedigering()
                 }
-
             }
         }
     )

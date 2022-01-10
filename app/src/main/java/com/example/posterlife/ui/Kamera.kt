@@ -20,17 +20,23 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.sharp.FlipCameraAndroid
 import androidx.compose.material.icons.sharp.Lens
 import androidx.compose.material.icons.sharp.PhotoLibrary
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -40,8 +46,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.ui.graphics.BlendMode
 import com.example.posterlife.R
-import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -72,6 +80,7 @@ sealed class Kamera(val route: String) {
         //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @Composable
         fun KameraAccess(
+            navController: NavController,
             onImageCaptured: (Uri, Boolean) -> Unit,
             onError: (ImageCaptureException) -> Unit
         ) {
@@ -95,6 +104,7 @@ sealed class Kamera(val route: String) {
             }
 
             CameraPreviewView(
+                navController,
                 imageCapture,
                 backKamera
             ) { cameraUIAction ->
@@ -121,10 +131,12 @@ sealed class Kamera(val route: String) {
         @SuppressLint("RestrictedApi")
         @Composable
         private fun CameraPreviewView(
+            navController: NavController,
             imageCapture: ImageCapture,
             lensFacing: Int = CameraSelector.LENS_FACING_BACK,
             cameraUIAction: (CameraUIAction) -> Unit
         ) {
+
 
             val context = LocalContext.current
             val lifecycleOwner = LocalLifecycleOwner.current
@@ -147,18 +159,43 @@ sealed class Kamera(val route: String) {
                 preview.setSurfaceProvider(previewView.surfaceProvider)
             }
 
-            Box(modifier = Modifier.fillMaxSize()) {
-                AndroidView({ previewView }, modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    AndroidView({ previewView }, modifier = Modifier.fillMaxSize()) {
+
+                    }
+                    Row(
+                        Modifier
+                            .background(Black.copy(alpha = 0.5f))
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    )
+                    {
+
+                        IconButton(onClick = { TODO() }){
+                            Icon(Icons.Filled.ArrowBack,
+                                 contentDescription = "Back",
+                                 Modifier.size(46.dp),
+                                 tint = White)
+                        }
+                        CameraControl(
+                            Icons.Sharp.FlipCameraAndroid,
+                            R.string.icn_camera_view_switch_camera_content_description,
+                            modifier = Modifier
+                                .size(64.dp)
+                                .padding(horizontal = 5.dp),
+                            onClick = { cameraUIAction(CameraUIAction.OnSwitchCameraClick) }
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        CameraControls(cameraUIAction)
+                    }
 
                 }
-                Column(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    CameraControls(cameraUIAction)
-                }
 
-            }
         }
 
         //Taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
@@ -178,18 +215,12 @@ sealed class Kamera(val route: String) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Black)
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .background(Color.Black.copy(alpha = 0.5f))
+                    .padding(16.dp)
+                    .height(70.dp),
+                horizontalArrangement = Arrangement.End,
+                //verticalAlignment = Alignment.CenterVertically
             ) {
-
-                CameraControl(
-                    Icons.Sharp.FlipCameraAndroid,
-                    R.string.icn_camera_view_switch_camera_content_description,
-                    modifier = Modifier.size(64.dp),
-                    onClick = { cameraUIAction(CameraUIAction.OnSwitchCameraClick) }
-                )
 
                 CameraControl(
                     Icons.Sharp.Lens,
@@ -198,13 +229,15 @@ sealed class Kamera(val route: String) {
                         .size(64.dp)
                         .padding(1.dp)
                         .border(1.dp, Color.White, CircleShape),
-                    onClick = { cameraUIAction(CameraUIAction.OnCameraClick) }
+                    onClick = { cameraUIAction(CameraUIAction.OnCameraClick)
+                    }
                 )
-
+                Spacer(modifier = Modifier.padding(47.dp))
                 CameraControl(
                     Icons.Sharp.PhotoLibrary,
                     R.string.icn_camera_view_view_gallery_content_description,
-                    modifier = Modifier.size(64.dp),
+                    modifier = Modifier
+                        .size(64.dp),
                     onClick = { cameraUIAction(CameraUIAction.OnGalleryViewClick) }
                 )
 
