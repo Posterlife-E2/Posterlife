@@ -1,5 +1,6 @@
 package com.example.posterlife.ui.billedRed
 
+import android.content.Context
 import android.graphics.Typeface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,10 +32,14 @@ import android.net.Uri
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.compose.foundation.Image
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.core.view.drawToBitmap
+import androidx.compose.foundation.border
+import androidx.compose.ui.unit.Dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.example.posterlife.saveImageController.UploadImage
+import com.example.posterlife.ui.Navigation
 import java.lang.Exception
 
 
@@ -42,7 +47,6 @@ import java.lang.Exception
  * @Author Kristoffer Pedersen s205354
  *
  * @Source https://github.com/burhanrashid52/PhotoEditor
- * @Source https://github.com/Yalantis/uCrop
  * @Source https://github.com/godaddy/compose-color-picker
  *
  * Material Sources
@@ -55,17 +59,68 @@ sealed class BilledRedigering(var rute: String) {
 
         @ExperimentalCoilApi
         @Composable
-        fun BilledConfirm(billedURI: String?){
+        fun BilledConfirm(billedURI: String?, navController: NavController) {
 
             var billedURIString = billedURI
 
-            billedURIString = billedURIString?.replace('§','/')
+            /**
+             * Der er en mindre heldig design betingelse i Navigation for compose der gør når vi skal pass arguments mellem
+             * screens, så kommer der et problem hvor "/" i argumentet bliver betragtet som den næste del af en rute.
+             * Derfor må man nødt til at midlertidigt skifte "/" ud med et andet tegn.
+             */
+            billedURIString = billedURIString?.replace('§', '/')
 
-            val trueBilledURI = Uri.parse(billedURIString)
+            val savedUri = Uri.parse(billedURIString)
+            val context = LocalContext.current
 
-            billedURIString?.let { Text(text = it) }
 
-            Image(painter = rememberImagePainter(data = trueBilledURI), contentDescription = "test")
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xfffcfcf0))
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    Image(
+                        painter = rememberImagePainter(data = savedUri),
+                        contentDescription = "fotoKamera - Billed som blev taget.",
+                        Modifier.border(Dp.Hairline, Color.Black, RectangleShape)
+                    )
+                }
+
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                horizontalArrangement = Arrangement.End){
+                    Button(
+                        onClick = { navController.navigate(Navigation.MineDesign.route)
+                            uploadBillede(savedUri, context)},
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = Color.Black, contentColor = Color.White
+                        ),
+                        shape = RectangleShape
+                    ) {
+                        Text("Accepter")
+                    }
+                    Button(
+                        onClick = { navController.navigate(Navigation.Kamera.route)},
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = Color.Black, contentColor = Color.White
+                        ),
+                        shape = RectangleShape
+                    ) {
+                        Text("Tilbage")
+                    }
+                }
+
+            }
+        }
+        private fun uploadBillede(savedUri: Uri, context: Context){
+            UploadImage.uploadImage(savedUri, context)
         }
     }
 
@@ -243,7 +298,7 @@ sealed class BilledRedigering(var rute: String) {
                     ) {
                         Text("Gem")
                     }
-                    if(gemBillede.value){
+                    if (gemBillede.value) {
                         GemBilled(billedRedTool, billedRedView)
                     }
                 }
@@ -442,12 +497,14 @@ sealed class BilledRedigering(var rute: String) {
         }
 
         @Composable
-        private fun GemBilled(billedRedTool: PhotoEditor, billedRedView: MutableState<PhotoEditorView>) {
-
+        private fun GemBilled(
+            billedRedTool: PhotoEditor,
+            billedRedView: MutableState<PhotoEditorView>
+        ) {
 
 
             billedRedTool.saveAsBitmap(object : OnSaveBitmap {
-                override fun onBitmapReady(@NonNull  saveBitmap: Bitmap?) {
+                override fun onBitmapReady(@NonNull saveBitmap: Bitmap?) {
                     Log.e("BilledRedigering", "Billed gemt til BitMap")
 
                     saveBitmap

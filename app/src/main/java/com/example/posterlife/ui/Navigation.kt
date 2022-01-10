@@ -118,7 +118,7 @@ fun Navigation() {
                     arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
                 ) { backStackEntry ->
                     BilledConfirm.BilledConfirm(
-                        backStackEntry.arguments?.getString("billedURI")
+                        backStackEntry.arguments?.getString("billedURI"), navController = navController
                     )
                 }
 
