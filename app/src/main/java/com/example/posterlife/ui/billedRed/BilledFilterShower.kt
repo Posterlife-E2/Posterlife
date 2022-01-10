@@ -31,6 +31,8 @@ import java.lang.Exception
 
 
 /**
+ * @Author Kristoffer Pedersen s205354
+ *
  * @Source @Source https://github.com/burhanrashid52/PhotoEditor
  */
 

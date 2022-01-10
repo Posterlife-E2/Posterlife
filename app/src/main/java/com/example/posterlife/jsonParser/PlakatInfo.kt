@@ -7,6 +7,8 @@ import com.example.posterlife.model.Plakat
 import java.io.*
 
 /**
+ * @Author Kristoffer Pedersen s205354
+ *
  * @Source https://github.com/cbeust/klaxon#streaming-api
  */
 

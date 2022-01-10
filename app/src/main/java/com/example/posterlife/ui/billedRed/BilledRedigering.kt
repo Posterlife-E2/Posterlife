@@ -1,7 +1,6 @@
 package com.example.posterlife.ui.billedRed
 
 import android.graphics.Typeface
-import android.provider.ContactsContract
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -23,11 +22,22 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
+import ja.burhanrashid52.photoeditor.OnSaveBitmap
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
+import android.graphics.Bitmap
+import android.util.Log
+import androidx.annotation.NonNull
+import androidx.compose.foundation.Image
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.core.view.drawToBitmap
+import java.lang.Exception
+
 
 /**
+ * @Author Kristoffer Pedersen s205354
+ *
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/Yalantis/uCrop
  * @Source https://github.com/godaddy/compose-color-picker
@@ -44,11 +54,11 @@ sealed class BilledRedigering(var rute: String) {
 
     object BilledRed : BilledRedigering("billedRed") {
 
-        private val billedURI = R.drawable.test_image
-
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
         val visFilterMenu = mutableStateOf(false)
+
+        private val gemBillede = mutableStateOf(false)
 
         private var penselSizeValueHolder = 25F
         private var switchPenselStateTemp = false
@@ -59,6 +69,7 @@ sealed class BilledRedigering(var rute: String) {
         @Composable
         fun BilledRedigering(/*billedSti: String*/) {
 
+            val billedURI = R.drawable.test_image
 
             val context = LocalContext.current
 
@@ -200,6 +211,23 @@ sealed class BilledRedigering(var rute: String) {
                         billedFilterShower.BilledFilter()
                     }
                     billedRedTool.setFilterEffect(filterValg)
+
+
+
+                    TextButton(
+                        onClick = { gemBillede.value = true },
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = Color.Black, contentColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .padding(4.dp),
+                        shape = RectangleShape,
+                    ) {
+                        Text("Gem")
+                    }
+                    if(gemBillede.value){
+                        GemBilled(billedRedTool, billedRedView)
+                    }
                 }
             }
         }
@@ -393,6 +421,28 @@ sealed class BilledRedigering(var rute: String) {
                         }
                     }
                 })
+        }
+
+        @Composable
+        private fun GemBilled(billedRedTool: PhotoEditor, billedRedView: MutableState<PhotoEditorView>) {
+
+
+
+            billedRedTool.saveAsBitmap(object : OnSaveBitmap {
+                override fun onBitmapReady(@NonNull  saveBitmap: Bitmap?) {
+                    Log.e("BilledRedigering", "Billed gemt til BitMap")
+
+                    saveBitmap
+                }
+
+                override fun onFailure(@NonNull exception: Exception?) {
+                    Log.e("BilledRedigering", "billed gemmefunktion fejlede")
+                }
+            }
+            )
+
+            gemBillede.value = false
+
         }
     }
 }
