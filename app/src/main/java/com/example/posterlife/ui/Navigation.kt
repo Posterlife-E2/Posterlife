@@ -4,12 +4,11 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
@@ -18,6 +17,7 @@ import com.example.posterlife.UI.Inspiration.InspirationStart.InspirationOvervie
 import com.example.posterlife.UI.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
 import com.example.posterlife.ui.billedRed.BilledRedigering
+import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.ui.loginUI.Login
 import com.example.posterlife.ui.loginUI.SignUp
 
@@ -34,19 +34,18 @@ import com.example.posterlife.ui.loginUI.SignUp
 fun Navigation() {
 
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            if (navBackStackEntry?.destination?.route != Navigation.Kamera.route)
+            if (navController.currentBackStackEntry?.destination?.route != "openKamera")
                 BottomNavigationBar(navController)
-                    },
+        },
         content = {
             NavHost(
                 navController = navController,
-                startDestination = /*Login.LoginScreen.routeBilled*/BilledRedigering.BilledRed.rute
+                startDestination = /*Login.LoginScreen.route*/BilledRedigering.BilledRed.rute
             ) {
                 //---- Inspiration ----
                 composable(Navigation.Inspiration.route) {
@@ -63,18 +62,20 @@ fun Navigation() {
 
                 //----Favorit ----
                 composable(Navigation.Favorit.route) {
-                        FavoritOverview(navigation = navController)
+                    FavoritOverview(navigation = navController)
                 }
 
                 //---- Kamera ----
 
                 composable(Navigation.Kamera.route) {
-                    Kamera.KameraAccess.KameraAccess(navController, onImageCaptured = { uri, fromGallery ->
+                    Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
                         Log.d(TAG, "Image Uri Captured from Camera View")
 
                     }, onError = { imageCaptureException ->
                         navController.navigate(Navigation.Inspiration.route)
-                    })
+                    },
+                        navController = navController
+                    )
                 }
 
                 composable(Kamera.KameraAccess.route) {
@@ -112,6 +113,16 @@ fun Navigation() {
                 composable(BilledRedigering.BilledRed.rute) {
                     BilledRedigering.BilledRed.BilledRedigering()
                 }
+
+                composable(
+                    BilledRedigering.BilledConfirm.rute,
+                    arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    BilledConfirm.BilledConfirm(
+                        backStackEntry.arguments?.getString("billedURI"), navController = navController
+                    )
+                }
+
             }
         }
     )

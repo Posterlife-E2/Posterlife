@@ -10,10 +10,7 @@ import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
@@ -22,21 +19,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.sharp.FlipCameraAndroid
 import androidx.compose.material.icons.sharp.Lens
 import androidx.compose.material.icons.sharp.PhotoLibrary
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -47,16 +37,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import androidx.ui.graphics.BlendMode
 import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
+import kotlinx.coroutines.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.properties.Delegates
 
 /**
  * @Source https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
@@ -76,17 +67,47 @@ sealed class Kamera(val route: String) {
         object OnSwitchCameraClick : CameraUIAction()
     }
 
+    @SuppressLint("StaticFieldLeak")
     object KameraAccess : Kamera("openKamera") {
 
+        @SuppressLint("StaticFieldLeak")
+        private lateinit var navControllerKamera: NavController
+
+        private var cropListener = ArrayList<() -> Unit>()
+
+        private lateinit var kameraThreadExecutor: Executor
+
+
+        private var cropSavedUri: String by Delegates.observable("") { property, oldValue, newValue ->
+
+            kameraThreadExecutor.execute{
+                try {
+                    val cropValue = newValue.replace('/', '§')
+                    navControllerKamera.navigate("billedConfirm/$cropValue")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+
+            cropListener.forEach {
+                it()
+            }
+        }
+
         //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+        @SuppressLint("StaticFieldLeak")
         @Composable
         fun KameraAccess(
-            navController: NavController,
             onImageCaptured: (Uri, Boolean) -> Unit,
-            onError: (ImageCaptureException) -> Unit
+            onError: (ImageCaptureException) -> Unit,
+            navController: NavController
         ) {
 
+            navControllerKamera = navController
             val context = LocalContext.current
+
+            kameraThreadExecutor = ContextCompat.getMainExecutor(context)
 
             if (hasNoPermissions(context)) {
                 requestPermission(context)
@@ -104,8 +125,9 @@ sealed class Kamera(val route: String) {
                 if (uri != null) onImageCaptured(uri, true)
             }
 
+
+
             CameraPreviewView(
-                navController,
                 imageCapture,
                 backKamera
             ) { cameraUIAction ->
@@ -132,12 +154,10 @@ sealed class Kamera(val route: String) {
         @SuppressLint("RestrictedApi")
         @Composable
         private fun CameraPreviewView(
-            navController: NavController,
             imageCapture: ImageCapture,
             lensFacing: Int = CameraSelector.LENS_FACING_BACK,
             cameraUIAction: (CameraUIAction) -> Unit
         ) {
-
 
             val context = LocalContext.current
             val lifecycleOwner = LocalLifecycleOwner.current
@@ -160,45 +180,18 @@ sealed class Kamera(val route: String) {
                 preview.setSurfaceProvider(previewView.surfaceProvider)
             }
 
-                Box(modifier = Modifier.fillMaxSize()) {
-                    AndroidView({ previewView }, modifier = Modifier.fillMaxSize()) {
-
-                    }
-                    Row(
-                        Modifier
-                            .background(Black.copy(alpha = 0.5f))
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    )
-                    {
-
-                        IconButton(onClick = {
-                            navController.popBackStack()
-                        }){
-                            Icon(Icons.Filled.ArrowBack,
-                                 contentDescription = "Back",
-                                 Modifier.size(46.dp),
-                                 tint = White)
-                        }
-                        CameraControl(
-                            Icons.Sharp.FlipCameraAndroid,
-                            R.string.icn_camera_view_switch_camera_content_description,
-                            modifier = Modifier
-                                .size(64.dp)
-                                .padding(horizontal = 5.dp),
-                            onClick = { cameraUIAction(CameraUIAction.OnSwitchCameraClick) }
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.align(Alignment.BottomCenter),
-                        verticalArrangement = Arrangement.Bottom
-                    ) {
-                        CameraControls(cameraUIAction)
-                    }
+            Box(modifier = Modifier.fillMaxSize()) {
+                AndroidView({ previewView }, modifier = Modifier.fillMaxSize()) {
 
                 }
+                Column(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    CameraControls(cameraUIAction)
+                }
 
+            }
         }
 
         //Taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
@@ -218,12 +211,18 @@ sealed class Kamera(val route: String) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Black.copy(alpha = 0.5f))
-                    .padding(16.dp)
-                    .height(70.dp),
-                horizontalArrangement = Arrangement.End,
-                //verticalAlignment = Alignment.CenterVertically
+                    .background(Color.Black)
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
+
+                CameraControl(
+                    Icons.Sharp.FlipCameraAndroid,
+                    R.string.icn_camera_view_switch_camera_content_description,
+                    modifier = Modifier.size(64.dp),
+                    onClick = { cameraUIAction(CameraUIAction.OnSwitchCameraClick) }
+                )
 
                 CameraControl(
                     Icons.Sharp.Lens,
@@ -232,15 +231,13 @@ sealed class Kamera(val route: String) {
                         .size(64.dp)
                         .padding(1.dp)
                         .border(1.dp, Color.White, CircleShape),
-                    onClick = { cameraUIAction(CameraUIAction.OnCameraClick)
-                    }
+                    onClick = { cameraUIAction(CameraUIAction.OnCameraClick) }
                 )
-                Spacer(modifier = Modifier.padding(47.dp))
+
                 CameraControl(
                     Icons.Sharp.PhotoLibrary,
                     R.string.icn_camera_view_view_gallery_content_description,
-                    modifier = Modifier
-                        .size(64.dp),
+                    modifier = Modifier.size(64.dp),
                     onClick = { cameraUIAction(CameraUIAction.OnGalleryViewClick) }
                 )
 
@@ -292,7 +289,9 @@ sealed class Kamera(val route: String) {
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
-                        UploadImage.uploadImage(savedUri,context)
+
+                        cropSavedUri = savedUri.toString()
+
                         // If the folder selected is an external media directory, this is
                         // unnecessary but otherwise other apps will not be able to access our
                         // images unless we scan them using [MediaScannerConnection]
@@ -306,6 +305,8 @@ sealed class Kamera(val route: String) {
                         }
 
                         onImageCaptured(savedUri, false)
+
+
                     }
 
                     override fun onError(exception: ImageCaptureException) {
