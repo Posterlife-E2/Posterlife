@@ -10,17 +10,13 @@ import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -41,17 +37,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
-import com.example.posterlife.ui.billedRed.BilledRedigering
+import kotlinx.coroutines.*
 import java.io.File
-import java.lang.NullPointerException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.properties.Delegates
 
 /**
  * @Source https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
@@ -71,13 +67,36 @@ sealed class Kamera(val route: String) {
         object OnSwitchCameraClick : CameraUIAction()
     }
 
+    @SuppressLint("StaticFieldLeak")
     object KameraAccess : Kamera("openKamera") {
 
         @SuppressLint("StaticFieldLeak")
         private lateinit var navControllerKamera: NavController
-        private lateinit var cropSavedUri: String
+
+        private var cropListener = ArrayList<() -> Unit>()
+
+        private lateinit var kameraThreadExecutor: Executor
+
+
+        private var cropSavedUri: String by Delegates.observable("") { property, oldValue, newValue ->
+
+            kameraThreadExecutor.execute{
+                try {
+                    val cropValue = newValue.replace('/', '§')
+                    navControllerKamera.navigate("billedConfirm/$cropValue")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+
+            cropListener.forEach {
+                it()
+            }
+        }
 
         //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+        @SuppressLint("StaticFieldLeak")
         @Composable
         fun KameraAccess(
             onImageCaptured: (Uri, Boolean) -> Unit,
@@ -88,7 +107,7 @@ sealed class Kamera(val route: String) {
             navControllerKamera = navController
             val context = LocalContext.current
 
-            //navController = rememberNavController()
+            kameraThreadExecutor = ContextCompat.getMainExecutor(context)
 
             if (hasNoPermissions(context)) {
                 requestPermission(context)
@@ -258,7 +277,7 @@ sealed class Kamera(val route: String) {
         private const val PHOTO_EXTENSION = ".jpg"
 
 
-        private fun ImageCapture.takePicture(
+                private fun ImageCapture.takePicture(
             context: Context,
             lensFacing: Int,
             onImageCaptured: (Uri, Boolean) -> Unit,
@@ -277,7 +296,7 @@ sealed class Kamera(val route: String) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
 
                         cropSavedUri = savedUri.toString()
-                        UploadImage.uploadImage(savedUri,context)
+                        UploadImage.uploadImage(savedUri, context)
                         // If the folder selected is an external media directory, this is
                         // unnecessary but otherwise other apps will not be able to access our
                         // images unless we scan them using [MediaScannerConnection]

@@ -5,13 +5,10 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
@@ -19,6 +16,7 @@ import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFo
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
 import com.example.posterlife.ui.billedRed.BilledRedigering
+import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.ui.loginUI.Login
 import com.example.posterlife.ui.loginUI.SignUp
 
@@ -114,14 +112,13 @@ fun Navigation() {
                 composable(BilledRedigering.BilledRed.rute) {
                     BilledRedigering.BilledRed.BilledRedigering()
                 }
+
                 composable(
                     BilledRedigering.BilledConfirm.rute,
                     arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
                 ) { backStackEntry ->
-                    BilledRedigering.BilledConfirm.BilledConfirm(
-                        backStackEntry.arguments?.getString(
-                            "billedURI"
-                        )
+                    BilledConfirm.BilledConfirm(
+                        backStackEntry.arguments?.getString("billedURI")
                     )
                 }
 

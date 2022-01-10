@@ -27,11 +27,14 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.compose.foundation.Image
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.view.drawToBitmap
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import java.lang.Exception
 
 
@@ -50,10 +53,19 @@ sealed class BilledRedigering(var rute: String) {
 
     object BilledConfirm : BilledRedigering("billedConfirm/{billedURI}") {
 
+        @ExperimentalCoilApi
         @Composable
         fun BilledConfirm(billedURI: String?){
 
-            Text(text = "test")
+            var billedURIString = billedURI
+
+            billedURIString = billedURIString?.replace('§','/')
+
+            val trueBilledURI = Uri.parse(billedURIString)
+
+            billedURIString?.let { Text(text = it) }
+
+            Image(painter = rememberImagePainter(data = trueBilledURI), contentDescription = "test")
         }
     }
 
@@ -215,6 +227,7 @@ sealed class BilledRedigering(var rute: String) {
                         val billedFilterShower = BilledFilterShower(billedURI)
                         billedFilterShower.BilledFilter()
                     }
+
                     billedRedTool.setFilterEffect(filterValg)
 
 
