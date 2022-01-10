@@ -22,8 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-//import com.example.posterlife.JsonParser.PlakatInfo
-//import com.example.posterlife.Model.Plakat
 import com.example.posterlife.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
 import kotlin.collections.ArrayList
@@ -176,7 +174,9 @@ sealed class Inspiration(val rute: String) {
                                 }
                             }
                             Spacer(modifier = Modifier.padding(47.dp))
-                            FavoritButton(modifier = Modifier.size(20.dp))
+                            Box(modifier = Modifier.size(18.dp)) {
+                                FavoritButton(modifier = Modifier.size(20.dp))
+                            }
                         }
                     }
                     Text(plakatHolder.description, Modifier.padding(12.dp), fontSize = 17.sp)
@@ -395,7 +395,8 @@ sealed class Inspiration(val rute: String) {
 
                         )
 
-                        Row {
+                        Row(modifier = Modifier
+                            .offset(y = (-15).dp)) {
 
                             Column() {
                                 Text(
