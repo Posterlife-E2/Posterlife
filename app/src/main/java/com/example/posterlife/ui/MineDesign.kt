@@ -29,6 +29,16 @@ import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
 
+
+/**
+ * @source https://developer.android.com/jetpack/compose/navigation
+ *
+ * Ting til at lave ting.
+ * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
+ * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
+ */
+
+
 sealed class MineDesign(val rute: String) {
 
     object MineDesignStart : MineDesign("MineDesignStart") {
