@@ -36,6 +36,8 @@ import java.lang.Exception
 
 
 /**
+ * @Author Kristoffer Pedersen s205354
+ *
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/Yalantis/uCrop
  * @Source https://github.com/godaddy/compose-color-picker
