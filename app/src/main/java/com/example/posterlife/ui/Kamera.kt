@@ -173,7 +173,9 @@ sealed class Kamera(val route: String) {
                     )
                     {
 
-                        IconButton(onClick = { TODO() }){
+                        IconButton(onClick = {
+                            navController.popBackStack()
+                        }){
                             Icon(Icons.Filled.ArrowBack,
                                  contentDescription = "Back",
                                  Modifier.size(46.dp),
