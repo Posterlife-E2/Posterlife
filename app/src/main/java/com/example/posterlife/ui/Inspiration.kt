@@ -1,4 +1,4 @@
-package com.example.posterlife.UI
+package com.example.posterlife.ui
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

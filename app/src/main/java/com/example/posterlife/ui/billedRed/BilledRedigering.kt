@@ -28,7 +28,11 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
+import android.graphics.BitmapRegionDecoder
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.compose.foundation.Image
@@ -41,7 +45,9 @@ import com.example.posterlife.saveImageController.UploadImage
 import com.example.posterlife.ui.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
+import android.provider.MediaStore.Images.Media.getBitmap
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 /**
@@ -49,9 +55,11 @@ import java.io.ByteArrayOutputStream
  *
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/godaddy/compose-color-picker
+ * @Source https://stackoverflow.com/questions/56651444/deprecated-getbitmap-with-api-29-any-alternative-codes
  *
  * Material Sources
  * @Source https://foso.github.io/Jetpack-Compose-Playground/foundation/lazyrow/
+ *
  */
 
 sealed class BilledRedigering(var rute: String) {
@@ -141,11 +149,13 @@ sealed class BilledRedigering(var rute: String) {
         @Composable
         fun BilledRedigering(billedURI: String?, navController: NavController) {
 
-            val savedBilledURI = Uri.parse(billedURI?.replace('§','/'))
+            val context = LocalContext.current
+
+            val savedBilledURI = Uri.parse(billedURI?.replace('§', '/'))
 
             val TrueBilledURI = savedBilledURI
 
-            val context = LocalContext.current
+            val billedBitmap = getBitmap(context.contentResolver, TrueBilledURI)
 
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
@@ -526,6 +536,7 @@ sealed class BilledRedigering(var rute: String) {
             gemBillede.value = false
 
         }
+
         //URI løsning fra https://colinyeoh.wordpress.com/2012/05/18/android-getting-image-uri-from-bitmap/
         fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
             val bytes = ByteArrayOutputStream()
