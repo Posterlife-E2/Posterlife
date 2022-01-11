@@ -44,7 +44,7 @@ fun Navigation() {
         content = {
             NavHost(
                 navController = navController,
-                startDestination = /*Login.LoginScreen.route*/BilledRedigering.BilledRed.rute
+                startDestination = Login.LoginScreen.route
             ) {
                 //---- Inspiration ----
                 composable(Navigation.Inspiration.route) {
@@ -109,8 +109,14 @@ fun Navigation() {
                 //------------------------
 
                 //---- Redigering -----
-                composable(BilledRedigering.BilledRed.rute) {
-                    BilledRedigering.BilledRed.BilledRedigering()
+                composable(
+                    BilledRedigering.BilledRed.rute,
+                    arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    BilledRedigering.BilledRed.BilledRedigering(
+                        backStackEntry.arguments?.getString("billedURI"),
+                        navController = navController
+                    )
                 }
 
                 composable(
@@ -118,7 +124,8 @@ fun Navigation() {
                     arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
                 ) { backStackEntry ->
                     BilledConfirm.BilledConfirm(
-                        backStackEntry.arguments?.getString("billedURI"), navController = navController
+                        backStackEntry.arguments?.getString("billedURI"),
+                        navController = navController
                     )
                 }
 

@@ -1,7 +1,6 @@
 package com.example.posterlife.ui.billedRed
 
 import android.view.View
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.AlertDialog
@@ -23,11 +22,7 @@ import com.example.posterlife.ui.billedRed.BilledRedigering.BilledRed.filterValg
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
-import android.graphics.Bitmap
-import android.util.Log
-import androidx.annotation.NonNull
-import ja.burhanrashid52.photoeditor.OnSaveBitmap
-import java.lang.Exception
+import android.net.Uri
 
 
 /**
@@ -36,7 +31,7 @@ import java.lang.Exception
  * @Source @Source https://github.com/burhanrashid52/PhotoEditor
  */
 
-class BilledFilterShower(private val billedURI: Int) {
+class BilledFilterShower(private val billedURI: Uri) {
 
     private val filtre: List<PhotoFilter> = listOf(
         PhotoFilter.NONE,
@@ -103,7 +98,7 @@ class BilledFilterShower(private val billedURI: Int) {
         val context = LocalContext.current
 
         val billedTempRedView = PhotoEditorView(context)
-        billedTempRedView.source.setImageResource(billedURI)
+        billedTempRedView.source.setImageURI(billedURI)
 
         //Opretter et nyt midlertidigt view, så vi kan have et repræsentivt billede.
         val view = View(context)
