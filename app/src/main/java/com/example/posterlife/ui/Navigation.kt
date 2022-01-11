@@ -5,10 +5,12 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
@@ -34,12 +36,13 @@ import com.example.posterlife.ui.loginUI.SignUp
 fun Navigation() {
 
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            if (navController.currentBackStackEntry?.destination?.route != "openKamera")
+            if (navBackStackEntry?.destination?.route != Navigation.Kamera.route)
                 BottomNavigationBar(navController)
         },
         content = {
