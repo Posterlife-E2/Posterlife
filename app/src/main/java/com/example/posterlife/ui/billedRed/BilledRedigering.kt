@@ -35,12 +35,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.saveImageController.UploadImage
 import com.example.posterlife.ui.Navigation
 import java.lang.Exception
+import android.provider.MediaStore.Images
+import java.io.ByteArrayOutputStream
 
 
 /**
@@ -71,7 +72,6 @@ sealed class BilledRedigering(var rute: String) {
             billedURIString = billedURIString?.replace('§', '/')
 
             val savedUri = Uri.parse(billedURIString)
-            val context = LocalContext.current
 
 
             Column(
@@ -92,13 +92,16 @@ sealed class BilledRedigering(var rute: String) {
                     )
                 }
 
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-                horizontalArrangement = Arrangement.End){
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
                     Button(
-                        onClick = { navController.navigate(Navigation.MineDesign.route)
-                            uploadBillede(savedUri, context)},
+                        onClick = {
+                            navController.navigate("billedRed/$billedURI")
+                        },
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = Color.Black, contentColor = Color.White
                         ),
@@ -107,7 +110,7 @@ sealed class BilledRedigering(var rute: String) {
                         Text("Accepter")
                     }
                     Button(
-                        onClick = { navController.navigate(Navigation.Kamera.route)},
+                        onClick = { navController.navigate(Navigation.Kamera.route) },
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = Color.Black, contentColor = Color.White
                         ),
@@ -119,12 +122,9 @@ sealed class BilledRedigering(var rute: String) {
 
             }
         }
-        private fun uploadBillede(savedUri: Uri, context: Context){
-            UploadImage.uploadImage(savedUri, context)
-        }
     }
 
-    object BilledRed : BilledRedigering("billedRed") {
+    object BilledRed : BilledRedigering("billedRed/{billedURI}") {
 
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
@@ -139,16 +139,18 @@ sealed class BilledRedigering(var rute: String) {
 
         @ExperimentalComposeUiApi
         @Composable
-        fun BilledRedigering(/*billedSti: String*/) {
+        fun BilledRedigering(billedURI: String?, navController: NavController) {
 
-            val billedURI = R.drawable.test_image
+            val savedBilledURI = Uri.parse(billedURI?.replace('§','/'))
+
+            val TrueBilledURI = savedBilledURI
 
             val context = LocalContext.current
 
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
-            billedRedView.value.source.setImageResource(billedURI)
+            billedRedView.value.source.setImageURI(TrueBilledURI)
 
             val billedRedTool =
                 remember { PhotoEditor.Builder(context, billedRedView.value) }
@@ -165,7 +167,6 @@ sealed class BilledRedigering(var rute: String) {
                     .fillMaxSize(),
 
                 ) {
-
                 BoxWithConstraints(
                     modifier = Modifier
                         .background(Color(0xfffcfcf0))
@@ -279,7 +280,7 @@ sealed class BilledRedigering(var rute: String) {
                         Text("Filter")
                     }
                     if (visFilterMenu.value) {
-                        val billedFilterShower = BilledFilterShower(billedURI)
+                        val billedFilterShower = BilledFilterShower(TrueBilledURI)
                         billedFilterShower.BilledFilter()
                     }
 
@@ -299,7 +300,7 @@ sealed class BilledRedigering(var rute: String) {
                         Text("Gem")
                     }
                     if (gemBillede.value) {
-                        GemBilled(billedRedTool, billedRedView)
+                        GemBilled(billedRedTool, navController)
                     }
                 }
             }
@@ -499,15 +500,21 @@ sealed class BilledRedigering(var rute: String) {
         @Composable
         private fun GemBilled(
             billedRedTool: PhotoEditor,
-            billedRedView: MutableState<PhotoEditorView>
+            navController: NavController
         ) {
 
+            val context = LocalContext.current
 
             billedRedTool.saveAsBitmap(object : OnSaveBitmap {
                 override fun onBitmapReady(@NonNull saveBitmap: Bitmap?) {
                     Log.e("BilledRedigering", "Billed gemt til BitMap")
 
-                    saveBitmap
+                    val uri = saveBitmap?.let { getImageUri(context, it) }
+
+                    if (uri != null) {
+                        uploadBillede(uri, context)
+                        navController.navigate(Navigation.MineDesign.route)
+                    }
                 }
 
                 override fun onFailure(@NonNull exception: Exception?) {
@@ -518,6 +525,17 @@ sealed class BilledRedigering(var rute: String) {
 
             gemBillede.value = false
 
+        }
+        //URI løsning fra https://colinyeoh.wordpress.com/2012/05/18/android-getting-image-uri-from-bitmap/
+        fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+            val bytes = ByteArrayOutputStream()
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            val path = Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+            return Uri.parse(path)
+        }
+
+        private fun uploadBillede(savedUri: Uri, context: Context) {
+            UploadImage.uploadImage(savedUri, context)
         }
     }
 }

@@ -317,22 +317,6 @@ sealed class Kamera(val route: String) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
 
                         cropSavedUri = savedUri.toString()
-
-                        // If the folder selected is an external media directory, this is
-                        // unnecessary but otherwise other apps will not be able to access our
-                        // images unless we scan them using [MediaScannerConnection]
-                        val mimeType = MimeTypeMap.getSingleton()
-                            .getMimeTypeFromExtension(savedUri.toFile().extension)
-                        MediaScannerConnection.scanFile(
-                            context,
-                            arrayOf(savedUri.toFile().absolutePath),
-                            arrayOf(mimeType)
-                        ) { _, _ ->
-                        }
-
-                        onImageCaptured(savedUri, false)
-
-
                     }
 
                     override fun onError(exception: ImageCaptureException) {

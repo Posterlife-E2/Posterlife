@@ -8,14 +8,6 @@ import androidx.compose.Context
 import java.io.File
 import com.google.firebase.database.FirebaseDatabase
 import com.example.posterlife.model.MineDesignModal
-import com.google.android.gms.auth.api.signin.internal.Storage
-import com.google.firebase.database.Query
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import com.google.firebase.database.DatabaseReference
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 
