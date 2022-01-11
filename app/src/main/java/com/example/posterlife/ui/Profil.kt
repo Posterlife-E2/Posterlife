@@ -94,10 +94,12 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
-                    .clickable(onClick = {navController.navigate("Login"){
-                        popUpTo("Login.LoginScreen.LoginStart")
+                    .clickable(onClick = {
+                        navController.navigate("Login") {
+                            popUpTo("Login.LoginScreen.LoginStart")
 
-                    } }),
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -119,7 +121,7 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */}),
+                    .clickable(onClick = {/* TODO */ }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -141,9 +143,11 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
-                    .clickable(onClick = {navController.navigate("Mine Design"){
-                        popUpTo("MineDesign.MineDesignStart.MineDesignStart")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("Mine Design") {
+                            popUpTo("MineDesign.MineDesignStart.MineDesignStart")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -164,7 +168,9 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */}),
+                    .clickable(onClick = { navController.navigate("favorit"){
+                        popUpTo("FavoritOverview")
+                    } }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -185,7 +191,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */}),
+                    .clickable(onClick = {/* TODO */ }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -206,7 +212,7 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */}),
+                    .clickable(onClick = {/* TODO */ }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -228,7 +234,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */}),
+                    .clickable(onClick = {/* TODO */ }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
