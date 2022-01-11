@@ -135,22 +135,21 @@ sealed class BilledRedigering(var rute: String) {
         private var penselSizeValueHolder = 25F
         private var switchPenselStateTemp = false
         private var penselColorState = -16777216
+
         var filterValg = PhotoFilter.NONE
 
         @ExperimentalComposeUiApi
         @Composable
         fun BilledRedigering(billedURI: String?, navController: NavController) {
 
-            val savedBilledURI = Uri.parse(billedURI?.replace('§','/'))
-
-            val TrueBilledURI = savedBilledURI
+            val savedBilledURI = Uri.parse(billedURI?.replace('§', '/'))
 
             val context = LocalContext.current
 
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
-            billedRedView.value.source.setImageURI(TrueBilledURI)
+            billedRedView.value.source.setImageURI(savedBilledURI)
 
             val billedRedTool =
                 remember { PhotoEditor.Builder(context, billedRedView.value) }
@@ -280,11 +279,11 @@ sealed class BilledRedigering(var rute: String) {
                         Text("Filter")
                     }
                     if (visFilterMenu.value) {
-                        val billedFilterShower = BilledFilterShower(TrueBilledURI)
+                        val billedFilterShower = BilledFilterShower(savedBilledURI)
                         billedFilterShower.BilledFilter()
                     }
 
-                    billedRedTool.setFilterEffect(filterValg)
+                        billedRedTool.setFilterEffect(filterValg)
 
 
 
@@ -526,6 +525,7 @@ sealed class BilledRedigering(var rute: String) {
             gemBillede.value = false
 
         }
+
         //URI løsning fra https://colinyeoh.wordpress.com/2012/05/18/android-getting-image-uri-from-bitmap/
         fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
             val bytes = ByteArrayOutputStream()
