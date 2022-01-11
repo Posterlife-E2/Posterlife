@@ -41,6 +41,8 @@ import com.example.posterlife.saveImageController.UploadImage
 import com.example.posterlife.ui.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
+import android.util.DisplayMetrics
+import androidx.ui.core.px
 import java.io.ByteArrayOutputStream
 
 
@@ -148,6 +150,7 @@ sealed class BilledRedigering(var rute: String) {
 
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
+
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
             billedRedView.value.source.setImageURI(savedBilledURI)
 
@@ -168,8 +171,7 @@ sealed class BilledRedigering(var rute: String) {
                 ) {
                 BoxWithConstraints(
                     modifier = Modifier
-                        .background(Color(0xfffcfcf0))
-                        .fillMaxWidth(),
+                        .background(Color(0xfffcfcf0)),
                     contentAlignment = Alignment.TopCenter
 
                 ) {
@@ -180,7 +182,8 @@ sealed class BilledRedigering(var rute: String) {
                         )
                     } else {
                         AndroidView(
-                            factory = { billedRedView.value }
+                            factory = { billedRedView.value },
+                            modifier = Modifier
                         )
                     }
                 }
@@ -283,7 +286,7 @@ sealed class BilledRedigering(var rute: String) {
                         billedFilterShower.BilledFilter()
                     }
 
-                        billedRedTool.setFilterEffect(filterValg)
+                        //billedRedTool.setFilterEffect(filterValg)
 
 
 
