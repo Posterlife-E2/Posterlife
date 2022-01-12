@@ -1,4 +1,4 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import android.content.ContentValues.TAG
 import android.util.Log
@@ -15,14 +15,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
-import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
-import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
-import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
-import com.example.posterlife.ui.DelMedVenner.DelStart.DelOverview
-import com.example.posterlife.ui.billedRed.BilledRedigering
-import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
-import com.example.posterlife.ui.loginUI.Login
-import com.example.posterlife.ui.loginUI.SignUp
+import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.InspirationOverview
+import com.example.posterlife.view.inspirationView.Inspiration.InspirationFocusImage.InspirationFocusImage
+import com.example.posterlife.view.Favorit.FavoritStart.FavoritOverview
+import com.example.posterlife.view.billedRed.BilledRedigering
+import com.example.posterlife.view.billedRed.BilledRedigering.BilledConfirm
+import com.example.posterlife.view.inspirationView.Inspiration
+import com.example.posterlife.view.loginUI.Login
+import com.example.posterlife.view.loginUI.SignUp
 
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
@@ -56,13 +56,10 @@ fun Navigation() {
                     InspirationOverview(navController = navController)
                 }
 
-                composable(
-                    Inspiration.InspirationFocusImage.rute,
-                    arguments = listOf(navArgument("plakatIndex") { type = NavType.IntType })
-
-                ) { backStackEntry ->
-                    InspirationFocusImage(backStackEntry.arguments?.getInt("plakatIndex"))
+                composable(Inspiration.InspirationFocusImage.rute) {
+                    InspirationFocusImage()
                 }
+
 
                 //----Favorit ----
                 composable(Navigation.Favorit.route) {

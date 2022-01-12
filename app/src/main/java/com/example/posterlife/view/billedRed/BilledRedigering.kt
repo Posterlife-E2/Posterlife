@@ -1,4 +1,4 @@
-package com.example.posterlife.ui.billedRed
+package com.example.posterlife.view.billedRed
 
 import android.content.Context
 import android.graphics.Typeface
@@ -28,11 +28,7 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
-import android.graphics.BitmapRegionDecoder
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.compose.foundation.Image
@@ -42,12 +38,11 @@ import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.saveImageController.UploadImage
-import com.example.posterlife.ui.Navigation
+import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
 import java.io.ByteArrayOutputStream
-import java.io.File
 
 
 /**
