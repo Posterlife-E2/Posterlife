@@ -3,23 +3,23 @@ package com.example.posterlife.ui
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -44,9 +44,224 @@ sealed class MineDesign(val rute: String) {
     object MineDesignStart : MineDesign("MineDesignStart") {
         var mineDesignData = ArrayList<String>()
 
+        @ExperimentalFoundationApi
         @ExperimentalCoilApi
         @androidx.compose.runtime.Composable
-        fun MineDesignStart() {
+        fun MineDesignOverview(navController: NavController) {
+
+            val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    MineDesignTopBar(navController)
+                },
+
+                content = {
+                    MineDesignContent()
+                }
+            )
+        }
+
+        @Composable
+        fun MineDesignTopBar(navController: NavController) {
+            TopAppBar(
+                title = {
+
+                    Text(
+                        text = "Mine Design",
+                        color = Color.Black,
+                        fontSize = 30.sp
+                    )
+                },
+                actions = {
+
+
+                    IconButton(onClick = {
+                        navController.navigate("Favorit") {
+                            popUpTo("FavoritOverview")
+                        }
+                    }) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            tint = Color.Red,
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                    }
+                },
+
+
+                backgroundColor = Color(0xfffcfcf0),
+
+                elevation = 12.dp
+            )
+
+        }
+
+        @ExperimentalFoundationApi
+        @Composable
+        fun MineDesignContent() {
+            val context = LocalContext.current;
+            var file = File(context.getOutputDirectory(), "Files.txt")
+
+            if (file.exists()) {
+                var file = File(context.getOutputDirectory(), "Files.txt")
+                val text = file.readText()
+                var result: List<String> = text.split(",").map { it.trim() }
+                Log.d("Data", result.toString())
+                if (result.isNotEmpty()) {
+                    LazyVerticalGrid(
+                        cells = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(8.dp),
+                        modifier = Modifier
+                            .background(Color(0xfffcfcf0))
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                    ) {
+                        items(result.size) { index ->
+                            val source = BitmapFactory.decodeFile(
+                                context.getPhotosDirectory().absolutePath + "/" + result.get(
+                                    index
+                                )
+                            )
+                            Column(
+                                modifier = Modifier
+                                    .padding(
+                                        start = 12.dp,
+                                        top = 5.dp,
+                                        end = 12.dp,
+                                        bottom = 15.dp
+                                    )
+                                    .background(Color.White)
+                            ) {
+
+                                Row() {
+                                    Text(text = "Title")
+                                    Box(modifier = Modifier.weight(1f))
+                                    Box() {
+                                        IconButton(
+                                            onClick = { /*TODO*/ },
+                                            modifier = Modifier.size(22.dp)
+                                        ) {
+                                            Icon(
+                                                Icons.Filled.DeleteOutline,
+                                                contentDescription = null,
+                                                Modifier.size(22.dp)
+                                            )
+                                        }
+                                    }
+                                }
+
+                                Image(
+                                    painter = rememberImagePainter(
+                                        data = source
+                                    ),
+                                    contentDescription = "Image",
+                                    modifier = Modifier
+                                        .size(250.dp)
+                                )
+
+                                Row {
+
+                                    Box(modifier = Modifier.clickable {  }) {
+                                        Row() {
+                                            Text(
+                                                text = "Rediger",
+                                                fontWeight = FontWeight.Light)
+
+                                            Box() {
+                                                    Icon(
+                                                        Icons.Filled.Edit,
+                                                        contentDescription = null,
+                                                        Modifier.size(22.dp)
+                                                    )
+                                            }
+
+
+                                        }
+
+                                    }
+
+                                    Box(modifier = Modifier.weight(1f))
+                                    Box() {
+                                        IconButton(
+                                            onClick = { /*TODO*/ },
+                                            modifier = Modifier.size(22.dp)
+                                        ) {
+                                            Icon(
+                                                Icons.Filled.Send,
+                                                contentDescription = null,
+                                                Modifier.size(22.dp)
+                                            )
+                                        }
+                                    }
+                                    Box(modifier = Modifier
+                                        .size(22.dp)
+                                        ) {
+                                        FavoritButton()
+                                    }
+                                    Box() {
+                                        IconButton(
+                                            onClick = { /*TODO*/ },
+                                            modifier = Modifier.size(22.dp)
+                                        ) {
+                                            Icon(
+                                                Icons.Filled.AddShoppingCart,
+                                                contentDescription = null,
+                                                Modifier.size(22.dp)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    Column(
+                        Modifier
+                            .background(Color(0xfffcfcf0))
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = "Mine Design er tom",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+            }
+
+            @Composable
+            fun EditTitle() {
+
+            }
+        }
+
+        @Composable
+        fun FavoritButton(
+            color: Color = Color.Red,
+        ) {
+            var isFavorite by remember { mutableStateOf(false) }
+            IconToggleButton(checked = isFavorite, onCheckedChange = { isFavorite = !isFavorite }) {
+                Icon(
+                    tint = color, modifier = Modifier.size(22.dp), imageVector = if (isFavorite) {
+                        Icons.Filled.Favorite
+                    } else {
+                        Icons.Default.FavoriteBorder
+                    },
+                    contentDescription = null
+                )
+            }
+        }
+
+        @Composable
+        fun MineDesignNajib() {
             val context = LocalContext.current;
             var file = File(context.getOutputDirectory(), "Files.txt")
 
@@ -202,6 +417,7 @@ sealed class MineDesign(val rute: String) {
             }
 
         }
+
 
         fun loadData(data: ArrayList<String>) {
             mineDesignData = data
