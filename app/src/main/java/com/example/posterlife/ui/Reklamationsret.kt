@@ -2,15 +2,12 @@ package com.example.posterlife.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -75,26 +72,31 @@ sealed class Reklamationsret(val route: String) {
         )
 
     }
-/**
-* Inspiration til dropdown: https://android--code.blogspot.com/2021/03/jetpack-compose-how-to-use-dropdownmenu.html
-* */
+
+    /**
+     * Inspiration til dropdown: https://android--code.blogspot.com/2021/03/jetpack-compose-how-to-use-dropdownmenu.html
+     * */
 
     @Composable
     fun DropdownInfo() {
         val context = LocalContext.current;
         val expanded = remember { mutableStateOf(false) }
 
-        Column(modifier = Modifier
-            .background(Color(0xfffcfcf0))
-            .fillMaxWidth()
-            .fillMaxHeight()) {
+        Column(
+            modifier = Modifier
+                .background(Color(0xfffcfcf0))
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
 
-            Text(text = "Reklamation",
+            Text(
+                text = "Reklamation",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier
                     .align(CenterHorizontally)
-                    .padding(top = 5.dp))
+                    .padding(top = 5.dp)
+            )
 
             Spacer(modifier = Modifier.padding(top = 25.dp))
             Box(
@@ -131,7 +133,7 @@ sealed class Reklamationsret(val route: String) {
                         Text(
                             text = context.getString(R.string.ReklamationsInfo),
                             fontSize = 18.sp,
-                            modifier = Modifier.padding(start = 10.dp,  end = 10.dp)
+                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
                         )
 
                     }
