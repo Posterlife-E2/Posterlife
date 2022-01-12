@@ -28,7 +28,7 @@ sealed class Profil(val rute: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    ProfilTopBar()
+                    ProfilTopBar(navController)
                 },
                 content = {
                     ProfilContent(navController = navController)
@@ -41,7 +41,7 @@ sealed class Profil(val rute: String) {
     }
 
     @Composable
-    fun ProfilTopBar() {
+    fun ProfilTopBar(navController: NavController) {
 
         TopAppBar(
             title = {
@@ -53,7 +53,9 @@ sealed class Profil(val rute: String) {
                 )
             },
             actions = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.navigate("Favorit"){
+                    popUpTo("FavoritOverview")
+                } }) {
                     Icon(
                         Icons.Filled.Favorite,
                         tint = Color.Red,
