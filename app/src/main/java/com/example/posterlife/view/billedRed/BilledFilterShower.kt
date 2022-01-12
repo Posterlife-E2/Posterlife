@@ -87,8 +87,6 @@ class BilledFilterShower(private val billedURI: Uri) {
         "Roter"
         )
 
-
-
     private val tempFilter = filterValg
 
     @ExperimentalComposeUiApi
@@ -142,7 +140,6 @@ class BilledFilterShower(private val billedURI: Uri) {
                 }
 
                 billedTempRedTool.setFilterEffect(filterValg)
-
 
             },
             confirmButton = {

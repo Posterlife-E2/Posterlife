@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 //import com.example.posterlife.JsonParser.PlakatInfo
 //import com.example.posterlife.Model.Plakat
-import com.example.posterlife.jsonParser.PlakatInfo
+import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
 import kotlin.collections.ArrayList
 

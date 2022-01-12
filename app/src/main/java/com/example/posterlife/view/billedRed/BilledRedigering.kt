@@ -59,23 +59,13 @@ import java.io.ByteArrayOutputStream
 
 sealed class BilledRedigering(var rute: String) {
 
-    object BilledConfirm : BilledRedigering("billedConfirm/{billedURI}") {
+    object BilledConfirm : BilledRedigering("billedConfirm") {
 
         @ExperimentalCoilApi
         @Composable
-        fun BilledConfirm(billedURI: String?, navController: NavController) {
+        fun BilledConfirm(billedViewModel: BilledViewModel, navController: NavController) {
 
-            var billedURIString = billedURI
-
-            /**
-             * Der er en mindre heldig design betingelse i Navigation for compose der gør når vi skal pass arguments mellem
-             * screens, så kommer der et problem hvor "/" i argumentet bliver betragtet som den næste del af en rute.
-             * Derfor må man nødt til at midlertidigt skifte "/" ud med et andet tegn.
-             */
-            billedURIString = billedURIString?.replace('§', '/')
-
-            val savedUri = Uri.parse(billedURIString)
-
+            val savedUri = billedViewModel.getBilledURI()
 
             Column(
                 modifier = Modifier
@@ -103,7 +93,7 @@ sealed class BilledRedigering(var rute: String) {
                 ) {
                     Button(
                         onClick = {
-                            navController.navigate("billedRed/$billedURI")
+                            navController.navigate("billedRed")
                         },
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = Color.Black, contentColor = Color.White
@@ -127,7 +117,7 @@ sealed class BilledRedigering(var rute: String) {
         }
     }
 
-    object BilledRed : BilledRedigering("billedRed/{billedURI}") {
+    object BilledRed : BilledRedigering("billedRed") {
 
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
@@ -142,20 +132,18 @@ sealed class BilledRedigering(var rute: String) {
 
         @ExperimentalComposeUiApi
         @Composable
-        fun BilledRedigering(billedURI: String?, navController: NavController) {
+        fun BilledRedigering(billedViewModel: BilledViewModel, navController: NavController) {
 
             val context = LocalContext.current
 
-            val savedBilledURI = Uri.parse(billedURI?.replace('§', '/'))
+            val savedBilledURI = billedViewModel.getBilledURI()
 
-            val TrueBilledURI = savedBilledURI
-
-            val billedBitmap = getBitmap(context.contentResolver, TrueBilledURI)
+            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
 
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
-            billedRedView.value.source.setImageURI(TrueBilledURI)
+            billedRedView.value.source.setImageURI(savedBilledURI)
 
             val billedRedTool =
                 remember { PhotoEditor.Builder(context, billedRedView.value) }
@@ -285,7 +273,7 @@ sealed class BilledRedigering(var rute: String) {
                         Text("Filter")
                     }
                     if (visFilterMenu.value) {
-                        val billedFilterShower = BilledFilterShower(TrueBilledURI)
+                        val billedFilterShower = BilledFilterShower(savedBilledURI)
                         billedFilterShower.BilledFilter()
                     }
 

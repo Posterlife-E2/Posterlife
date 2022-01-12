@@ -22,4 +22,5 @@ import androidx.lifecycle.ViewModel
 
 object InspirationViewModel : ViewModel() {
    var currentIndex by mutableStateOf(0)
+
 }
