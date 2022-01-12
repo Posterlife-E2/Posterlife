@@ -14,6 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
+import com.example.posterlife.jsonParser.MineDesignInfo
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
@@ -36,8 +37,9 @@ fun Navigation() {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
+    MineDesignInfo.getMineDesignInfo()
+
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
