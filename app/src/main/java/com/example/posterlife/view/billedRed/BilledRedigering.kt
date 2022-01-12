@@ -1,6 +1,8 @@
 package com.example.posterlife.view.billedRed
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Typeface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -42,7 +44,13 @@ import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
+import androidx.core.app.ActivityCompat
+import com.example.posterlife.saveImageController.UploadImage.Companion.getOutputDirectory
+import ja.burhanrashid52.photoeditor.PhotoEditor.OnSaveListener
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**

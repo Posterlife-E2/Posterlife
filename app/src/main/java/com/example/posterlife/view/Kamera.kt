@@ -294,7 +294,6 @@ sealed class Kamera(val route: String) {
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
 
-
                         val kameraThreadExecutor = ContextCompat.getMainExecutor(context)
 
                         kameraThreadExecutor.execute{
