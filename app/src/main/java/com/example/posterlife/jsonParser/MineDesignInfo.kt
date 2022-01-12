@@ -1,7 +1,7 @@
 package com.example.posterlife.jsonParser
 
 import android.util.Log
-import com.example.posterlife.ui.MineDesign
+import com.example.posterlife.view.MineDesign
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot

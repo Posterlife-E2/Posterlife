@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import com.example.posterlife.ui.Navigation
+import com.example.posterlife.view.Navigation
 
 class MainActivity : ComponentActivity() {
     @ExperimentalComposeUiApi
