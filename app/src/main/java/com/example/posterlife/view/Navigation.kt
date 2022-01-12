@@ -14,6 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
+import com.example.posterlife.model.jsonParser.MineDesignInfo
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.view.Favorit.FavoritStart.FavoritOverview
@@ -38,6 +39,7 @@ fun Navigation() {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    MineDesignInfo.getMineDesignInfo()
 
     val billedViewModel = BilledViewModel()
 
