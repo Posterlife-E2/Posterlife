@@ -138,7 +138,9 @@ sealed class Handelsbetingelser(val route: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
-                    .clickable(onClick = {
+                    .clickable(onClick = {navController.navigate("reklamation"){
+                        popUpTo("ReklamationUI")
+                    }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween

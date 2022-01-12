@@ -22,6 +22,7 @@ import com.example.posterlife.ui.DelMedVenner.DelStart.DelOverview
 import com.example.posterlife.ui.Handelsbetingelser.Betingelser.BetingelserOverview
 import com.example.posterlife.ui.Levering.LeveringUI.LeveringOverview
 import com.example.posterlife.ui.BetalingsInfo.InfoBetaling.BetalingOverview
+import com.example.posterlife.ui.Reklamationsret.Reklamation.ReklamationUI
 import com.example.posterlife.ui.billedRed.BilledRedigering
 import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.ui.loginUI.Login
@@ -116,6 +117,12 @@ fun Navigation() {
                 //---- BetalingsInfo ----
                 composable(BetalingsInfo.InfoBetaling.route){
                     BetalingOverview(navController = navController)
+                }
+                
+                //---- Reklamation ----
+                composable(Reklamationsret.Reklamation.route){
+                    ReklamationUI(navController = navController)
+                    
                 }
 
 
