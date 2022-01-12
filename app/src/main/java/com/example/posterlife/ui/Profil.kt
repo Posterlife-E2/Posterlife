@@ -118,7 +118,9 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */ }),
+                    .clickable(onClick = {navController.navigate("delStart"){
+                        popUpTo("DelOverview")
+                    } }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

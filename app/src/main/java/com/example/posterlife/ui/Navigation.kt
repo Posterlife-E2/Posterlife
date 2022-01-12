@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,6 +18,7 @@ import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
+import com.example.posterlife.ui.DelMedVenner.DelStart.DelOverview
 import com.example.posterlife.ui.billedRed.BilledRedigering
 import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.ui.loginUI.Login
@@ -84,7 +86,10 @@ fun Navigation() {
                     navController.navigate(Navigation.Kamera.route)
                 }
 
-                //----------------
+                //------ Del med venner ----------
+                composable(DelMedVenner.DelStart.route) {
+                    DelOverview(navController = navController)
+                }
 
                 //---- Profil ----
                 composable(Navigation.Profil.route) {
