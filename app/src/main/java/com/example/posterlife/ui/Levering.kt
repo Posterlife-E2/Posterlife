@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -93,6 +94,12 @@ sealed class Levering(val route: String) {
                     .align(CenterHorizontally)
                     .padding(top = 5.dp)
             )
+
+            Text(text = context.getString(R.string.LeveringInfo),
+                fontStyle = FontStyle.Italic,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Light,
+                modifier = Modifier.align(CenterHorizontally).padding(top = 25.dp, start = 10.dp, end = 10.dp))
 
             Text(
                 text = context.getString(R.string.Levering),

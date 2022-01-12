@@ -82,7 +82,6 @@ sealed class Reklamationsret(val route: String) {
     @Composable
     fun DropdownInfo() {
         val context = LocalContext.current;
-        val contex = this;
         val expanded = remember { mutableStateOf(false) }
 
         Column(modifier = Modifier
@@ -141,6 +140,7 @@ sealed class Reklamationsret(val route: String) {
             }
             Spacer(modifier = Modifier.padding(top = 10.dp))
 
+
             Box(
                 modifier = Modifier
                     .width(410.dp)
@@ -181,6 +181,95 @@ sealed class Reklamationsret(val route: String) {
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+
+
+            Box(
+                modifier = Modifier
+                    .width(410.dp)
+                    .height(60.dp)
+                    .background(Color.White)
+                    .border(1.dp, color = Color(0xfffcfcf0))
+                    .padding(10.dp)
+                    .align(CenterHorizontally)
+            )
+            {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+
+                    Text(
+                        text = "Returret/ombytning",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding()
+                    )
+                    IconButton(onClick = { expanded.value = true }) {
+                        Icon(Icons.Filled.Add, contentDescription = null)
+
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false },
+                    ) {
+                        Text(
+                            text = context.getString(R.string.Returret_ombytning),
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
+                        )
+
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+
+
+            Box(
+                modifier = Modifier
+                    .width(410.dp)
+                    .height(60.dp)
+                    .background(Color.White)
+                    .border(1.dp, color = Color(0xfffcfcf0))
+                    .padding(10.dp)
+                    .align(CenterHorizontally)
+            )
+            {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+
+                    Text(
+                        text = "Retur- og ombytningsret.",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding()
+                    )
+                    IconButton(onClick = { expanded.value = true }) {
+                        Icon(Icons.Filled.Add, contentDescription = null)
+
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false },
+                    ) {
+                        Text(
+                            text = context.getString(R.string.Retur_ombytningsret),
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
+                        )
+
+                    }
+                }
+            }
+
         }
 
     }
