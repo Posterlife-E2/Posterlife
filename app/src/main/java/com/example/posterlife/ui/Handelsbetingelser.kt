@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NavigateNext
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +40,7 @@ sealed class Handelsbetingelser(val route: String) {
         )
 
     }
-
+//top app bar til handelsbetingelser. inderholder en tilbageknap.
     @Composable
     fun BetingelserTopBar(navController: NavController) {
         TopAppBar(
@@ -71,7 +69,7 @@ sealed class Handelsbetingelser(val route: String) {
         )
 
     }
-
+//funktion der håndtere de forskellige vælg man har i handelsbetingelser.
     @ExperimentalFoundationApi
     @Composable
     fun BetingelserPage(navController: NavController) {

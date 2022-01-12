@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,37 +40,40 @@ sealed class Levering(val route: String) {
         )
     }
 
-        @Composable
-        fun LeveringTopBar(navController: NavController) {
-            TopAppBar(
-                title = {
+    // top app bar til leveringssiden. den indeholder et ikon så det er muligt at gå tilbage.
+    @Composable
+    fun LeveringTopBar(navController: NavController) {
+        TopAppBar(
+            title = {
 
-                    Text(
-                        text = "Levering",
-                        color = Color.Black,
-                        fontSize = 30.sp
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigate("betingelser"){
+                Text(
+                    text = "Levering",
+                    color = Color.Black,
+                    fontSize = 30.sp
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = {
+                    navController.navigate("betingelser") {
                         popUpTo("BetingelserOverview")
-                    } }) {
-                        Icon(
-                            Icons.Filled.ArrowBack,
-                            tint = Color.Black,
-                            contentDescription = null
-                        )
                     }
-                },
-                backgroundColor = Color(0xfffcfcf0),
+                }) {
+                    Icon(
+                        Icons.Filled.ArrowBack,
+                        tint = Color.Black,
+                        contentDescription = null
+                    )
+                }
+            },
+            backgroundColor = Color(0xfffcfcf0),
 
-                elevation = 12.dp
-            )
+            elevation = 12.dp
+        )
 
-        }
+    }
 
 
-
+    // funktion der indeholder tekst til levering, denne tekst er defineret som en string i res mappen.
     @Composable
     fun LeveringPage() {
         val context = LocalContext.current
@@ -100,4 +102,4 @@ sealed class Levering(val route: String) {
         }
     }
 
-        }
+}
