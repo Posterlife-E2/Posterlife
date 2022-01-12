@@ -1,24 +1,28 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
-import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
-import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
-import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
-import com.example.posterlife.ui.billedRed.BilledRedigering
-import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
-import com.example.posterlife.ui.loginUI.Login
-import com.example.posterlife.ui.loginUI.SignUp
+import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.InspirationOverview
+import com.example.posterlife.view.inspirationView.Inspiration.InspirationFocusImage.InspirationFocusImage
+import com.example.posterlife.view.Favorit.FavoritStart.FavoritOverview
+import com.example.posterlife.view.billedRed.BilledRedigering
+import com.example.posterlife.view.billedRed.BilledRedigering.BilledConfirm
+import com.example.posterlife.view.billedRed.BilledViewModel
+import com.example.posterlife.view.inspirationView.Inspiration
+import com.example.posterlife.view.loginUI.Login
+import com.example.posterlife.view.loginUI.SignUp
 
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
@@ -33,12 +37,15 @@ import com.example.posterlife.ui.loginUI.SignUp
 fun Navigation() {
 
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val billedViewModel = BilledViewModel()
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            if (navController.currentBackStackEntry?.destination?.route != "openKamera")
+            if (navBackStackEntry?.destination?.route != Navigation.Kamera.route)
                 BottomNavigationBar(navController)
         },
         content = {
@@ -51,13 +58,10 @@ fun Navigation() {
                     InspirationOverview(navController = navController)
                 }
 
-                composable(
-                    Inspiration.InspirationFocusImage.rute,
-                    arguments = listOf(navArgument("plakatIndex") { type = NavType.IntType })
-
-                ) { backStackEntry ->
-                    InspirationFocusImage(backStackEntry.arguments?.getInt("plakatIndex"))
+                composable(Inspiration.InspirationFocusImage.rute) {
+                    InspirationFocusImage()
                 }
+
 
                 //----Favorit ----
                 composable(Navigation.Favorit.route) {
@@ -73,7 +77,8 @@ fun Navigation() {
                     }, onError = { imageCaptureException ->
                         navController.navigate(Navigation.Inspiration.route)
                     },
-                        navController = navController
+                        navController = navController,
+                        billedViewModel
                     )
                 }
 
@@ -81,7 +86,10 @@ fun Navigation() {
                     navController.navigate(Navigation.Kamera.route)
                 }
 
-                //----------------
+                //------ Del med venner ----------
+                composable(DelMedVenner.DelStart.route) {
+                    DelMedVenner.DelStart.DelOverview(navController = navController)
+                }
 
                 //---- Profil ----
                 composable(Navigation.Profil.route) {
@@ -109,24 +117,16 @@ fun Navigation() {
                 //------------------------
 
                 //---- Redigering -----
-                composable(
-                    BilledRedigering.BilledRed.rute,
-                    arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
-                ) { backStackEntry ->
+                composable(BilledRedigering.BilledRed.rute,) {
                     BilledRedigering.BilledRed.BilledRedigering(
-                        backStackEntry.arguments?.getString("billedURI"),
+                        billedViewModel,
                         navController = navController
                     )
                 }
 
-                composable(
-                    BilledRedigering.BilledConfirm.rute,
-                    arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
-                ) { backStackEntry ->
-                    BilledConfirm.BilledConfirm(
-                        backStackEntry.arguments?.getString("billedURI"),
-                        navController = navController
-                    )
+                composable(BilledConfirm.rute)
+                {
+                    BilledConfirm.BilledConfirm(billedViewModel, navController = navController)
                 }
 
             }

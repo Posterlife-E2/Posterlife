@@ -1,10 +1,9 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -13,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.posterlife.R
-import java.nio.file.Files.size
 
 /**
  * @source https://johncodeos.com/how-to-create-bottom-navigation-bar-with-jetpack-compose/
@@ -32,6 +30,7 @@ sealed class Navigation(var route: String, var icon: Int, var title: String) {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
 
+
     val items = listOf(
         Navigation.Inspiration,
         Navigation.Favorit,
@@ -39,6 +38,7 @@ fun BottomNavigationBar(navController: NavController) {
         Navigation.MineDesign,
         Navigation.Profil
     )
+
     BottomNavigation(
         backgroundColor = Color.Gray,
         contentColor = Color.White,
@@ -47,15 +47,17 @@ fun BottomNavigationBar(navController: NavController) {
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(painterResource(id = item.icon,), contentDescription = item.title, modifier = Modifier.size(30.dp).padding(top = 3.dp) ) },
+                icon = { Icon(painterResource(id = item.icon,), contentDescription = item.title, modifier = Modifier
+                    .size(30.dp)
+                    .padding(top = 3.dp) ) },
                 label = { Text(text = item.title) },
-                selectedContentColor = Color.White,
-                unselectedContentColor = Color(0xfffcfcf0).copy(0.7f),
+                selectedContentColor = Color.Black,
+                unselectedContentColor = Color(0xfffcfcf0),
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {
-                    navController.navigate(item.route) {
 
+                    navController.navigate(item.route) {
 
                         //Undgår ophopning af destinations.
                         navController.graph.startDestinationRoute?.let { route ->

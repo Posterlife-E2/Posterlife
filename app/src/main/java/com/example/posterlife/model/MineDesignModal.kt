@@ -9,5 +9,4 @@ import com.beust.klaxon.Json
 data class MineDesignModal(
     @Json(path = "$.id") val id: String,
     @Json(path = "$.path") val ImageUrl: String,
-
 )

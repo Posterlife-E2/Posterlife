@@ -1,4 +1,4 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -17,17 +17,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
+
+
+/**
+ * @source https://developer.android.com/jetpack/compose/navigation
+ *
+ * Ting til at lave ting.
+ * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
+ * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
+ */
+
 
 sealed class MineDesign(val rute: String) {
 

@@ -1,4 +1,4 @@
-package com.example.posterlife.ui.loginUI
+package com.example.posterlife.view.loginUI
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

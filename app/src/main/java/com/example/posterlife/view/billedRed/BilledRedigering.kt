@@ -1,4 +1,4 @@
-package com.example.posterlife.ui.billedRed
+package com.example.posterlife.view.billedRed
 
 import android.content.Context
 import android.graphics.Typeface
@@ -38,11 +38,10 @@ import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.saveImageController.UploadImage
-import com.example.posterlife.ui.Navigation
+import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
-import android.util.DisplayMetrics
-import androidx.ui.core.px
+import android.provider.MediaStore.Images.Media.getBitmap
 import java.io.ByteArrayOutputStream
 
 
@@ -51,30 +50,22 @@ import java.io.ByteArrayOutputStream
  *
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/godaddy/compose-color-picker
+ * @Source https://stackoverflow.com/questions/56651444/deprecated-getbitmap-with-api-29-any-alternative-codes
  *
  * Material Sources
  * @Source https://foso.github.io/Jetpack-Compose-Playground/foundation/lazyrow/
+ *
  */
 
 sealed class BilledRedigering(var rute: String) {
 
-    object BilledConfirm : BilledRedigering("billedConfirm/{billedURI}") {
+    object BilledConfirm : BilledRedigering("billedConfirm") {
 
         @ExperimentalCoilApi
         @Composable
-        fun BilledConfirm(billedURI: String?, navController: NavController) {
+        fun BilledConfirm(billedViewModel: BilledViewModel, navController: NavController) {
 
-            var billedURIString = billedURI
-
-            /**
-             * Der er en mindre heldig design betingelse i Navigation for compose der gør når vi skal pass arguments mellem
-             * screens, så kommer der et problem hvor "/" i argumentet bliver betragtet som den næste del af en rute.
-             * Derfor må man nødt til at midlertidigt skifte "/" ud med et andet tegn.
-             */
-            billedURIString = billedURIString?.replace('§', '/')
-
-            val savedUri = Uri.parse(billedURIString)
-
+            val savedUri = billedViewModel.getBilledURI()
 
             Column(
                 modifier = Modifier
@@ -102,7 +93,7 @@ sealed class BilledRedigering(var rute: String) {
                 ) {
                     Button(
                         onClick = {
-                            navController.navigate("billedRed/$billedURI")
+                            navController.navigate("billedRed")
                         },
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = Color.Black, contentColor = Color.White
@@ -126,7 +117,7 @@ sealed class BilledRedigering(var rute: String) {
         }
     }
 
-    object BilledRed : BilledRedigering("billedRed/{billedURI}") {
+    object BilledRed : BilledRedigering("billedRed") {
 
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
@@ -137,19 +128,19 @@ sealed class BilledRedigering(var rute: String) {
         private var penselSizeValueHolder = 25F
         private var switchPenselStateTemp = false
         private var penselColorState = -16777216
-
         var filterValg = PhotoFilter.NONE
 
         @ExperimentalComposeUiApi
         @Composable
-        fun BilledRedigering(billedURI: String?, navController: NavController) {
-
-            val savedBilledURI = Uri.parse(billedURI?.replace('§', '/'))
+        fun BilledRedigering(billedViewModel: BilledViewModel, navController: NavController) {
 
             val context = LocalContext.current
 
-            val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
+            val savedBilledURI = billedViewModel.getBilledURI()
 
+            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
+
+            val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
             billedRedView.value.source.setImageURI(savedBilledURI)
@@ -171,7 +162,8 @@ sealed class BilledRedigering(var rute: String) {
                 ) {
                 BoxWithConstraints(
                     modifier = Modifier
-                        .background(Color(0xfffcfcf0)),
+                        .background(Color(0xfffcfcf0))
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.TopCenter
 
                 ) {
@@ -182,8 +174,7 @@ sealed class BilledRedigering(var rute: String) {
                         )
                     } else {
                         AndroidView(
-                            factory = { billedRedView.value },
-                            modifier = Modifier
+                            factory = { billedRedView.value }
                         )
                     }
                 }
@@ -286,7 +277,7 @@ sealed class BilledRedigering(var rute: String) {
                         billedFilterShower.BilledFilter()
                     }
 
-                        //billedRedTool.setFilterEffect(filterValg)
+                    billedRedTool.setFilterEffect(filterValg)
 
 
 
