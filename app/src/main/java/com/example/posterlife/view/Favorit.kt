@@ -1,4 +1,4 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.posterlife.model.Plakat
 
 sealed class Favorit(val rute: String) {
 
@@ -69,7 +67,6 @@ sealed class Favorit(val rute: String) {
 
             elevation = 12.dp
         )
-
     }
 
     @ExperimentalFoundationApi

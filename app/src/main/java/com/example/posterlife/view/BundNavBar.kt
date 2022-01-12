@@ -1,4 +1,4 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,7 +30,6 @@ sealed class Navigation(var route: String, var icon: Int, var title: String) {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
 
-    var hidden by remember { mutableStateOf(false)}
 
     val items = listOf(
         Navigation.Inspiration,
@@ -39,7 +38,7 @@ fun BottomNavigationBar(navController: NavController) {
         Navigation.MineDesign,
         Navigation.Profil
     )
-    if (!hidden)
+
     BottomNavigation(
         backgroundColor = Color.Gray,
         contentColor = Color.White,
@@ -57,8 +56,6 @@ fun BottomNavigationBar(navController: NavController) {
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {
-                    if (item.route == Navigation.Kamera.route)
-                        hidden = !hidden
 
                     navController.navigate(item.route) {
 

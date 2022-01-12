@@ -1,4 +1,4 @@
-package com.example.posterlife.ui.billedRed
+package com.example.posterlife.view.billedRed
 
 import android.view.View
 import androidx.compose.foundation.layout.*
@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.DialogProperties
-import com.example.posterlife.ui.billedRed.BilledRedigering.BilledRed.filterValg
+import com.example.posterlife.view.billedRed.BilledRedigering.BilledRed.filterValg
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
@@ -87,8 +87,6 @@ class BilledFilterShower(private val billedURI: Uri) {
         "Roter"
         )
 
-
-
     private val tempFilter = filterValg
 
     @ExperimentalComposeUiApi
@@ -142,7 +140,6 @@ class BilledFilterShower(private val billedURI: Uri) {
                 }
 
                 billedTempRedTool.setFilterEffect(filterValg)
-
 
             },
             confirmButton = {
