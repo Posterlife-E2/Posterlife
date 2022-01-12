@@ -3,14 +3,12 @@ package com.example.posterlife.ui
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -20,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -28,6 +28,7 @@ import coil.compose.rememberImagePainter
 import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
+import androidx.compose.foundation.text.BasicTextField as BasicTextField
 
 
 /**
@@ -137,8 +138,8 @@ sealed class MineDesign(val rute: String) {
                                     .background(Color.White)
                             ) {
 
-                                Row() {
-                                    Text(text = "Title")
+                                Row {
+                                    EditTitle()
                                     Box(modifier = Modifier.weight(1f))
                                     Box() {
                                         IconButton(
@@ -237,10 +238,23 @@ sealed class MineDesign(val rute: String) {
 
             }
 
-            @Composable
-            fun EditTitle() {
+        }
 
+        @Composable
+        fun EditTitle() {
+            var textFieldState by remember {
+                mutableStateOf("Title")
             }
+            BasicTextField(
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    color = Color.Black,
+                    fontSize = 15.sp
+                ),
+                value = textFieldState,
+                onValueChange = {
+                    textFieldState = it
+                },
+            )
         }
 
         @Composable
