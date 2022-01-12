@@ -27,6 +27,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
+import com.firebase.ui.auth.ui.phone.CountryListSpinner
 import java.io.File
 import androidx.compose.foundation.text.BasicTextField as BasicTextField
 
@@ -113,6 +114,7 @@ sealed class MineDesign(val rute: String) {
                 var result: List<String> = text.split(",").map { it.trim() }
                 Log.d("Data", result.toString())
                 if (result.isNotEmpty()) {
+                    val openDialog = remember { mutableStateOf(false) }
                     LazyVerticalGrid(
                         cells = GridCells.Fixed(2),
                         contentPadding = PaddingValues(8.dp),
@@ -142,16 +144,18 @@ sealed class MineDesign(val rute: String) {
                                     EditTitle()
                                     Box(modifier = Modifier.weight(1f))
                                     Box() {
-                                        IconButton(
-                                            onClick = { /*TODO*/ },
-                                            modifier = Modifier.size(22.dp)
-                                        ) {
-                                            Icon(
-                                                Icons.Filled.DeleteOutline,
-                                                contentDescription = null,
-                                                Modifier.size(22.dp)
-                                            )
-                                        }
+
+                                        val showDialog =
+                                            IconButton(
+                                                onClick = { openDialog.value = true },
+                                                modifier = Modifier.size(22.dp)
+                                            ) {
+                                                Icon(
+                                                    Icons.Filled.DeleteOutline,
+                                                    contentDescription = null,
+                                                    Modifier.size(22.dp)
+                                                )
+                                            }
                                     }
                                 }
 
@@ -166,18 +170,19 @@ sealed class MineDesign(val rute: String) {
 
                                 Row {
 
-                                    Box(modifier = Modifier.clickable {  }) {
+                                    Box(modifier = Modifier.clickable { }) {
                                         Row() {
                                             Text(
                                                 text = "Rediger",
-                                                fontWeight = FontWeight.Light)
+                                                fontWeight = FontWeight.Light
+                                            )
 
                                             Box() {
-                                                    Icon(
-                                                        Icons.Filled.Edit,
-                                                        contentDescription = null,
-                                                        Modifier.size(22.dp)
-                                                    )
+                                                Icon(
+                                                    Icons.Filled.Edit,
+                                                    contentDescription = null,
+                                                    Modifier.size(22.dp)
+                                                )
                                             }
 
 
@@ -198,9 +203,10 @@ sealed class MineDesign(val rute: String) {
                                             )
                                         }
                                     }
-                                    Box(modifier = Modifier
-                                        .size(22.dp)
-                                        ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(22.dp)
+                                    ) {
                                         FavoritButton()
                                     }
                                     Box() {
@@ -216,6 +222,39 @@ sealed class MineDesign(val rute: String) {
                                         }
                                     }
                                 }
+                            }
+                            if (openDialog.value) {
+                                AlertDialog(
+                                    onDismissRequest = {
+                                        openDialog.value = false
+                                    },
+                                    title = {
+                                        Text(text = "Slet plakat")
+                                    },
+                                    text = {
+                                        Text("Er du sikker på at du vil slette denne plakat")
+                                    },
+                                    confirmButton = {
+                                        Button(
+                                            onClick = {
+                                                openDialog.value = false
+                                                ReadsPost(context, result.get(index), true)
+
+                                            }) {
+                                            Text("Ok")
+                                        }
+                                    },
+                                    dismissButton = {
+                                        Button(
+                                            onClick = {
+                                                openDialog.value = false
+
+                                            }
+                                        ) {
+                                            Text("Cancel")
+                                        }
+                                    }
+                                )
                             }
                         }
                     }
