@@ -186,6 +186,7 @@ sealed class Profil(val rute: String) {
                 )
 
             }
+            // række til at tilgå side hvor der står hvor man kan følge posterlife.
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -207,7 +208,7 @@ sealed class Profil(val rute: String) {
                 )
 
             }
-            // række til at tilgå siden med kundeservice information
+            // række til at tilgå Handelsbetingelser
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -217,7 +218,7 @@ sealed class Profil(val rute: String) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Kundeservice",
+                    text = "Handelsbetingelser",
                     fontWeight = FontWeight.Light,
                     fontSize = 22.sp
                 )
@@ -228,7 +229,7 @@ sealed class Profil(val rute: String) {
                 )
 
             }
-            // række til at tilgå Betalingsinstillinger
+            // række til at tilgå siden med kontaktinformation Posterlife
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -239,7 +240,7 @@ sealed class Profil(val rute: String) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Betalingsinstillinger",
+                    text = "Kontakt os",
                     fontWeight = FontWeight.Light,
                     fontSize = 22.sp
                 )
