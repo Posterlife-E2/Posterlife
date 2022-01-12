@@ -1,24 +1,19 @@
 package com.example.posterlife.ui
 
-import android.text.Layout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
-import com.example.posterlife.ui.loginUI.Login
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NavigateNext
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -168,9 +163,11 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable(onClick = { navController.navigate("favorit"){
-                        popUpTo("FavoritOverview")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("favorit") {
+                            popUpTo("FavoritOverview")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
