@@ -109,12 +109,14 @@ sealed class Handelsbetingelser(val route: String) {
 
 
             }
-            // række til at tilgå Betaling
+            // række til at tilgå Betalingsoplysninger.
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable(onClick = { }),
+                    .clickable(onClick = {navController.navigate("betaling"){
+                        popUpTo("BetalingOverview")
+                    } }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
