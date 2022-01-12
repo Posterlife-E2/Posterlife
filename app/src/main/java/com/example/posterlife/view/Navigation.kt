@@ -85,7 +85,7 @@ fun Navigation() {
 
                 //------ Del med venner ----------
                 composable(DelMedVenner.DelStart.route) {
-                    DelOverview(navController = navController)
+                    DelMedVenner.DelStart.DelOverview(navController = navController)
                 }
 
                 //---- Profil ----

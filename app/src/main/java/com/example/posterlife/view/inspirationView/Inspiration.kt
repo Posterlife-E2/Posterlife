@@ -30,7 +30,13 @@ import com.example.posterlife.model.Plakat
 import kotlin.collections.ArrayList
 
 /**
+ * @Author Kristoffer Pedersen (s205354), Thamara Linnea (s205337), Camilla Bøjden (s205360)
+ *
  * @source https://developer.android.com/jetpack/compose/navigation
+ *
+ *
+ * @Source https://developer.android.com/jetpack/compose/state#viewmodel-and-jetpack-compose
+ * @Source https://proandroiddev.com/jetpack-compose-navigation-architecture-with-viewmodels-1de467f19e1c
  *
  * Grid - https://www.geeksforgeeks.org/lazy-composables-in-android-jetpack-compose-columns-rows-grids/
  * Icon sizing - https://www.py4u.net/discuss/666679
@@ -43,7 +49,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
     object InspirationStart : Inspiration("start") {
 
-        private val inspirationViewModel = InspirationViewModel()
+        private val inspirationViewModel = InspirationViewModel
 
         @ExperimentalFoundationApi
         @Composable
@@ -296,7 +302,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
         @Composable
         fun InspirationFocusImage() {
 
-            val inspirationViewModel = InspirationViewModel()
+            val inspirationViewModel = InspirationViewModel
 
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)

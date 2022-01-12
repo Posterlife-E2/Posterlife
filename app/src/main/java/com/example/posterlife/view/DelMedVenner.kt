@@ -1,4 +1,4 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
