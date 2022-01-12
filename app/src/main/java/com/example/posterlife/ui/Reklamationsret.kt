@@ -1,13 +1,25 @@
 package com.example.posterlife.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.posterlife.R
 
 sealed class Reklamationsret(val route: String) {
     object Reklamation : Reklamationsret("reklamation")
@@ -24,6 +36,7 @@ sealed class Reklamationsret(val route: String) {
 
             },
             content = {
+                DropdownInfo()
 
 
             }
@@ -62,11 +75,114 @@ sealed class Reklamationsret(val route: String) {
         )
 
     }
+/**
+* Inspiration til dropdown: https://android--code.blogspot.com/2021/03/jetpack-compose-how-to-use-dropdownmenu.html
+* */
 
+    @Composable
+    fun DropdownInfo() {
+        val context = LocalContext.current;
+        val contex = this;
+        val expanded = remember { mutableStateOf(false) }
 
+        Column(modifier = Modifier
+            .background(Color(0xfffcfcf0))
+            .fillMaxWidth()
+            .fillMaxHeight()) {
 
+            Text(text = "Reklamation",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Light,
+                modifier = Modifier
+                    .align(CenterHorizontally)
+                    .padding(top = 5.dp))
 
+            Spacer(modifier = Modifier.padding(top = 25.dp))
+            Box(
+                modifier = Modifier
+                    .width(410.dp)
+                    .height(60.dp)
+                    .background(Color.White)
+                    .border(5.dp, color = Color(0xfffcfcf0))
+                    .padding(10.dp)
+                    .align(CenterHorizontally)
+            )
+            {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
 
+                    Text(
+                        text = "Reklamationsret",
+                        fontSize = 22.sp,
+                        modifier = Modifier.padding()
+                    )
+                    IconButton(onClick = { expanded.value = true }) {
+                        Icon(Icons.Filled.Add, contentDescription = null)
 
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false },
+                    ) {
+                        Text(
+                            text = context.getString(R.string.ReklamationsInfo),
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(start = 10.dp,  end = 10.dp)
+                        )
+
+                    }
+
+                }
+            }
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+
+            Box(
+                modifier = Modifier
+                    .width(410.dp)
+                    .height(60.dp)
+                    .background(Color.White)
+                    .border(1.dp, color = Color(0xfffcfcf0))
+                    .padding(10.dp)
+                    .align(CenterHorizontally)
+            )
+            {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+
+                    Text(
+                        text = "Reklamation, returnering & ombytning",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding()
+                    )
+                    IconButton(onClick = { expanded.value = true }) {
+                        Icon(Icons.Filled.Add, contentDescription = null)
+
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded.value,
+                        onDismissRequest = { expanded.value = false },
+                    ) {
+                        Text(
+                            text = context.getString(R.string.ReklmationRetur),
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
+                        )
+
+                    }
+                }
+            }
+        }
+
+    }
 
 }

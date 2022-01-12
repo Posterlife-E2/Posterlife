@@ -7,9 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,6 +90,13 @@ sealed class BetalingsInfo(val route: String) {
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 5.dp)
             )
+
+            Text(text = context.getString(R.string.BetalingInfo),
+                fontStyle = FontStyle.Italic,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Light,
+            modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp).align(CenterHorizontally))
+
 
             Text(
                 text = context.getString(R.string.Betaling),
