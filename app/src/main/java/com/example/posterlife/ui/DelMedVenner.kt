@@ -1,8 +1,11 @@
 package com.example.posterlife.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -10,13 +13,18 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.posterlife.R
+import kotlin.math.round
 
-sealed class DelMedVenner (val route: String){
+
+sealed class DelMedVenner(val route: String) {
 
     object DelStart : DelMedVenner("delStart")
 
@@ -24,6 +32,7 @@ sealed class DelMedVenner (val route: String){
     @Composable
     fun DelOverview(navController: NavController) {
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
+
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
@@ -81,15 +90,113 @@ sealed class DelMedVenner (val route: String){
                 text = "Del dine plakater med dine venner!",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 15.dp)
             )
 
+            Spacer(modifier = Modifier.height(22.dp))
 
-        }
-        Row (modifier = Modifier
-            .fillMaxWidth()){
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { /*TODO*/ },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Image(
+                    painterResource(R.drawable.facebook),
+                    contentDescription = "Facebook",
+                    modifier = Modifier
+                        .size(110.dp)
+                        .padding( start = 35.dp)
+                )
+                Text(
+                    text = "Del plakat på Facebook",
+                    fontSize = 20.sp,
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { /*TODO*/ },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Image(
+                    painterResource(R.drawable.instagram),
+                    contentDescription = "Instagram",
+                    modifier = Modifier
+                        .size(110.dp)
+                        .padding(start = 35.dp),
+                )
+                Text(
+                    text = "Del plakat på Instagram",
+                    fontSize = 20.sp,
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {  /*TODO*/ },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Image(
+                    painterResource(R.drawable.pinterest),
+                    contentDescription = "Pinterest",
+                    modifier = Modifier
+                        .size(110.dp)
+                        .padding(start = 35.dp),
+                )
+                Text(
+                    text = "Del plakat på Pinterest",
+                    fontSize = 20.sp,
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {  /*TODO*/ },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Image(
+                    painterResource(R.drawable.twitter),
+                    contentDescription = "Twitter",
+                    modifier = Modifier
+                        .size(110.dp)
+                        .padding(start = 35.dp),
+                )
+                Text(
+                    text = "Del plakat på Twitter",
+                    fontSize = 20.sp,
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {  /*TODO*/ },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Image(
+                    painterResource(R.drawable.mail),
+                    contentDescription = "Mail",
+                    modifier = Modifier
+                        .size(110.dp)
+                        .padding(start = 35.dp),
+                )
+                Text(
+                    text = "Del plakat på Mail",
+                    fontSize = 20.sp,
+                )
+            }
+
 
         }
 
     }
+
 }
