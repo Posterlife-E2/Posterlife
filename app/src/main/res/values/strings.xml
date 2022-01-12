@@ -5,5 +5,5 @@
     <string name="icn_camera_view_view_gallery_content_description" />
     <!-- TODO: Remove or change this placeholder text -->
     <string name="Login">Login</string>
-    <string name="Levering">Vi leverer inden for 2-5 hverdage i Danmark. Vi sender med PostNord.\n- Levering til tiden forudsætter, at PostNord overholder leveringstidpunkter.\n- Kommer en pakke retur til Posterlife pga. fejl i adresse/forkert oplyst adresse, opkræver vi 58 kr. i fragt og administrationsgebyr for at skulle fremsende ordren igen.\n- Også selvom ordren er leveret fragtfrit. Ved forsendelse til udlandet, kontakt os venligst for en aftale (info@posterlife.dk).</string>
+    <string name="Levering">Vi leverer inden for 2-5 hverdage i Danmark. \n\nVi sender med PostNord. \n\nLevering til tiden forudsætter, at PostNord overholder leveringstidpunkter. \n\nKommer en pakke retur til Posterlife pga. fejl i adresse/forkert oplyst adresse, opkræver vi 58 kr. i fragt og administrationsgebyr for at skulle fremsende ordren igen. Også selvom ordren er leveret fragtfrit. \n\nVed forsendelse til udlandet, kontakt os venligst for en aftale (info@posterlife.dk).</string>
 </resources>

@@ -20,6 +20,7 @@ import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFo
 import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
 import com.example.posterlife.ui.DelMedVenner.DelStart.DelOverview
 import com.example.posterlife.ui.Handelsbetingelser.Betingelser.BetingelserOverview
+import com.example.posterlife.ui.Levering.LeveringUI.LeveringOverview
 import com.example.posterlife.ui.billedRed.BilledRedigering
 import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.ui.loginUI.Login
@@ -105,8 +106,10 @@ fun Navigation() {
                     BetingelserOverview(navController = navController)
                     
                 }
-                composable(route = "levering"){
-
+                
+                //---- Levering ----
+                composable(Levering.LeveringUI.route){
+                    LeveringOverview(navController = navController)
                 }
 
 
