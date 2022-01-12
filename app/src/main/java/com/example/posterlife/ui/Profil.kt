@@ -214,7 +214,9 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */ }),
+                    .clickable(onClick = {navController.navigate("betingelser"){
+                        popUpTo(" BetingelserOverview")
+                    } }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
