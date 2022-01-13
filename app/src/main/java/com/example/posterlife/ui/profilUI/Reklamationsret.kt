@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -139,6 +140,8 @@ sealed class Reklamationsret(val route: String) {
                     ) {
                             Text(
                                 text = context.getString(R.string.ReklamationsInfo),
+                                fontStyle = FontStyle.Italic,
+                                fontWeight = FontWeight.Light,
                                 fontSize = 18.sp,
                                 modifier = Modifier.padding(start = 10.dp, end = 10.dp)
                             )
@@ -185,6 +188,8 @@ sealed class Reklamationsret(val route: String) {
                     ) {
                         Text(
                             text = context.getString(R.string.ReklmationRetur),
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Light,
                             fontSize = 18.sp,
                             modifier = Modifier.padding(start = 10.dp, end = 10.dp)
                         )
@@ -231,6 +236,8 @@ sealed class Reklamationsret(val route: String) {
                     ) {
                         Text(
                             text = context.getString(R.string.Returret_ombytning),
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Light,
                             fontSize = 18.sp,
                             modifier = Modifier.padding(start = 10.dp, end = 10.dp)
                         )
@@ -277,6 +284,8 @@ sealed class Reklamationsret(val route: String) {
                     ) {
                         Text(
                             text = context.getString(R.string.Retur_ombytningsret),
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Light,
                             fontSize = 18.sp,
                             modifier = Modifier.padding(start = 10.dp, end = 10.dp)
                         )
