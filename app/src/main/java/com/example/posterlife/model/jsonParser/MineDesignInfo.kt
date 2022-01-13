@@ -1,4 +1,4 @@
-package com.example.posterlife.jsonParser
+package com.example.posterlife.model.jsonParser
 
 import android.util.Log
 import com.example.posterlife.view.MineDesign

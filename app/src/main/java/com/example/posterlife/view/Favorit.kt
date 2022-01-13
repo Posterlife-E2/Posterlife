@@ -67,7 +67,6 @@ sealed class Favorit(val rute: String) {
 
             elevation = 12.dp
         )
-
     }
 
     @ExperimentalFoundationApi
