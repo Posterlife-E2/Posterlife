@@ -7,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +22,7 @@ import com.example.posterlife.view.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.view.inspirationView.Inspiration
 import com.example.posterlife.view.loginUI.Login
 import com.example.posterlife.view.loginUI.SignUp
+
 
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
@@ -45,6 +45,7 @@ fun Navigation() {
         bottomBar = {
             if (navBackStackEntry?.destination?.route != Navigation.Kamera.route)
                 BottomNavigationBar(navController)
+
         },
         content = {
             NavHost(
@@ -115,7 +116,7 @@ fun Navigation() {
 
                 //---- Redigering -----
                 composable(
-                    BilledRedigering.BilledRed.rute,
+                    BilledRedigering.BilledRed.route,
                     arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
                 ) { backStackEntry ->
                     BilledRedigering.BilledRed.BilledRedigering(
@@ -125,7 +126,7 @@ fun Navigation() {
                 }
 
                 composable(
-                    BilledRedigering.BilledConfirm.rute,
+                    BilledRedigering.BilledConfirm.route,
                     arguments = listOf(navArgument("billedURI") { type = NavType.StringType })
                 ) { backStackEntry ->
                     BilledConfirm.BilledConfirm(

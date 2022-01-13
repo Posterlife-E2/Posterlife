@@ -42,6 +42,9 @@ import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import com.example.posterlife.view.billedRed.BilledRedigering.BilledRed.TopBar
 import java.io.ByteArrayOutputStream
 
 
@@ -57,7 +60,7 @@ import java.io.ByteArrayOutputStream
  *
  */
 
-sealed class BilledRedigering(var rute: String) {
+sealed class BilledRedigering(val route: String) {
 
     object BilledConfirm : BilledRedigering("billedConfirm/{billedURI}") {
 
@@ -75,55 +78,75 @@ sealed class BilledRedigering(var rute: String) {
             billedURIString = billedURIString?.replace('§', '/')
 
             val savedUri = Uri.parse(billedURIString)
+            val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
 
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                   TopBar()
+                },
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xfffcfcf0))
-            ) {
-
-                Box(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    contentAlignment = Alignment.TopCenter
-                ) {
-                    Image(
-                        painter = rememberImagePainter(data = savedUri),
-                        contentDescription = "fotoKamera - Billed som blev taget.",
-                        Modifier.border(Dp.Hairline, Color.Black, RectangleShape)
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Button(
-                        onClick = {
-                            navController.navigate("billedRed/$billedURI")
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        ),
-                        shape = RectangleShape
+                content = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xfffcfcf0)),
+                    horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Accepter")
-                    }
-                    Button(
-                        onClick = { navController.navigate(Navigation.Kamera.route) },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        ),
-                        shape = RectangleShape
-                    ) {
-                        Text("Tilbage")
-                    }
-                }
 
-            }
+                        Box(
+                            modifier = Modifier
+                                .padding(16.dp),
+                            contentAlignment = Alignment.TopCenter
+                        ) {
+                            Image(
+                                painter = rememberImagePainter(data = savedUri),
+                                contentDescription = "fotoKamera - Billed som blev taget.",
+                                Modifier.border(Dp.Hairline, Color.Black, RectangleShape)
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Button(
+                                onClick = {
+                                    navController.navigate("billedRed/$billedURI")
+                                },
+                                colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
+                                ),
+                                shape = RectangleShape
+                            ) {
+                                Text("Accepter")
+                            }
+                            Button(
+                                onClick = { navController.navigate(Navigation.Kamera.route) },
+                                colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
+                                ),
+                                shape = RectangleShape
+                            ) {
+                                Text("Tilbage")
+                            }
+                        }
+
+                    }
+                },
+                bottomBar = { BottomAppBar(backgroundColor = Color.DarkGray) {
+                    Text(text = "VÆLG BILLEDE", color = Color.White, )
+                    
+                }}
+            
+            
+
+
+                )
+
+
         }
     }
 
@@ -500,6 +523,29 @@ sealed class BilledRedigering(var rute: String) {
                         }
                     }
                 })
+        }
+
+        @Composable
+        fun TopBar() {
+
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Foto baggrund",
+                        color = Color.Black,
+                        fontSize = 30.sp
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                backgroundColor = Color(0xfffcfcf0),
+                elevation = 12.dp
+
+            )
+
         }
 
         @Composable
