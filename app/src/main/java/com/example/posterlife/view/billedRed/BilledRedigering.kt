@@ -177,8 +177,6 @@ sealed class BilledRedigering(var rute: String) {
 
             val savedBilledURI = billedViewModel.getBilledURI()
 
-            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
-
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
@@ -187,7 +185,7 @@ sealed class BilledRedigering(var rute: String) {
             val billedRedTool =
                 remember { PhotoEditor.Builder(context, billedRedView.value) }
                     .setPinchTextScalable(true)
-                    .setClipSourceImage(true)
+                    .setClipSourceImage(false)
                     .setDefaultTextTypeface(tekstFont)
                     .build()
 
