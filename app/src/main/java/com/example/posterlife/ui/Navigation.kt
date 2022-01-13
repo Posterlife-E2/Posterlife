@@ -23,6 +23,7 @@ import com.example.posterlife.ui.Handelsbetingelser.Betingelser.BetingelserOverv
 import com.example.posterlife.ui.Levering.LeveringUI.LeveringOverview
 import com.example.posterlife.ui.BetalingsInfo.InfoBetaling.BetalingOverview
 import com.example.posterlife.ui.Reklamationsret.Reklamation.ReklamationUI
+import com.example.posterlife.ui.Kontakt.KontaktInfo.KontaktOverview
 import com.example.posterlife.ui.billedRed.BilledRedigering
 import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.ui.loginUI.Login
@@ -49,6 +50,7 @@ fun Navigation() {
         bottomBar = {
             if (navBackStackEntry?.destination?.route != Navigation.Kamera.route)
                 BottomNavigationBar(navController)
+
         },
         content = {
             NavHost(
@@ -122,6 +124,12 @@ fun Navigation() {
                 //---- Reklamation ----
                 composable(Reklamationsret.Reklamation.route){
                     ReklamationUI(navController = navController)
+                    
+                }
+                
+                //---- Kontakt ------
+                composable(Kontakt.KontaktInfo.route){
+                    KontaktOverview(navController = navController)
                     
                 }
 

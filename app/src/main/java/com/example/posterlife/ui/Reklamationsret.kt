@@ -3,6 +3,7 @@ package com.example.posterlife.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -48,7 +49,7 @@ sealed class Reklamationsret(val route: String) {
             title = {
 
                 Text(
-                    text = "Reklamation",
+                    text = "Handelsbetinger",
                     color = Color.Black,
                     fontSize = 30.sp
                 )
@@ -80,7 +81,11 @@ sealed class Reklamationsret(val route: String) {
     @Composable
     fun DropdownInfo() {
         val context = LocalContext.current;
-        val expanded = remember { mutableStateOf(false) }
+        val expandedReklamationsret = remember { mutableStateOf(false)}
+        val expandedRetur = remember { mutableStateOf(false) }
+        val expandedOmbyt = remember { mutableStateOf(false) }
+        val expandedRettigheder = remember { mutableStateOf(false) }
+
 
         Column(
             modifier = Modifier
@@ -99,6 +104,7 @@ sealed class Reklamationsret(val route: String) {
             )
 
             Spacer(modifier = Modifier.padding(top = 25.dp))
+
             Box(
                 modifier = Modifier
                     .width(410.dp)
@@ -112,8 +118,7 @@ sealed class Reklamationsret(val route: String) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .fillMaxHeight()
                 ) {
 
                     Text(
@@ -121,20 +126,23 @@ sealed class Reklamationsret(val route: String) {
                         fontSize = 22.sp,
                         modifier = Modifier.padding()
                     )
-                    IconButton(onClick = { expanded.value = true }) {
+                    Box(modifier = Modifier.weight(1f)) {
+
+                    }
+                    IconButton(onClick = { expandedReklamationsret.value = true }) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
 
                     DropdownMenu(
-                        expanded = expanded.value,
-                        onDismissRequest = { expanded.value = false },
+                        expanded = expandedReklamationsret.value,
+                        onDismissRequest = { expandedReklamationsret.value = false },
                     ) {
-                        Text(
-                            text = context.getString(R.string.ReklamationsInfo),
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
-                        )
+                            Text(
+                                text = context.getString(R.string.ReklamationsInfo),
+                                fontSize = 18.sp,
+                                modifier = Modifier.padding(start = 10.dp, end = 10.dp)
+                            )
 
                     }
 
@@ -156,8 +164,7 @@ sealed class Reklamationsret(val route: String) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .fillMaxHeight()
                 ) {
 
                     Text(
@@ -165,14 +172,17 @@ sealed class Reklamationsret(val route: String) {
                         fontSize = 20.sp,
                         modifier = Modifier.padding()
                     )
-                    IconButton(onClick = { expanded.value = true }) {
+                    Box(modifier = Modifier.weight(1f)) {
+
+                    }
+                    IconButton(onClick = { expandedRetur.value = true }) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
 
                     DropdownMenu(
-                        expanded = expanded.value,
-                        onDismissRequest = { expanded.value = false },
+                        expanded = expandedRetur.value,
+                        onDismissRequest = { expandedRetur.value = false },
                     ) {
                         Text(
                             text = context.getString(R.string.ReklmationRetur),
@@ -200,8 +210,7 @@ sealed class Reklamationsret(val route: String) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .fillMaxHeight()
                 ) {
 
                     Text(
@@ -209,14 +218,17 @@ sealed class Reklamationsret(val route: String) {
                         fontSize = 20.sp,
                         modifier = Modifier.padding()
                     )
-                    IconButton(onClick = { expanded.value = true }) {
+                    Box(modifier = Modifier.weight(1f)) {
+
+                    }
+                    IconButton(onClick = { expandedOmbyt.value = true }) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
 
                     DropdownMenu(
-                        expanded = expanded.value,
-                        onDismissRequest = { expanded.value = false },
+                        expanded = expandedOmbyt.value,
+                        onDismissRequest = { expandedOmbyt.value = false },
                     ) {
                         Text(
                             text = context.getString(R.string.Returret_ombytning),
@@ -244,23 +256,25 @@ sealed class Reklamationsret(val route: String) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .fillMaxHeight()
                 ) {
 
                     Text(
-                        text = "Retur- og ombytningsret.",
+                        text = "Retur- og ombytningsret",
                         fontSize = 20.sp,
                         modifier = Modifier.padding()
                     )
-                    IconButton(onClick = { expanded.value = true }) {
+                    Box(modifier = Modifier.weight(1f)) {
+
+                    }
+                    IconButton(onClick = { expandedRettigheder.value = true }) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
 
                     DropdownMenu(
-                        expanded = expanded.value,
-                        onDismissRequest = { expanded.value = false },
+                        expanded = expandedRettigheder.value,
+                        onDismissRequest = { expandedRettigheder.value = false },
                     ) {
                         Text(
                             text = context.getString(R.string.Retur_ombytningsret),

@@ -48,7 +48,7 @@ sealed class Levering(val route: String) {
             title = {
 
                 Text(
-                    text = "Levering",
+                    text = "Handelsbetingelser",
                     color = Color.Black,
                     fontSize = 30.sp
                 )

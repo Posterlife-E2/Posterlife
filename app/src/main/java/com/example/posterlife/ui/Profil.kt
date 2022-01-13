@@ -68,7 +68,6 @@ sealed class Profil(val rute: String) {
                 }
             },
 
-
             backgroundColor = Color(0xfffcfcf0),
 
             elevation = 12.dp
@@ -238,7 +237,9 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
-                    .clickable(onClick = {/* TODO */ }),
+                    .clickable(onClick = {navController.navigate("kontakt"){
+                        popUpTo("KontaktOverview")
+                    } }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
