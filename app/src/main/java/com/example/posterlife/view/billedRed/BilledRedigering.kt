@@ -30,6 +30,7 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.annotation.NonNull
@@ -44,7 +45,10 @@ import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
+import android.widget.ImageView
+import androidx.compose.ui.draw.clip
 import androidx.core.app.ActivityCompat
+import coil.clear
 import com.example.posterlife.saveImageController.UploadImage.Companion.getOutputDirectory
 import ja.burhanrashid52.photoeditor.PhotoEditor.OnSaveListener
 import java.io.ByteArrayOutputStream
@@ -146,21 +150,23 @@ sealed class BilledRedigering(var rute: String) {
 
             val savedBilledURI = billedViewModel.getBilledURI()
 
-            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
-
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
             billedRedView.value.source.setImageURI(savedBilledURI)
 
+            billedRedView.value.source.scaleType = ImageView.ScaleType.FIT_END
+
             val billedRedTool =
                 remember { PhotoEditor.Builder(context, billedRedView.value) }
                     .setPinchTextScalable(true)
-                    .setClipSourceImage(true)
+                    .setClipSourceImage(false)
                     .setDefaultTextTypeface(tekstFont)
                     .build()
 
             var eraserState by remember { mutableStateOf(false) }
+
+
 
             Column(
                 modifier = Modifier
@@ -168,23 +174,18 @@ sealed class BilledRedigering(var rute: String) {
                     .fillMaxSize(),
 
                 ) {
-                BoxWithConstraints(
+                Box(
                     modifier = Modifier
                         .background(Color(0xfffcfcf0))
                         .fillMaxWidth(),
                     contentAlignment = Alignment.TopCenter
 
                 ) {
-                    if (maxHeight < 700.dp) {
-                        AndroidView(
-                            factory = { billedRedView.value },
-                            Modifier.width(350.dp),
-                        )
-                    } else {
-                        AndroidView(
-                            factory = { billedRedView.value }
-                        )
-                    }
+                    AndroidView(
+                        factory = { billedRedView.value },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
                 }
                 Row(
                     modifier = Modifier
