@@ -1,4 +1,4 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -17,12 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.R
@@ -54,7 +51,7 @@ sealed class MineDesign(val rute: String) {
                 var file = File(context.getOutputDirectory(), "Files.txt")
                 val text = file.readText()
                 var result: List<String> = text.split(",").map { it.trim() }
-                Log.d("Data", result.toString())
+                Log.d("Data",result.toString())
                 if (result.isNotEmpty()) {
                     Column(
                         Modifier
@@ -143,7 +140,7 @@ sealed class MineDesign(val rute: String) {
                                                 Button(
                                                     onClick = {
                                                         openDialog.value = false
-                                                        ReadsPost(context, result.get(index), true)
+                                                        ReadsPost(context,result.get(index),true)
                                                     }) {
                                                     Text("Ok")
                                                 }
@@ -165,7 +162,7 @@ sealed class MineDesign(val rute: String) {
                             }
                         }
                     }
-                } else {
+                }else{
                     Column(
                         Modifier
                             .background(Color(0xfffcfcf0))
@@ -175,7 +172,7 @@ sealed class MineDesign(val rute: String) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "Mine Design er tom",
+                            text = "No Mine Design",
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -183,7 +180,7 @@ sealed class MineDesign(val rute: String) {
                     }
 
                 }
-            } else {
+            }else {
                 Column(
                     Modifier
                         .background(Color(0xfffcfcf0))
@@ -193,7 +190,7 @@ sealed class MineDesign(val rute: String) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "Mine Design er tom",
+                        text = "No Mine Design",
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -202,9 +199,8 @@ sealed class MineDesign(val rute: String) {
             }
 
         }
-
-        fun loadData(data: ArrayList<String>) {
-            mineDesignData = data
+        fun loadData(data:ArrayList<String>){
+            mineDesignData=data;
         }
 
 
@@ -223,9 +219,8 @@ sealed class MineDesign(val rute: String) {
             return if (mediaDir != null && mediaDir.exists())
                 mediaDir else this.filesDir
         }
-
-        private fun ReadsPost(context: Context, path: String, isDelete: Boolean) {
-            if (isDelete) {
+        private fun ReadsPost (context: Context, path:String, isDelete:Boolean){
+            if(isDelete) {
                 var fdelete = File(context.getOutputDirectory(), "Files.txt")
                 val text = fdelete.readText()
                 var result: List<String> = text.split(",").map { it.trim() }
@@ -236,23 +231,24 @@ sealed class MineDesign(val rute: String) {
                         System.out.println("file not Deleted")
                     }
                 }
-                Log.d("Original Value", result.toString());
-                var outputString: String = ""
-                for (i in 0..result.size - 1) {
-                    if (!path.equals(result.get(i)) && i === 0) {
-                        outputString += result.get(i);
-                    } else if (!path.equals(result.get(i)) && i > 0) {
-                        outputString += ",${result.get(i)}";
+                Log.d("Original Value",result.toString());
+                var outputString:String = ""
+                for (i in 0..result.size-1) {
+                    if (!path.equals(result.get(i)) && i===0) {
+                        outputString+=result.get(i);
+                    }else if (!path.equals(result.get(i)) && i>0){
+                        outputString+= ",${result.get(i)}";
                     }
                 }
-                if (outputString.length > 0) {
+                if(outputString.length>0) {
                     var file = File(context.getOutputDirectory(), "Files.txt")
-                    Log.d("Update Value", outputString);
+                    Log.d("Update Value",outputString);
                     file.writeText(outputString);
-                    UploadImage.DeleteImage(path)
-                }
 
-            } else {
+                }
+                UploadImage.DeleteImage(path)
+
+            }else{
                 var file = File(context.getOutputDirectory(), "Files.txt")
                 val text = file.readText()
             }

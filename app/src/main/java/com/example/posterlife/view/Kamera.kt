@@ -1,13 +1,11 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.media.MediaScannerConnection
 import android.net.Uri
-import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
@@ -38,11 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import androidx.navigation.NavController
 import com.example.posterlife.R
-import com.example.posterlife.saveImageController.UploadImage
-import kotlinx.coroutines.*
+import com.example.posterlife.view.billedRed.BilledRedigering
+import com.example.posterlife.view.billedRed.BilledViewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,30 +70,10 @@ sealed class Kamera(val route: String) {
     @SuppressLint("StaticFieldLeak")
     object KameraAccess : Kamera("openKamera") {
 
-        @SuppressLint("StaticFieldLeak")
         private lateinit var navControllerKamera: NavController
 
-        private var cropListener = ArrayList<() -> Unit>()
+        private lateinit var uriViewModel: BilledViewModel
 
-        private lateinit var kameraThreadExecutor: Executor
-
-
-        private var cropSavedUri: String by Delegates.observable("") { property, oldValue, newValue ->
-
-            kameraThreadExecutor.execute{
-                try {
-                    val cropValue = newValue.replace('/', '§')
-                    navControllerKamera.navigate("billedConfirm/$cropValue")
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-
-
-            cropListener.forEach {
-                it()
-            }
-        }
 
         //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @SuppressLint("StaticFieldLeak")
@@ -104,13 +81,14 @@ sealed class Kamera(val route: String) {
         fun KameraAccess(
             onImageCaptured: (Uri, Boolean) -> Unit,
             onError: (ImageCaptureException) -> Unit,
-            navController: NavController
+            navController: NavController,
+            billedViewModel: BilledViewModel
         ) {
+
+            uriViewModel = billedViewModel
 
             navControllerKamera = navController
             val context = LocalContext.current
-
-            kameraThreadExecutor = ContextCompat.getMainExecutor(context)
 
             if (hasNoPermissions(context)) {
                 requestPermission(context)
@@ -316,7 +294,15 @@ sealed class Kamera(val route: String) {
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
 
-                        cropSavedUri = savedUri.toString()
+
+                        val kameraThreadExecutor = ContextCompat.getMainExecutor(context)
+
+                        kameraThreadExecutor.execute{
+                            uriViewModel.setBilledURI(savedUri)
+                            navControllerKamera.navigate(BilledRedigering.BilledConfirm.rute)
+                        }
+
+
                     }
 
                     override fun onError(exception: ImageCaptureException) {

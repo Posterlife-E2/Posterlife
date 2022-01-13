@@ -1,4 +1,4 @@
-package com.example.posterlife.ui.billedRed
+package com.example.posterlife.view.billedRed
 
 import android.content.Context
 import android.graphics.Typeface
@@ -28,26 +28,22 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
-import android.graphics.BitmapRegionDecoder
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.saveImageController.UploadImage
-import com.example.posterlife.ui.Navigation
+import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.draw.shadow
 import java.io.ByteArrayOutputStream
-import java.io.File
 
 
 /**
@@ -64,75 +60,103 @@ import java.io.File
 
 sealed class BilledRedigering(var rute: String) {
 
-    object BilledConfirm : BilledRedigering("billedConfirm/{billedURI}") {
+    object BilledConfirm : BilledRedigering("billedConfirm") {
 
         @ExperimentalCoilApi
         @Composable
-        fun BilledConfirm(billedURI: String?, navController: NavController) {
+        fun BilledConfirm(billedViewModel: BilledViewModel, navController: NavController) {
 
-            var billedURIString = billedURI
+            val savedUri = billedViewModel.getBilledURI()
+            val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
 
-            /**
-             * Der er en mindre heldig design betingelse i Navigation for compose der gør når vi skal pass arguments mellem
-             * screens, så kommer der et problem hvor "/" i argumentet bliver betragtet som den næste del af en rute.
-             * Derfor må man nødt til at midlertidigt skifte "/" ud med et andet tegn.
-             */
-            billedURIString = billedURIString?.replace('§', '/')
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    TopBar()
+                },
+                content = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xfffcfcf0)),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
 
-            val savedUri = Uri.parse(billedURIString)
+                        Box(modifier = Modifier.padding(top = 40.dp)) {
+                            Image(
+                                painter = rememberImagePainter(data = savedUri),
+                                contentDescription = "fotoKamera - Billed som blev taget.",
+                                Modifier
+                                    .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                            )
+                        }
+                    }
+                },
+                bottomBar = {
+                    AcceptPictureBottomBar(navController)
+                }
+            )
 
+        }
+    }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xfffcfcf0))
-            ) {
+    @Composable
+    fun TopBar() {
+        TopAppBar(
+            title = {
 
-                Box(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    contentAlignment = Alignment.TopCenter
-                ) {
-                    Image(
-                        painter = rememberImagePainter(data = savedUri),
-                        contentDescription = "fotoKamera - Billed som blev taget.",
-                        Modifier.border(Dp.Hairline, Color.Black, RectangleShape)
+                Text(
+                    text = "Foto baggrund",
+                    color = Color.Black,
+                    fontSize = 30.sp
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        Icons.Filled.ArrowBack,
+                        contentDescription = null
                     )
                 }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Button(
-                        onClick = {
-                            navController.navigate("billedRed/$billedURI")
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        ),
-                        shape = RectangleShape
-                    ) {
-                        Text("Accepter")
-                    }
-                    Button(
-                        onClick = { navController.navigate(Navigation.Kamera.route) },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        ),
-                        shape = RectangleShape
-                    ) {
-                        Text("Tilbage")
-                    }
-                }
 
+            },
+
+            backgroundColor = Color(0xfffcfcf0),
+
+            //elevation = 12.dp
+        )
+
+    }
+
+    @Composable
+    fun AcceptPictureBottomBar(navController: NavController) {
+        BottomAppBar(
+            backgroundColor = Color.DarkGray
+        ) {
+            IconButton(onClick = { navController.navigate(Navigation.Kamera.route) }) {
+                Icon(
+                    Icons.Filled.Close,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
+            Box(modifier = Modifier.weight(1f)) {
+            }
+            Text(text = "VÆLG BILLEDE", color = Color.White, fontSize = 25.sp)
+            Box(modifier = Modifier.weight(1f)) {
+            }
+            IconButton(onClick = { navController.navigate("billedRed") }) {
+                Icon(
+                    Icons.Filled.Done,
+                    contentDescription = null,
+                    tint = Color.White
+                )
             }
         }
     }
 
-    object BilledRed : BilledRedigering("billedRed/{billedURI}") {
+    object BilledRed : BilledRedigering("billedRed") {
 
         private val visTekstPopUp = mutableStateOf(false)
         private val visPenselPopUp = mutableStateOf(false)
@@ -147,20 +171,18 @@ sealed class BilledRedigering(var rute: String) {
 
         @ExperimentalComposeUiApi
         @Composable
-        fun BilledRedigering(billedURI: String?, navController: NavController) {
+        fun BilledRedigering(billedViewModel: BilledViewModel, navController: NavController) {
 
             val context = LocalContext.current
 
-            val savedBilledURI = Uri.parse(billedURI?.replace('§', '/'))
+            val savedBilledURI = billedViewModel.getBilledURI()
 
-            val TrueBilledURI = savedBilledURI
-
-            val billedBitmap = getBitmap(context.contentResolver, TrueBilledURI)
+            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
 
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
-            billedRedView.value.source.setImageURI(TrueBilledURI)
+            billedRedView.value.source.setImageURI(savedBilledURI)
 
             val billedRedTool =
                 remember { PhotoEditor.Builder(context, billedRedView.value) }
@@ -290,7 +312,7 @@ sealed class BilledRedigering(var rute: String) {
                         Text("Filter")
                     }
                     if (visFilterMenu.value) {
-                        val billedFilterShower = BilledFilterShower(TrueBilledURI)
+                        val billedFilterShower = BilledFilterShower(savedBilledURI)
                         billedFilterShower.BilledFilter()
                     }
 
