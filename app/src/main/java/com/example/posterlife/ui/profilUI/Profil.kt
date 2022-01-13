@@ -90,6 +90,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Login") {
                             popUpTo("Login.LoginScreen.LoginStart")
@@ -117,6 +118,7 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
+                    .padding(8.dp)
                     .clickable(onClick = {navController.navigate("delStart"){
                         popUpTo("DelOverview")
                     } }),
@@ -141,6 +143,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Mine Design") {
                             popUpTo("MineDesign.MineDesignStart.MineDesignStart")
@@ -166,6 +169,7 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("favorit") {
                             popUpTo("FavoritOverview")
@@ -192,6 +196,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {/* TODO */ }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -213,6 +218,7 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {navController.navigate("betingelser"){
                         popUpTo(" BetingelserOverview")
                     } }),
@@ -237,6 +243,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {navController.navigate("kontakt"){
                         popUpTo("KontaktOverview")
                     } }),
