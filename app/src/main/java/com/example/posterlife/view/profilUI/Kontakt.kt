@@ -1,4 +1,4 @@
-package com.example.posterlife.ui.profilUI
+package com.example.posterlife.view.profilUI
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

@@ -1,7 +1,7 @@
 package com.example.posterlife.loginController
 
 import androidx.navigation.NavController
-import com.example.posterlife.ui.profilUI.Profil
+import com.example.posterlife.view.profilUI.Profil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
