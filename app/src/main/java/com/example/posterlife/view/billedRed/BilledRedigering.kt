@@ -23,10 +23,6 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
-import ja.burhanrashid52.photoeditor.OnSaveBitmap
-import ja.burhanrashid52.photoeditor.PhotoEditor
-import ja.burhanrashid52.photoeditor.PhotoEditorView
-import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
@@ -39,10 +35,14 @@ import com.example.posterlife.saveImageController.UploadImage
 import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
+import android.view.MotionEvent
+import android.view.View
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
+import ja.burhanrashid52.photoeditor.*
 import java.io.ByteArrayOutputStream
+import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 
 
 /**
@@ -189,6 +189,37 @@ sealed class BilledRedigering(var rute: String) {
                     .build()
 
             var eraserState by remember { mutableStateOf(false) }
+
+            billedRedTool.setOnPhotoEditorListener(object : OnPhotoEditorListener {
+                override fun onEditTextChangeListener(
+                    rootView: View,
+                    text: String,
+                    colorCode: Int
+                ) {
+
+                    billedRedTool.editText(rootView, "test", colorCode)
+                }
+
+                override fun onAddViewListener(viewType: ViewType?, numberOfAddedViews: Int) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onRemoveViewListener(viewType: ViewType?, numberOfAddedViews: Int) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onStartViewChangeListener(viewType: ViewType?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onStopViewChangeListener(viewType: ViewType?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onTouchSourceImage(event: MotionEvent?) {
+                    TODO("Not yet implemented")
+                }
+            })
 
             Column(
                 modifier = Modifier
