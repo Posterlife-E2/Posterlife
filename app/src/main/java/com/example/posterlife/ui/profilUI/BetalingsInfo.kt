@@ -92,15 +92,15 @@ sealed class BetalingsInfo(val route: String) {
             )
 
             Text(text = context.getString(R.string.BetalingInfo),
-                fontStyle = FontStyle.Italic,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Light,
+            fontSize = 17.sp,
             modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp).align(CenterHorizontally))
 
 
             Text(
                 text = context.getString(R.string.Betaling),
-                fontSize = 20.sp,
+                fontStyle = FontStyle.Italic,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Light,
                 modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp)
             )
         }
