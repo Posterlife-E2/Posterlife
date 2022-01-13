@@ -7,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,16 +17,17 @@ import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.ui.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.ui.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.ui.Favorit.FavoritStart.FavoritOverview
-import com.example.posterlife.ui.DelMedVenner.DelStart.DelOverview
-import com.example.posterlife.ui.Handelsbetingelser.Betingelser.BetingelserOverview
-import com.example.posterlife.ui.Levering.LeveringUI.LeveringOverview
-import com.example.posterlife.ui.BetalingsInfo.InfoBetaling.BetalingOverview
-import com.example.posterlife.ui.Reklamationsret.Reklamation.ReklamationUI
-import com.example.posterlife.ui.Kontakt.KontaktInfo.KontaktOverview
+import com.example.posterlife.ui.profilUI.DelMedVenner.DelStart.DelOverview
+import com.example.posterlife.ui.profilUI.Handelsbetingelser.Betingelser.BetingelserOverview
+import com.example.posterlife.ui.profilUI.Levering.LeveringUI.LeveringOverview
+import com.example.posterlife.ui.profilUI.BetalingsInfo.InfoBetaling.BetalingOverview
+import com.example.posterlife.ui.profilUI.Reklamationsret.Reklamation.ReklamationUI
+import com.example.posterlife.ui.profilUI.Kontakt.KontaktInfo.KontaktOverview
 import com.example.posterlife.ui.billedRed.BilledRedigering
 import com.example.posterlife.ui.billedRed.BilledRedigering.BilledConfirm
 import com.example.posterlife.ui.loginUI.Login
 import com.example.posterlife.ui.loginUI.SignUp
+import com.example.posterlife.ui.profilUI.*
 
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
