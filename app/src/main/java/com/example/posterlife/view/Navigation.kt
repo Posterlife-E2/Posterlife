@@ -47,7 +47,9 @@ fun Navigation() {
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            if (navBackStackEntry?.destination?.route != Navigation.Kamera.route)
+            if ((navBackStackEntry?.destination?.route != Navigation.Kamera.route) and
+                (navBackStackEntry?.destination?.route != BilledRedigering.BilledRed.rute) and
+                (navBackStackEntry?.destination?.route != BilledConfirm.rute))
                 BottomNavigationBar(navController)
         },
         content = {
