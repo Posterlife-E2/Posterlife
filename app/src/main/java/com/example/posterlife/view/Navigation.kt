@@ -24,7 +24,7 @@ import com.example.posterlife.view.billedRed.BilledViewModel
 import com.example.posterlife.view.inspirationView.Inspiration
 import com.example.posterlife.view.loginUI.Login
 import com.example.posterlife.view.loginUI.SignUp
-
+import com.example.posterlife.view.profilUI.*
 /**
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
  * @source https://johncodeos.com/how-to-create-bottom-navigation-bar-with-jetpack-compose/

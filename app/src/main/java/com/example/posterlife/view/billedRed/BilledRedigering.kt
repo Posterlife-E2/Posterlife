@@ -32,8 +32,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -42,6 +40,9 @@ import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.draw.shadow
 import java.io.ByteArrayOutputStream
 
 
@@ -66,53 +67,91 @@ sealed class BilledRedigering(var rute: String) {
         fun BilledConfirm(billedViewModel: BilledViewModel, navController: NavController) {
 
             val savedUri = billedViewModel.getBilledURI()
+            val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xfffcfcf0))
-            ) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    TopBar()
+                },
+                content = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xfffcfcf0)),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
 
-                Box(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    contentAlignment = Alignment.TopCenter
-                ) {
-                    Image(
-                        painter = rememberImagePainter(data = savedUri),
-                        contentDescription = "fotoKamera - Billed som blev taget.",
-                        Modifier.border(Dp.Hairline, Color.Black, RectangleShape)
+                        Box(modifier = Modifier.padding(top = 40.dp)) {
+                            Image(
+                                painter = rememberImagePainter(data = savedUri),
+                                contentDescription = "fotoKamera - Billed som blev taget.",
+                                Modifier
+                                    .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                            )
+                        }
+                    }
+                },
+                bottomBar = {
+                    AcceptPictureBottomBar(navController)
+                }
+            )
+
+        }
+    }
+
+    @Composable
+    fun TopBar() {
+        TopAppBar(
+            title = {
+
+                Text(
+                    text = "Foto baggrund",
+                    color = Color.Black,
+                    fontSize = 30.sp
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        Icons.Filled.ArrowBack,
+                        contentDescription = null
                     )
                 }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Button(
-                        onClick = {
-                            navController.navigate("billedRed")
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        ),
-                        shape = RectangleShape
-                    ) {
-                        Text("Accepter")
-                    }
-                    Button(
-                        onClick = { navController.navigate(Navigation.Kamera.route) },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        ),
-                        shape = RectangleShape
-                    ) {
-                        Text("Tilbage")
-                    }
-                }
 
+            },
+
+            backgroundColor = Color(0xfffcfcf0),
+
+            //elevation = 12.dp
+        )
+
+    }
+
+    @Composable
+    fun AcceptPictureBottomBar(navController: NavController) {
+        BottomAppBar(
+            backgroundColor = Color.DarkGray
+        ) {
+            IconButton(onClick = { navController.navigate(Navigation.Kamera.route) }) {
+                Icon(
+                    Icons.Filled.Close,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
+            Box(modifier = Modifier.weight(1f)) {
+            }
+            Text(text = "VÆLG BILLEDE", color = Color.White, fontSize = 25.sp)
+            Box(modifier = Modifier.weight(1f)) {
+            }
+            IconButton(onClick = { navController.navigate("billedRed") }) {
+                Icon(
+                    Icons.Filled.Done,
+                    contentDescription = null,
+                    tint = Color.White
+                )
             }
         }
     }
