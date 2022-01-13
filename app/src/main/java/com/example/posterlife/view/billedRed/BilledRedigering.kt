@@ -39,7 +39,6 @@ import com.example.posterlife.saveImageController.UploadImage
 import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
-import android.provider.MediaStore.Images.Media.getBitmap
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
