@@ -73,8 +73,6 @@ fun BottomNavigationBar(navController: NavController) {
                         //Husker hvad der skete på forrige frame
                         restoreState = true
                     }
-
-
                 }
             )
         }

@@ -1,5 +1,6 @@
 package com.example.posterlife.view.profilUI
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
@@ -13,9 +14,12 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.posterlife.R
+import org.intellij.lang.annotations.JdkConstants
 
 
 sealed class Profil(val rute: String) {
@@ -53,9 +57,11 @@ sealed class Profil(val rute: String) {
                 )
             },
             actions = {
-                IconButton(onClick = { navController.navigate("Favorit"){
-                    popUpTo("FavoritOverview")
-                } }) {
+                IconButton(onClick = {
+                    navController.navigate("Favorit") {
+                        popUpTo("FavoritOverview")
+                    }
+                }) {
                     Icon(
                         Icons.Filled.Favorite,
                         tint = Color.Red,
@@ -119,9 +125,11 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .height(60.dp)
                     .padding(8.dp)
-                    .clickable(onClick = {navController.navigate("delStart"){
-                        popUpTo("DelOverview")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("delStart") {
+                            popUpTo("DelOverview")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -219,9 +227,11 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {navController.navigate("betingelser"){
-                        popUpTo(" BetingelserOverview")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("betingelser") {
+                            popUpTo(" BetingelserOverview")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -244,9 +254,11 @@ sealed class Profil(val rute: String) {
                     .background(Color.White)
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {navController.navigate("kontakt"){
-                        popUpTo("KontaktOverview")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("kontakt") {
+                            popUpTo("KontaktOverview")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -262,9 +274,29 @@ sealed class Profil(val rute: String) {
                 )
 
             }
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally), horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.facebookiconposterlife),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable { }
+                )
+                Image(painter = painterResource(id = R.drawable.instaiconposterlife), contentDescription = null,
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clickable { })
+
+                Image(painter = painterResource(id = R.drawable.linkedinicon), contentDescription = null,
+                    modifier = Modifier
+                        .size(35.dp)
+                        .clickable { })
+
+            }
 
         }
+
     }
-
-
 }
+
