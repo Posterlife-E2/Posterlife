@@ -207,7 +207,8 @@ open class Login(val route: String) {
                                 painter = painterResource(id = R.drawable.facebookbutton),
                                 contentDescription = "facebookbutton",
                                 modifier = Modifier
-                                    .size(60.dp)
+                                    .height(50.dp)
+                                    .width(180.dp)
                                     .clickable() {  }
                                     .align(Alignment.CenterHorizontally)
                             )
