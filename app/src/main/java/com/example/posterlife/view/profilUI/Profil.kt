@@ -210,7 +210,7 @@ sealed class Profil(val rute: String) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Følg os",
+                    text = "Privatlivspolitik",
                     fontWeight = FontWeight.Light,
                     fontSize = 22.sp
                 )
