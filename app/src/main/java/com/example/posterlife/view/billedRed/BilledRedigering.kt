@@ -225,13 +225,14 @@ sealed class BilledRedigering(var rute: String) {
 
                     val alertSetWindow = alertDialog.show()
                     alertSetWindow.window?.setBackgroundDrawableResource(R.drawable.transparent)
-                    alertSetWindow.window?.setLayout(1,1)
+                    alertSetWindow.window?.setLayout(1, 1)
                     alertSetWindow.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
                     tekstInput.setSelection(tekstInput.length())
 
-                    val keyboard = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
+                    val keyboard =
+                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 
                     tekstInput.addTextChangedListener {
                         billedRedTool.editText(rootView, tekstInput.text.toString(), colorCode)
@@ -239,26 +240,26 @@ sealed class BilledRedigering(var rute: String) {
                 }
 
                 override fun onAddViewListener(viewType: ViewType?, numberOfAddedViews: Int) {
-                    //TODO("Not yet implemented")
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
                 }
 
                 override fun onRemoveViewListener(
                     viewType: ViewType?,
                     numberOfAddedViews: Int
                 ) {
-                    //TODO("Not yet implemented")
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
                 }
 
                 override fun onStartViewChangeListener(viewType: ViewType?) {
-                    //TODO("Not yet implemented")
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
                 }
 
                 override fun onStopViewChangeListener(viewType: ViewType?) {
-                    //TODO("Not yet implemented")
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
                 }
 
                 override fun onTouchSourceImage(event: MotionEvent?) {
-                    //TODO("Not yet implemented")
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
                 }
 
             })
@@ -295,7 +296,11 @@ sealed class BilledRedigering(var rute: String) {
                             }
                         }
                         Spacer(
-                            modifier = Modifier.fillMaxWidth().weight(1f).background(Color.DarkGray))
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .background(Color.DarkGray)
+                        )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -443,7 +448,11 @@ sealed class BilledRedigering(var rute: String) {
                             }
                         }
                         Spacer(
-                            modifier = Modifier.fillMaxWidth().height(60.dp).background(Color.DarkGray))
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp)
+                                .background(Color.DarkGray)
+                        )
 
                         if (visFilterMenu.value) {
                             val billedFilterShower = BilledFilterShower(savedBilledURI)
