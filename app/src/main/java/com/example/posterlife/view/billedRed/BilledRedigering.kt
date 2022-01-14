@@ -227,15 +227,15 @@ sealed class BilledRedigering(var rute: String) {
                                 )
                             }
                         }
-                       Spacer(
-                           modifier = Modifier.fillMaxWidth().weight(1f).background(Color.DarkGray))
+                        Spacer(
+                            modifier = Modifier.fillMaxWidth().weight(1f).background(Color.DarkGray))
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp),
                             horizontalArrangement = Arrangement.SpaceEvenly,
 
-                        ) {
+                            ) {
                             Box(
                                 modifier = Modifier
                                     .background(Color.DarkGray)
@@ -652,4 +652,3 @@ sealed class BilledRedigering(var rute: String) {
         }
     }
 }
-
