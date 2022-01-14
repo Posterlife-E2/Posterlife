@@ -202,21 +202,16 @@ open class Login(val route: String) {
                             fontStyle = FontStyle.Italic,
                             modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp, bottom = 30.dp)
                         )
-                        //Spacer(modifier = Modifier.size(20.dp))
 
-                        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                             Image(
                                 painter = painterResource(id = R.drawable.facebookbutton),
                                 contentDescription = "facebookbutton",
                                 modifier = Modifier
                                     .size(60.dp)
+                                    .clickable() {  }
+                                    .align(Alignment.CenterHorizontally)
                             )
-                            Spacer(modifier = Modifier.size(30.dp))
 
-                            Image(painter = painterResource(id = R.drawable.gmailbutton), contentDescription = "gmailButton",
-                            modifier = Modifier
-                                .size(65.dp))
-                        }
                     }
 
                 }
