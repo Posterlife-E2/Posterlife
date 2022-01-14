@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -40,8 +41,8 @@ fun BottomNavigationBar(navController: NavController) {
     )
 
     BottomNavigation(
-        backgroundColor = Color.Gray,
-        contentColor = Color.White,
+        backgroundColor = MaterialTheme.colors.secondaryVariant,
+        contentColor = MaterialTheme.colors.onSecondary,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -50,9 +51,9 @@ fun BottomNavigationBar(navController: NavController) {
                 icon = { Icon(painterResource(id = item.icon,), contentDescription = item.title, modifier = Modifier
                     .size(30.dp)
                     .padding(top = 3.dp) ) },
-                label = { Text(text = item.title) },
-                selectedContentColor = Color.Black,
-                unselectedContentColor = Color(0xfffcfcf0),
+                label = { Text(text = item.title, style = MaterialTheme.typography.overline)},
+                selectedContentColor = MaterialTheme.colors.onPrimary,
+                unselectedContentColor = MaterialTheme.colors.primary,
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {
