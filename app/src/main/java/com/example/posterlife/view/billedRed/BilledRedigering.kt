@@ -23,10 +23,6 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
-import ja.burhanrashid52.photoeditor.OnSaveBitmap
-import ja.burhanrashid52.photoeditor.PhotoEditor
-import ja.burhanrashid52.photoeditor.PhotoEditorView
-import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
@@ -40,12 +36,18 @@ import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
+import android.text.Editable
 import android.text.Layout
+import android.view.MotionEvent
+import android.view.View
+import android.widget.EditText
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
+import androidx.core.widget.addTextChangedListener
+import ja.burhanrashid52.photoeditor.*
 import org.intellij.lang.annotations.JdkConstants
 import java.io.ByteArrayOutputStream
 
@@ -196,6 +198,60 @@ sealed class BilledRedigering(var rute: String) {
                     .build()
 
             var eraserState by remember { mutableStateOf(false) }
+
+            billedRedTool.setOnPhotoEditorListener(object : OnPhotoEditorListener {
+                override fun onEditTextChangeListener(
+                    rootView: View,
+                    text: String?,
+                    colorCode: Int
+                ) {
+                    val tekstInput = EditText(context)
+                    val alertDialog = android.app.AlertDialog.Builder(context)
+                    tekstInput.text = Editable.Factory.getInstance().newEditable(text)
+                    alertDialog.create()
+                    tekstInput.background.clearColorFilter()
+                    alertDialog.setTitle("Rediger Tekst")
+                    alertDialog.setView(tekstInput)
+                    alertDialog.setPositiveButton("Rediger"
+                    ) { dialog, which ->
+                        dialog.cancel()
+                    }
+
+                    val alertSetWindow = alertDialog.show()
+                    alertSetWindow.window?.setBackgroundDrawableResource(R.drawable.posterlife_color)
+                    alertSetWindow.window?.setLayout(800,600)
+                    tekstInput.requestFocus()
+
+                    tekstInput.addTextChangedListener {
+                        billedRedTool.editText(rootView, tekstInput.text.toString(), colorCode)
+                    }
+                }
+
+                override fun onAddViewListener(viewType: ViewType?, numberOfAddedViews: Int) {
+                    //TODO("Not yet implemented")
+                }
+
+                override fun onRemoveViewListener(
+                    viewType: ViewType?,
+                    numberOfAddedViews: Int
+                ) {
+                    //TODO("Not yet implemented")
+                }
+
+                override fun onStartViewChangeListener(viewType: ViewType?) {
+                    //TODO("Not yet implemented")
+                }
+
+                override fun onStopViewChangeListener(viewType: ViewType?) {
+                    //TODO("Not yet implemented")
+                }
+
+                override fun onTouchSourceImage(event: MotionEvent?) {
+                    //TODO("Not yet implemented")
+                }
+
+            })
+
 
             Scaffold(
                 topBar = {
