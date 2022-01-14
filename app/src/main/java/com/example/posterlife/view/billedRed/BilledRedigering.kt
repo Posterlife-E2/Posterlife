@@ -577,8 +577,6 @@ sealed class BilledRedigering(var rute: String) {
                         ) {
                             Text("Indsæt")
                         }
-
-
                     }
                 }
             )

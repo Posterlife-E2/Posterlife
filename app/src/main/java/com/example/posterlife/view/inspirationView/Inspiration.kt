@@ -1,5 +1,10 @@
 package com.example.posterlife.view.inspirationView
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.compose.compiler.plugins.kotlin.write
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -20,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
@@ -27,6 +33,10 @@ import coil.compose.rememberImagePainter
 //import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
+import com.example.posterlife.view.Kamera
+import com.google.gson.Gson
+import java.io.File
+import java.io.FileWriter
 import kotlin.collections.ArrayList
 
 /**
@@ -46,6 +56,7 @@ import kotlin.collections.ArrayList
  */
 
 sealed class Inspiration(val rute: String): ViewModel() {
+
 
     object InspirationStart : Inspiration("start") {
 
@@ -140,7 +151,6 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
 
 
-
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
@@ -148,10 +158,10 @@ sealed class Inspiration(val rute: String): ViewModel() {
         ) {
 
 
+
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
             val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
-
 
             Column(
                 Modifier
@@ -242,7 +252,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                         fontSize = 10.sp
                                     )
                                 }
-                                FavoritButton()
+                                FavoritButton(index = index)
                             }
 
                         }
@@ -370,7 +380,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                 }
                             }
                             Spacer(modifier = Modifier.padding(47.dp))
-                            FavoritButton(modifier = Modifier.size(20.dp))
+                            FavoritButton(modifier = Modifier.size(20.dp), index = index)
                         }
                     }
                     Text(plakatHolder.description, Modifier.padding(12.dp), fontSize = 17.sp)
@@ -444,13 +454,34 @@ sealed class Inspiration(val rute: String): ViewModel() {
          * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card
          */
 
+        private val permissions = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
         @Composable
         fun FavoritButton(
             modifier: Modifier = Modifier,
             color: Color = Color.Red,
+            index: Int
         ) {
+
+            val context = LocalContext.current
+
+            ActivityCompat.requestPermissions(context as Activity,
+                permissions, 0)
+
+            val indexFile = File("index.txt")
+
             var isFavorite by remember { mutableStateOf(false) }
-            IconToggleButton(checked = isFavorite, onCheckedChange = { isFavorite = !isFavorite }) {
+            IconToggleButton(checked = isFavorite, onCheckedChange = { isFavorite = !isFavorite
+            if(isFavorite){
+//                indexFile.bufferedWriter().use { indexFil ->
+//                    indexFil.write(index)
+//                    indexFil.write("\n")
+//                }
+            }
+            }) {
                 Icon(
                     tint = color, modifier = Modifier.size(15.dp), imageVector = if (isFavorite) {
                         Icons.Filled.Favorite
