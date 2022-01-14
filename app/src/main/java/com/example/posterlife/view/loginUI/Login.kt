@@ -195,15 +195,28 @@ open class Login(val route: String) {
                                 Text(text = "Opret Bruger")
                             }
                         }
+
                         Text(text = "Eller login med",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Light,
                             fontStyle = FontStyle.Italic,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                            modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp, bottom = 30.dp)
                         )
-                            Image(painter = painterResource(id = R.drawable.facebookbutton) , contentDescription = "facebookbutton", modifier = Modifier.align(
-                                Alignment.CenterHorizontally))
+                        //Spacer(modifier = Modifier.size(20.dp))
 
+                        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.facebookbutton),
+                                contentDescription = "facebookbutton",
+                                modifier = Modifier
+                                    .size(60.dp)
+                            )
+                            Spacer(modifier = Modifier.size(30.dp))
+
+                            Image(painter = painterResource(id = R.drawable.gmailbutton), contentDescription = "gmailButton",
+                            modifier = Modifier
+                                .size(65.dp))
+                        }
                     }
 
                 }
