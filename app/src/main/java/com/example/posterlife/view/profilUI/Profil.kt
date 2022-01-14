@@ -272,10 +272,14 @@ sealed class Profil(val rute: String) {
                     contentDescription = null,
                     modifier = Modifier.size(30.dp)
                 )
+                
 
             }
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally), horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally), horizontalArrangement = Arrangement.SpaceEvenly
+            , verticalAlignment = Alignment.Bottom) {
                 Image(
                     painter = painterResource(id = R.drawable.facebookiconposterlife),
                     contentDescription = null,
@@ -286,14 +290,17 @@ sealed class Profil(val rute: String) {
                 Image(painter = painterResource(id = R.drawable.instaiconposterlife), contentDescription = null,
                     modifier = Modifier
                         .size(22.dp)
-                        .clickable { })
+                        .clickable { }
+                )
 
                 Image(painter = painterResource(id = R.drawable.linkedinicon), contentDescription = null,
                     modifier = Modifier
                         .size(22.dp)
-                        .clickable { })
+                        .clickable { }
+                )
 
             }
+            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
 
         }
 
