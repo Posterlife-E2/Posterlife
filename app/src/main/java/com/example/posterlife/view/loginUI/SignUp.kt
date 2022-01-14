@@ -67,16 +67,6 @@ sealed class SignUp(val route: String) {
                     ) {
                         Text(text = "Opret Bruger", fontSize = 50.sp, fontWeight = FontWeight.Bold,modifier = Modifier.align(Alignment.CenterHorizontally).padding(25.dp))
 
-                        //Logo
-                        /*val Logo: Painter = painterResource(id = R.drawable.posterlife_logo)
-                        Image(
-                            painter = Logo, contentDescription = "",
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth()
-                                .height(150.dp)
-                        )*/
-                        
 
                         //Email
                         var emailValue by remember { mutableStateOf("") }
