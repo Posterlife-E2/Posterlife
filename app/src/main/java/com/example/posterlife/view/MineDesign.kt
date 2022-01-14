@@ -89,11 +89,13 @@ sealed class MineDesign(val rute: String) {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             items(result.size) { index ->
-                                val source = BitmapFactory.decodeFile(
-                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
-                                        index
-                                    )
-                                )
+                                val source = "content://media/external/images/media/" + result.get(index)
+
+//                                    "file://" +
+//                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
+//                                        index
+//                                    )
+
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -107,7 +109,7 @@ sealed class MineDesign(val rute: String) {
                                     ) {
                                         Image(
                                             painter = rememberImagePainter(
-                                                data = source
+                                                data = Uri.parse(source)
                                             ),
                                             contentDescription = "Image",
                                             modifier = Modifier
