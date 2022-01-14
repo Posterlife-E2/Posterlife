@@ -275,32 +275,39 @@ sealed class Profil(val rute: String) {
                 
 
             }
+            Spacer(modifier = Modifier.padding(110.dp))
 
+            //row med ikoner hvor man bliver linket til posterlifes sider på de sociale medier.
             Row(modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally), horizontalArrangement = Arrangement.SpaceEvenly
-            , verticalAlignment = Alignment.Bottom) {
-                Image(
-                    painter = painterResource(id = R.drawable.facebookiconposterlife),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .clickable { }
-                )
-                Image(painter = painterResource(id = R.drawable.instaiconposterlife), contentDescription = null,
-                    modifier = Modifier
-                        .size(22.dp)
-                        .clickable { }
-                )
+                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.Bottom)
+            {
+                    Image(
+                        painter = painterResource(id = R.drawable.facebookiconposterlife),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable { /*TODO*/}
 
-                Image(painter = painterResource(id = R.drawable.linkedinicon), contentDescription = null,
-                    modifier = Modifier
-                        .size(22.dp)
-                        .clickable { }
-                )
+                        )
+                    Image(
+                        painter = painterResource(id = R.drawable.instaiconposterlife),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(22.dp)
+                            .clickable { /*TODO*/ }
 
+                        )
+
+                    Image(
+                        painter = painterResource(id = R.drawable.linkedinicon),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(22.dp)
+                            .clickable {/*TODO*/}
+
+                        )
             }
-            Spacer(modifier = Modifier.fillMaxWidth().height(60.dp))
 
         }
 
