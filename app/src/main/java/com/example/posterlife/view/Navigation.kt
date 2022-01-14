@@ -14,8 +14,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
-import com.example.posterlife.UI.Theme.PosterlifeTheme
 import com.example.posterlife.model.jsonParser.MineDesignInfo
+import com.example.posterlife.view.profilUI.Reklamationsret
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.view.Favorit.FavoritStart.FavoritOverview
@@ -45,101 +45,121 @@ fun Navigation() {
     val billedViewModel = BilledViewModel()
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
-    PosterlifeTheme {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            bottomBar = {
-                if ((navBackStackEntry?.destination?.route != Navigation.Kamera.route) and
-                    (navBackStackEntry?.destination?.route != BilledRedigering.BilledRed.rute) and
-                    (navBackStackEntry?.destination?.route != BilledConfirm.rute)
-                )
-                    BottomNavigationBar(navController)
-            },
-            content = {
-                NavHost(
-                    navController = navController,
-                    startDestination = Login.LoginScreen.route
-                ) {
-                    //---- Inspiration ----
-                    composable(Navigation.Inspiration.route) {
-                        InspirationOverview(navController = navController)
-                    }
+    Scaffold(
+        scaffoldState = scaffoldState,
+        bottomBar = {
+            if ((navBackStackEntry?.destination?.route != Navigation.Kamera.route) and
+                (navBackStackEntry?.destination?.route != BilledRedigering.BilledRed.rute) and
+                (navBackStackEntry?.destination?.route != BilledConfirm.rute))
+                BottomNavigationBar(navController)
+        },
+        content = {
+            NavHost(
+                navController = navController,
+                startDestination = Login.LoginScreen.route
+            ) {
+                //---- Inspiration ----
+                composable(Navigation.Inspiration.route) {
+                    InspirationOverview(navController = navController)
+                }
 
-                    composable(Inspiration.InspirationFocusImage.rute) {
-                        InspirationFocusImage()
-                    }
+                composable(Inspiration.InspirationFocusImage.rute) {
+                    InspirationFocusImage()
+                }
 
 
-                    //----Favorit ----
-                    composable(Navigation.Favorit.route) {
-                        FavoritOverview(navigation = navController)
-                    }
+                //----Favorit ----
+                composable(Navigation.Favorit.route) {
+                    FavoritOverview(navigation = navController)
+                }
 
-                    //---- Kamera ----
+                //---- Kamera ----
 
-                    composable(Navigation.Kamera.route) {
-                        Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
-                            Log.d(TAG, "Image Uri Captured from Camera View")
+                composable(Navigation.Kamera.route) {
+                    Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
+                        Log.d(TAG, "Image Uri Captured from Camera View")
 
-                        }, onError = { imageCaptureException ->
-                            navController.navigate(Navigation.Inspiration.route)
-                        },
-                            navController = navController,
-                            billedViewModel
-                        )
-                    }
+                    }, onError = { imageCaptureException ->
+                        navController.navigate(Navigation.Inspiration.route)
+                    },
+                        navController = navController,
+                        billedViewModel
+                    )
+                }
 
-                    composable(Kamera.KameraAccess.route) {
-                        navController.navigate(Navigation.Kamera.route)
-                    }
+                composable(Kamera.KameraAccess.route) {
+                    navController.navigate(Navigation.Kamera.route)
+                }
 
-                    //------ Del med venner ----------
-                    composable(DelMedVenner.DelStart.route) {
-                        DelMedVenner.DelStart.DelOverview(navController = navController)
-                    }
+                //------ Del med venner ----------
+                composable(DelMedVenner.DelStart.route) {
+                    DelMedVenner.DelStart.DelOverview(navController = navController)
+                }
 
-                    //---- Profil ----
-                    composable(Navigation.Profil.route) {
-                        Profil.ProfilUI.ProfilUI(navController = navController)
-                    }
+                //---- Profil ----
+                composable(Navigation.Profil.route) {
+                    Profil.ProfilUI.ProfilUI(navController = navController)
+                }
 
-                    composable(Profil.ProfilUI.rute) {
-                        Profil.ProfilUI.ProfilUI(navController = navController)
-                    }
-                    //----------------
-
-                    //---- Mine Design ----
-
-                    composable(Navigation.MineDesign.route) {
-                        MineDesign.MineDesignStart.MineDesignStart()
-                    }
-
-                    //---- Login & Sign Up ----
-                    composable(Login.LoginScreen.route) {
-                        Login.LoginScreen.LoginStart(navController = navController)
-                    }
-                    composable(SignUp.SignUpScreen.route) {
-                        SignUp.SignUpScreen.SignUpScreen(navController = navController)
-                    }
-                    //------------------------
-
-                    //---- Redigering -----
-                    composable(BilledRedigering.BilledRed.rute,) {
-                        BilledRedigering.BilledRed.BilledRedigering(
-                            billedViewModel,
-                            navController = navController
-                        )
-                    }
-
-                    composable(BilledConfirm.rute)
-                    {
-                        BilledConfirm.BilledConfirm(billedViewModel, navController = navController)
-                    }
+                composable(Profil.ProfilUI.rute) {
+                    Profil.ProfilUI.ProfilUI(navController = navController)
+                }
+                //----- Handelsbetingelser ------
+                composable(Handelsbetingelser.Betingelser.route){
+                    Handelsbetingelser.Betingelser.BetingelserOverview(navController = navController)
 
                 }
+
+                //---- Betalingsinfo ----
+                composable(BetalingsInfo.InfoBetaling.route){
+                    BetalingsInfo.InfoBetaling.BetalingOverview(navController = navController)
+                }
+
+                //---- Levering ----
+                composable(Levering.LeveringUI.route){
+                    Levering.LeveringUI.LeveringOverview(navController = navController)
+                }
+
+                //---- Kontakt ----
+                composable(Kontakt.KontaktInfo.route){
+                    Kontakt.KontaktInfo.KontaktOverview(navController = navController)
+                }
+
+                //---- Reklamationsret ----
+                composable(Reklamationsret.Reklamation.route){
+                    Reklamationsret.Reklamation.ReklamationUI(navController = navController)
+                }
+
+                //---- Mine Design ----
+                composable(Navigation.MineDesign.route) {
+                    MineDesign.MineDesignStart.MineDesignStart()
+                }
+
+                //---- Login & Sign Up ----
+                composable(Login.LoginScreen.route) {
+                    Login.LoginScreen.LoginStart(navController = navController)
+                }
+                composable(SignUp.SignUpScreen.route) {
+                    SignUp.SignUpScreen.SignUpScreen(navController = navController)
+                }
+                //------------------------
+
+                //---- Redigering -----
+                composable(BilledRedigering.BilledRed.rute,) {
+                    BilledRedigering.BilledRed.BilledRedigering(
+                        billedViewModel,
+                        navController = navController
+                    )
+                }
+
+                composable(BilledConfirm.rute)
+                {
+                    BilledConfirm.BilledConfirm(billedViewModel, navController = navController)
+                }
+
             }
-        )
-    }
+        }
+    )
 }
 
 
