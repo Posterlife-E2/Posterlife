@@ -1,5 +1,6 @@
 package com.example.posterlife.view.loginUI
 
+import android.widget.ImageButton
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,8 +23,15 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.example.posterlife.R
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import org.intellij.lang.annotations.JdkConstants
 
 open class Login(val route: String) {
 
@@ -58,7 +66,9 @@ open class Login(val route: String) {
                         Alignment.TopCenter
                     )
 
-                    Column(modifier = Modifier.fillMaxHeight().fillMaxWidth(),verticalArrangement = Arrangement.Center) {
+                    Column(modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(),verticalArrangement = Arrangement.Center) {
 
                     //Logo
                     val Logo: Painter = painterResource(id = R.drawable.posterlife_logo)
@@ -144,41 +154,56 @@ open class Login(val route: String) {
                                 }
                             }
                         )
-                        // log in
-                        TextButton(
-                            onClick = {
-                                AuthenticationLogin.signIn(
-                                    emailValue,
-                                    passwordValue,
-                                    navController
+
+                        Row() {
+
+                            // log in
+                            TextButton(
+                                onClick = {
+                                    AuthenticationLogin.signIn(
+                                        emailValue,
+                                        passwordValue,
+                                        navController
+                                    )
+                                },
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .height(50.dp)
+                                    .width(180.dp),
+
+                                colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.Black, contentColor = Color.White
                                 )
-                            },
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
 
-                            colors = ButtonDefaults.textButtonColors(
-                                backgroundColor = Color.Black, contentColor = Color.White
-                            )
+                            ) {
+                                Text(text = "Log ind")
+                            }
 
-                        ) {
-                            Text(text = "Log ind")
+                            //opret bruger
+                            OutlinedButton(
+                                onClick = { navController.navigate("signUpScreen") },
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .height(50.dp)
+                                    .width(180.dp),
+
+                                colors = ButtonDefaults.textButtonColors(
+                                    backgroundColor = Color.White, contentColor = Color.Black
+                                )
+
+                            ) {
+                                Text(text = "Opret Bruger")
+                            }
                         }
+                        Text(text = "Eller login med",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Light,
+                            fontStyle = FontStyle.Italic,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                            Image(painter = painterResource(id = R.drawable.facebookbutton) , contentDescription = "facebookbutton", modifier = Modifier.align(
+                                Alignment.CenterHorizontally))
 
-                        //opret bruger
-                        OutlinedButton(
-                            onClick = { navController.navigate("signUpScreen") },
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth(),
-
-                            colors = ButtonDefaults.textButtonColors(
-                                backgroundColor = Color.White, contentColor = Color.Black
-                            )
-
-                        ) {
-                            Text(text = "Opret Bruger")
-                        }
                     }
 
                 }
