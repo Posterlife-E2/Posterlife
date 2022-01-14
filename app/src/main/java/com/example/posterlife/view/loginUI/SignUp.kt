@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.loginController.AuthenticationSignUp
 import com.example.posterlife.R
+import org.intellij.lang.annotations.JdkConstants
 
 
 sealed class SignUp(val route: String) {
@@ -44,32 +46,37 @@ sealed class SignUp(val route: String) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
+                        .align(Alignment.CenterHorizontally)
 
                 ) {
 
                     Image(
-                        painter = painterResource(id = R.drawable.signupbaggrund),
+                        painter = painterResource(id = R.drawable.baggrundsbillede),
                         contentDescription = "background_SignUp",
                         modifier = Modifier
                             .fillMaxWidth()
                             .fillMaxHeight(),
-                        contentScale = ContentScale.FillBounds
+                        Alignment.TopCenter
                     )
 
                     Column(
-                        modifier = Modifier.fillMaxHeight().fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(),
                         verticalArrangement = Arrangement.Center
                     ) {
+                        Text(text = "Opret Bruger", fontSize = 50.sp, fontWeight = FontWeight.Bold,modifier = Modifier.align(Alignment.CenterHorizontally).padding(25.dp))
 
                         //Logo
-                        val Logo: Painter = painterResource(id = R.drawable.posterlife_logo)
+                        /*val Logo: Painter = painterResource(id = R.drawable.posterlife_logo)
                         Image(
                             painter = Logo, contentDescription = "",
                             modifier = Modifier
                                 .padding(16.dp)
                                 .fillMaxWidth()
                                 .height(150.dp)
-                        )
+                        )*/
+                        
 
                         //Email
                         var emailValue by remember { mutableStateOf("") }
@@ -214,6 +221,7 @@ sealed class SignUp(val route: String) {
                         ) {
                             Text(text = "Opret Bruger")
                         }
+
                     }
                 }
             }
