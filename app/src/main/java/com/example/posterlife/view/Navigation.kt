@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.model.jsonParser.MineDesignInfo
+import com.example.posterlife.view.profilUI.Reklamationsret
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.InspirationOverview
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationFocusImage.InspirationFocusImage
 import com.example.posterlife.view.Favorit.FavoritStart.FavoritOverview
@@ -103,10 +104,33 @@ fun Navigation() {
                 composable(Profil.ProfilUI.rute) {
                     Profil.ProfilUI.ProfilUI(navController = navController)
                 }
-                //----------------
+                //----- Handelsbetingelser ------
+                composable(Handelsbetingelser.Betingelser.route){
+                    Handelsbetingelser.Betingelser.BetingelserOverview(navController = navController)
+
+                }
+
+                //---- Betalingsinfo ----
+                composable(BetalingsInfo.InfoBetaling.route){
+                    BetalingsInfo.InfoBetaling.BetalingOverview(navController = navController)
+                }
+
+                //---- Levering ----
+                composable(Levering.LeveringUI.route){
+                    Levering.LeveringUI.LeveringOverview(navController = navController)
+                }
+
+                //---- Kontakt ----
+                composable(Kontakt.KontaktInfo.route){
+                    Kontakt.KontaktInfo.KontaktOverview(navController = navController)
+                }
+
+                //---- Reklamationsret ----
+                composable(Reklamationsret.Reklamation.route){
+                    Reklamationsret.Reklamation.ReklamationUI(navController = navController)
+                }
 
                 //---- Mine Design ----
-
                 composable(Navigation.MineDesign.route) {
                     MineDesign.MineDesignStart.MineDesignStart()
                 }

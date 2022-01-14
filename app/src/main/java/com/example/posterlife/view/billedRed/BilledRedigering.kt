@@ -23,10 +23,6 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
-import ja.burhanrashid52.photoeditor.OnSaveBitmap
-import ja.burhanrashid52.photoeditor.PhotoEditor
-import ja.burhanrashid52.photoeditor.PhotoEditorView
-import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
@@ -40,9 +36,21 @@ import com.example.posterlife.view.Navigation
 import java.lang.Exception
 import android.provider.MediaStore.Images
 import android.provider.MediaStore.Images.Media.getBitmap
+import android.text.Editable
+import android.text.Layout
+import android.view.MotionEvent
+import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
+import androidx.core.widget.addTextChangedListener
+import ja.burhanrashid52.photoeditor.*
+import org.intellij.lang.annotations.JdkConstants
 import java.io.ByteArrayOutputStream
 
 
@@ -52,6 +60,10 @@ import java.io.ByteArrayOutputStream
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/godaddy/compose-color-picker
  * @Source https://stackoverflow.com/questions/56651444/deprecated-getbitmap-with-api-29-any-alternative-codes
+ *
+ * Diverse
+ * @Source https://developer.android.com/reference/kotlin/android/view/inputmethod/InputMethodManager
+ * @Source https://stackoverflow.com/questions/8035107/how-to-set-cursor-position-in-edittext
  *
  * Material Sources
  * @Source https://foso.github.io/Jetpack-Compose-Playground/foundation/lazyrow/
@@ -72,7 +84,7 @@ sealed class BilledRedigering(var rute: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    TopBar()
+                    TopBar("Foto Baggrund")
                 },
                 content = {
                     Column(
@@ -101,7 +113,7 @@ sealed class BilledRedigering(var rute: String) {
     }
 
     @Composable
-    fun TopBar() {
+    fun TopBar(title: String) {
         TopAppBar(
             title = {
 
@@ -177,8 +189,6 @@ sealed class BilledRedigering(var rute: String) {
 
             val savedBilledURI = billedViewModel.getBilledURI()
 
-            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
-
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
@@ -187,155 +197,301 @@ sealed class BilledRedigering(var rute: String) {
             val billedRedTool =
                 remember { PhotoEditor.Builder(context, billedRedView.value) }
                     .setPinchTextScalable(true)
-                    .setClipSourceImage(true)
+                    .setClipSourceImage(false)
                     .setDefaultTextTypeface(tekstFont)
                     .build()
 
             var eraserState by remember { mutableStateOf(false) }
 
-            Column(
-                modifier = Modifier
-                    .background(Color(0xfffcfcf0))
-                    .fillMaxSize(),
-
+            billedRedTool.setOnPhotoEditorListener(object : OnPhotoEditorListener {
+                override fun onEditTextChangeListener(
+                    rootView: View,
+                    text: String?,
+                    colorCode: Int
                 ) {
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .background(Color(0xfffcfcf0))
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.TopCenter
+                    //Da vi ikke kan bruge compose med det her bibliotek der bliver brugt til redigering,
+                    //så må vi være lidt opfindsomme. Koden her åbner en AlertDialog widget som man ikke kan se
+                    //med en EditText i, som fungere som mellemmand mellem den tekst vi skal redigere og det som
+                    //brugeren indtaster.
 
-                ) {
-                    if (maxHeight < 700.dp) {
-                        AndroidView(
-                            factory = { billedRedView.value },
-                            Modifier.width(350.dp),
-                        )
-                    } else {
-                        AndroidView(
-                            factory = { billedRedView.value }
-                        )
+                    val tekstInput = EditText(context)
+                    tekstInput.requestFocus()
+
+                    val alertDialog = android.app.AlertDialog.Builder(context)
+                    tekstInput.text = Editable.Factory.getInstance().newEditable(text)
+                    alertDialog.create()
+                    tekstInput.background.clearColorFilter()
+                    alertDialog.setView(tekstInput)
+
+                    val alertSetWindow = alertDialog.show()
+                    alertSetWindow.window?.setBackgroundDrawableResource(R.drawable.transparent)
+                    alertSetWindow.window?.setLayout(1, 1)
+                    alertSetWindow.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+                    tekstInput.setSelection(tekstInput.length())
+
+                    val keyboard =
+                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+
+                    tekstInput.addTextChangedListener {
+                        billedRedTool.editText(rootView, tekstInput.text.toString(), colorCode)
                     }
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+
+                override fun onAddViewListener(viewType: ViewType?, numberOfAddedViews: Int) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onRemoveViewListener(
+                    viewType: ViewType?,
+                    numberOfAddedViews: Int
                 ) {
-                    TextButton(
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onStartViewChangeListener(viewType: ViewType?) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onStopViewChangeListener(viewType: ViewType?) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onTouchSourceImage(event: MotionEvent?) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+            })
+
+
+            Scaffold(
+                topBar = {
+                    TopBar(title = "Rediger")
+                },
+
+                content = {
+                    Column(
                         modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        onClick = {
-                            billedRedTool.undo()
+                            .background(Color(0xfffcfcf0))
+                            .fillMaxSize(),
 
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
-                    ) {
-                        Text("Undo")
-                    }
+                        ) {
+                        BoxWithConstraints(
+                            modifier = Modifier
+                                .background(Color(0xfffcfcf0))
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.TopCenter
 
-                    TextButton(
-                        onClick = {
-                            visPenselPopUp.value = true
-                        },
-                        modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
-                    ) {
-                        Text("Pensel")
-                    }
-                    if (visPenselPopUp.value) {
-                        PopUpPenselVindue(billedRedTool = billedRedTool)
-                    }
-
-                    val eraserKnapFarve = remember { MutableInteractionSource() }
-                    val eraserFarve = if (!eraserState) Color.Black else Color(0xff239023)
-                    Button(
-                        onClick = {
-                            if (!eraserState) {
-                                billedRedTool.brushEraser()
-                                billedRedTool.brushSize = 100F
-                                eraserState = true
+                        ) {
+                            if (maxHeight < 700.dp) {
+                                AndroidView(
+                                    factory = { billedRedView.value },
+                                    Modifier.width(350.dp),
+                                )
                             } else {
-                                billedRedTool.setBrushDrawingMode(false)
-                                switchPenselStateTemp = false
-                                eraserState = false
+                                AndroidView(
+                                    factory = { billedRedView.value }
+                                )
                             }
-                        }, modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        interactionSource = eraserKnapFarve,
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = eraserFarve, contentColor = Color.White
+                        }
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .background(Color.DarkGray)
                         )
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.eraser),
-                            contentDescription = "",
-                            Modifier.size(20.dp)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+
+                            ) {
+                            Box(
+                                modifier = Modifier
+                                    .background(Color.DarkGray)
+                                    .fillMaxHeight()
+                                    .weight(1f)
+                                    .border(1.dp, Color.Black, shape = RectangleShape),
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable { (billedRedTool.undo()) },
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Undo,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                    Text(text = "Undo", color = Color.White)
+                                }
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .background(Color.Black)
+                                    .fillMaxHeight()
+                                    .weight(1f)
+                                    .border(1.dp, Color.Black, shape = RectangleShape)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable { visPenselPopUp.value = true },
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Brush,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                    Text(text = "Pensel", color = Color.White)
+
+                                }
+                            }
+                            if (visPenselPopUp.value) {
+                                PopUpPenselVindue(billedRedTool = billedRedTool)
+                            }
+
+                            Box(
+                                modifier = Modifier
+                                    .background(Color.DarkGray)
+                                    .fillMaxHeight()
+                                    .weight(1f)
+                                    .border(1.dp, Color.Black, shape = RectangleShape)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable {
+                                            if (!eraserState) {
+                                                billedRedTool.brushEraser()
+                                                billedRedTool.brushSize = 100F
+                                                eraserState = true
+                                            } else {
+                                                billedRedTool.setBrushDrawingMode(false)
+                                                switchPenselStateTemp = false
+                                                eraserState = false
+                                            }
+                                        },
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                )
+                                {
+                                    Icon(
+                                        Icons.Filled.PhonelinkErase,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                    Text(text = "Erase", color = Color.White)
+                                }
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .background(Color.Black)
+                                    .fillMaxHeight()
+                                    .weight(1f)
+                                    .border(1.dp, Color.Black, shape = RectangleShape)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable { visTekstPopUp.value = true },
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Title,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                    Text(text = "Tekst", color = Color.White)
+                                }
+                            }
+                            if (visTekstPopUp.value) {
+                                PopUpTekstVindue(
+                                    billedRedTool = billedRedTool,
+                                    tekstFont = tekstFont
+                                )
+                                switchPenselStateTemp = false
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .background(Color.DarkGray)
+                                    .fillMaxHeight()
+                                    .weight(1f)
+                                    .border(1.dp, Color.Black, shape = RectangleShape),
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable { visFilterMenu.value = true },
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Filter,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(30.dp)
+                                    )
+                                    Text(text = "Filter", color = Color.White)
+                                }
+                            }
+                        }
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp)
+                                .background(Color.DarkGray)
                         )
+
+                        if (visFilterMenu.value) {
+                            val billedFilterShower = BilledFilterShower(savedBilledURI)
+                            billedFilterShower.BilledFilter()
+                        }
+
+                        billedRedTool.setFilterEffect(filterValg)
+                        if (gemBillede.value) {
+                            GemBilled(billedRedTool, navController)
+                        }
                     }
-                    TextButton(
-                        modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        onClick = {
-                            visTekstPopUp.value = true
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
+                },
+                bottomBar = {
+                    BottomAppBar(
+                        backgroundColor = Color.DarkGray
                     ) {
-                        Text("Tekst")
-                    }
-                    if (visTekstPopUp.value) {
-                        PopUpTekstVindue(billedRedTool = billedRedTool, tekstFont = tekstFont)
-                        switchPenselStateTemp = false
-                    }
-                    TextButton(
-                        modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                        onClick = {
-                            visFilterMenu.value = true
-                        },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        )
-                    ) {
-                        Text("Filter")
-                    }
-                    if (visFilterMenu.value) {
-                        val billedFilterShower = BilledFilterShower(savedBilledURI)
-                        billedFilterShower.BilledFilter()
-                    }
-
-                    billedRedTool.setFilterEffect(filterValg)
-
-
-
-                    TextButton(
-                        onClick = { gemBillede.value = true },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = Color.Black, contentColor = Color.White
-                        ),
-                        modifier = Modifier
-                            .padding(4.dp),
-                        shape = RectangleShape,
-                    ) {
-                        Text("Gem")
-                    }
-                    if (gemBillede.value) {
-                        GemBilled(billedRedTool, navController)
+                        IconButton(onClick = { navController.navigate(Navigation.Kamera.route) }) {
+                            Icon(
+                                Icons.Filled.Close,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                        Box(modifier = Modifier.weight(1f)) {
+                        }
+                        Text(text = "GEM BILLEDE", color = Color.White, fontSize = 25.sp)
+                        Box(modifier = Modifier.weight(1f)) {
+                        }
+                        IconButton(onClick = { gemBillede.value = true }) {
+                            Icon(
+                                Icons.Filled.Done,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
                     }
                 }
-            }
+            )
+
         }
 
         //Keyboard håndtering source: https://stackoverflow.com/questions/59133100/how-to-close-the-virtual-keyboard-from-a-jetpack-compose-textfield
@@ -572,4 +728,3 @@ sealed class BilledRedigering(var rute: String) {
         }
     }
 }
-

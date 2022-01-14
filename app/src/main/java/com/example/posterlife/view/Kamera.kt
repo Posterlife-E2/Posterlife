@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.sharp.FlipCameraAndroid
@@ -167,7 +168,7 @@ sealed class Kamera(val route: String) {
                 }
                 Row(
                     Modifier
-                        .background(Black.copy(alpha = 0.5f))
+                        .background(MaterialTheme.colors.onPrimary.copy(alpha = 0.5f))
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -181,7 +182,7 @@ sealed class Kamera(val route: String) {
                         Icon(Icons.Filled.ArrowBack,
                             contentDescription = "Back",
                             Modifier.size(46.dp),
-                            tint = White)
+                            tint = MaterialTheme.colors.primaryVariant)
                     }
                     CameraControl(
                         Icons.Sharp.FlipCameraAndroid,
@@ -219,7 +220,7 @@ sealed class Kamera(val route: String) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Black.copy(alpha = 0.5f))
+                    .background(MaterialTheme.colors.onPrimary.copy(alpha = 0.5f))
                     .padding(16.dp)
                     .height(70.dp),
                 horizontalArrangement = Arrangement.End,
@@ -232,7 +233,7 @@ sealed class Kamera(val route: String) {
                     modifier = Modifier
                         .size(64.dp)
                         .padding(1.dp)
-                        .border(1.dp, Color.White, CircleShape),
+                        .border(1.dp, MaterialTheme.colors.primaryVariant, CircleShape),
                     onClick = { cameraUIAction(CameraUIAction.OnCameraClick)
                     }
                 )
@@ -266,7 +267,7 @@ sealed class Kamera(val route: String) {
                     imageVector,
                     contentDescription = stringResource(id = contentDescId),
                     modifier = modifier,
-                    tint = Color.White
+                    tint = MaterialTheme.colors.primaryVariant
                 )
             }
 
@@ -293,7 +294,6 @@ sealed class Kamera(val route: String) {
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
-
 
                         val kameraThreadExecutor = ContextCompat.getMainExecutor(context)
 

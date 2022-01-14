@@ -1,7 +1,11 @@
 package com.example.posterlife.view
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.R
@@ -41,10 +46,20 @@ sealed class MineDesign(val rute: String) {
     object MineDesignStart : MineDesign("MineDesignStart") {
         var mineDesignData = ArrayList<String>()
 
+        private val permissions = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
         @ExperimentalCoilApi
         @androidx.compose.runtime.Composable
         fun MineDesignStart() {
+
             val context = LocalContext.current;
+
+            ActivityCompat.requestPermissions(context as Activity,
+                permissions, 0)
+
             var file = File(context.getOutputDirectory(), "Files.txt")
 
             if (file.exists()) {
@@ -74,11 +89,13 @@ sealed class MineDesign(val rute: String) {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             items(result.size) { index ->
-                                val source = BitmapFactory.decodeFile(
-                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
-                                        index
-                                    )
-                                )
+                                val source = "content://media/external/images/media/" + result.get(index)
+
+//                                    "file://" +
+//                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
+//                                        index
+//                                    )
+
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -92,7 +109,7 @@ sealed class MineDesign(val rute: String) {
                                     ) {
                                         Image(
                                             painter = rememberImagePainter(
-                                                data = source
+                                                data = Uri.parse(source)
                                             ),
                                             contentDescription = "Image",
                                             modifier = Modifier
