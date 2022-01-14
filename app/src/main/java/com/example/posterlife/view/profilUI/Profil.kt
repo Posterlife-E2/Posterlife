@@ -290,7 +290,7 @@ sealed class Profil(val rute: String) {
 
                 Image(painter = painterResource(id = R.drawable.linkedinicon), contentDescription = null,
                     modifier = Modifier
-                        .size(35.dp)
+                        .size(22.dp)
                         .clickable { })
 
             }
