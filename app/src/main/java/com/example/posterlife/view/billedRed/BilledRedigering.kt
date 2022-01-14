@@ -40,6 +40,8 @@ import android.text.Editable
 import android.text.Layout
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -58,6 +60,10 @@ import java.io.ByteArrayOutputStream
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/godaddy/compose-color-picker
  * @Source https://stackoverflow.com/questions/56651444/deprecated-getbitmap-with-api-29-any-alternative-codes
+ *
+ * Diverse
+ * @Source https://developer.android.com/reference/kotlin/android/view/inputmethod/InputMethodManager
+ * @Source https://stackoverflow.com/questions/8035107/how-to-set-cursor-position-in-edittext
  *
  * Material Sources
  * @Source https://foso.github.io/Jetpack-Compose-Playground/foundation/lazyrow/
@@ -183,8 +189,6 @@ sealed class BilledRedigering(var rute: String) {
 
             val savedBilledURI = billedViewModel.getBilledURI()
 
-            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
-
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
@@ -205,22 +209,29 @@ sealed class BilledRedigering(var rute: String) {
                     text: String?,
                     colorCode: Int
                 ) {
+                    //Da vi ikke kan bruge compose med det her bibliotek der bliver brugt til redigering,
+                    //så må vi være lidt opfindsomme. Koden her åbner en AlertDialog widget som man ikke kan se
+                    //med en EditText i, som fungere som mellemmand mellem den tekst vi skal redigere og det som
+                    //brugeren indtaster.
+
                     val tekstInput = EditText(context)
+                    tekstInput.requestFocus()
+
                     val alertDialog = android.app.AlertDialog.Builder(context)
                     tekstInput.text = Editable.Factory.getInstance().newEditable(text)
                     alertDialog.create()
                     tekstInput.background.clearColorFilter()
-                    alertDialog.setTitle("Rediger Tekst")
                     alertDialog.setView(tekstInput)
-                    alertDialog.setPositiveButton("Rediger"
-                    ) { dialog, which ->
-                        dialog.cancel()
-                    }
 
                     val alertSetWindow = alertDialog.show()
-                    alertSetWindow.window?.setBackgroundDrawableResource(R.drawable.posterlife_color)
-                    alertSetWindow.window?.setLayout(800,600)
-                    tekstInput.requestFocus()
+                    alertSetWindow.window?.setBackgroundDrawableResource(R.drawable.transparent)
+                    alertSetWindow.window?.setLayout(1,1)
+                    alertSetWindow.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+                    tekstInput.setSelection(tekstInput.length())
+
+                    val keyboard = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
 
                     tekstInput.addTextChangedListener {
                         billedRedTool.editText(rootView, tekstInput.text.toString(), colorCode)
