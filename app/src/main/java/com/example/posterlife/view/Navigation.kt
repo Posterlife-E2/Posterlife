@@ -48,7 +48,7 @@ fun Navigation() {
         Scaffold(
             scaffoldState = scaffoldState,
             bottomBar = {
-                if ((navBackStackEntry?.destination?.route != Navigation.Kamera.route) and
+                if ((navBackStackEntry?.destination?.route != NavigationBundNav.Kamera.route) and
                     (navBackStackEntry?.destination?.route != BilledRedigering.BilledRed.rute) and
                     (navBackStackEntry?.destination?.route != BilledConfirm.rute)
                 )
@@ -60,7 +60,7 @@ fun Navigation() {
                     startDestination = Login.LoginScreen.route
                 ) {
                     //---- Inspiration ----
-                    composable(Navigation.Inspiration.route) {
+                    composable(NavigationBundNav.Inspiration.route) {
                         InspirationOverview(navController = navController)
                     }
 
@@ -70,18 +70,18 @@ fun Navigation() {
 
 
                     //----Favorit ----
-                    composable(Navigation.Favorit.route) {
+                    composable(NavigationBundNav.Favorit.route) {
                         FavoritOverview(navigation = navController)
                     }
 
                     //---- Kamera ----
 
-                    composable(Navigation.Kamera.route) {
+                    composable(NavigationBundNav.Kamera.route) {
                         Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
                             Log.d(TAG, "Image Uri Captured from Camera View")
 
                         }, onError = { imageCaptureException ->
-                            navController.navigate(Navigation.Inspiration.route)
+                            navController.navigate(NavigationBundNav.Inspiration.route)
                         },
                             navController = navController,
                             billedViewModel
@@ -89,7 +89,7 @@ fun Navigation() {
                     }
 
                     composable(Kamera.KameraAccess.route) {
-                        navController.navigate(Navigation.Kamera.route)
+                        navController.navigate(NavigationBundNav.Kamera.route)
                     }
 
                     //------ Del med venner ----------
@@ -98,7 +98,7 @@ fun Navigation() {
                     }
 
                     //---- Profil ----
-                    composable(Navigation.Profil.route) {
+                    composable(NavigationBundNav.Profil.route) {
                         Profil.ProfilUI.ProfilUI(navController = navController)
                     }
 
@@ -132,7 +132,7 @@ fun Navigation() {
                     }
 
                     //---- Mine Design ----
-                    composable(Navigation.MineDesign.route) {
+                    composable(NavigationBundNav.MineDesign.route) {
                         MineDesign.MineDesignStart.MineDesignStart()
                     }
 

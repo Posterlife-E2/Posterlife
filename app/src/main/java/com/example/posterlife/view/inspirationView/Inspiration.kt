@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import androidx.compose.compiler.plugins.kotlin.write
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -45,6 +47,7 @@ import kotlinx.coroutines.launch
 //import com.google.gson.Gson
 import java.io.File
 import java.io.FileWriter
+import java.net.URL
 import kotlin.collections.ArrayList
 
 /**
@@ -215,7 +218,8 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                         .clickable {
                                             inspirationViewModel.currentIndex = index
                                             navController.navigate(InspirationFocusImage.rute)
-                                        }
+                                        },
+                                    contentScale = ContentScale.Crop
                                 )
                             }
                         }
@@ -259,14 +263,15 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             ) {
                                 Box(Modifier.fillMaxSize()) {
 
-                                    Image(
-                                        painter = rememberImagePainter(
-                                            data = plakatHolder.get(index).imageURL,
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .size(300.dp)
-                                    )
+
+                                        Image(
+                                            painter = rememberImagePainter(
+                                                data = plakatHolder.get(index).imageURL,
+                                            ),
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .size(300.dp)
+                                        )
                                     Box(
                                         modifier = Modifier
                                             .matchParentSize()
@@ -434,7 +439,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             FavoritButton(modifier = Modifier.size(20.dp), index = index)
                         }
                     }
-                    Text(plakatHolder.description, Modifier.padding(12.dp), fontSize = 17.sp)
+                    Text(plakatHolder.description, Modifier.padding(12.dp), fontSize = 17.sp, textAlign = TextAlign.Justify)
 
                 }
             }
