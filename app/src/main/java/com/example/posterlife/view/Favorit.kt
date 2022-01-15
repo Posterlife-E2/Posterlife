@@ -101,22 +101,22 @@ sealed class Favorit(val rute: String) {
             )
 
             LazyVerticalGrid(cells = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp), ) {
-                val indexList: List<String> = File("index.txt").bufferedReader().readLines()
-                val plakatInfo = PlakatInfo(context)
-                val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
-
-                items(indexList.size) {index ->
-
-                    Image(
-                        painter = rememberImagePainter(
-                            data = plakatHolder.get(index).imageURL,
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(300.dp)
-
-                    )
-                }
+                //val indexList: List<String> = File("index.txt").bufferedReader().readLines()
+//                val plakatInfo = PlakatInfo(context)
+//                val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
+//
+//                //items(indexList.size) {index ->
+//
+//                    Image(
+//                        painter = rememberImagePainter(
+//                            data = plakatHolder.get(index).imageURL,
+//                        ),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .size(300.dp)
+//
+//                    )
+                //}
             }
         }
 

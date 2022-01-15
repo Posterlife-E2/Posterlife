@@ -49,6 +49,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModel
 import ja.burhanrashid52.photoeditor.*
 import org.intellij.lang.annotations.JdkConstants
 import java.io.ByteArrayOutputStream
@@ -70,7 +71,7 @@ import java.io.ByteArrayOutputStream
  *
  */
 
-sealed class BilledRedigering(var rute: String) {
+sealed class BilledRedigering(var rute: String) : ViewModel() {
 
     object BilledConfirm : BilledRedigering("billedConfirm") {
 

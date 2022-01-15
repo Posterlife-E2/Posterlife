@@ -10,7 +10,7 @@ sealed class AuthenticationLogin {
 
     companion object {
 
-        private lateinit var authentication: FirebaseAuth
+        lateinit var authentication: FirebaseAuth
 
         fun signIn(email: String, password: String, navController: NavController) {
 
