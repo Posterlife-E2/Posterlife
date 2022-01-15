@@ -34,7 +34,7 @@ import coil.compose.rememberImagePainter
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
 import com.example.posterlife.view.Kamera
-import com.google.gson.Gson
+//import com.google.gson.Gson
 import java.io.File
 import java.io.FileWriter
 import kotlin.collections.ArrayList
@@ -100,8 +100,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
                     .width(200.dp)
                     .height(25.dp)
                     .clickable(onClick = { updateMenuExpandStatus() })
-                    .background(Color.White)
-                    .border(0.9.dp, color = Color.Black)
+                    .background(MaterialTheme.colors.primaryVariant)
+                    .border(0.9.dp, color = MaterialTheme.colors.onPrimary)
             )
             {
                 Row(
@@ -110,13 +110,13 @@ sealed class Inspiration(val rute: String): ViewModel() {
                 ) {
                     Text(
                         text = menuItems[selectedIndex],
-                        color = Color.Black,
+                        color = MaterialTheme.colors.onPrimary,
                         modifier = Modifier.padding(3.dp)
                     )
 
                     Icon(
                         Icons.Filled.ArrowDropDown,
-                        tint = Color.Black,
+                        tint = MaterialTheme.colors.onPrimary,
                         contentDescription = null,
                         modifier = Modifier.padding(top = 3.dp, bottom = 3.dp)
                     )
@@ -125,8 +125,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
                     expanded = menuExpandedState, onDismissRequest = { onDismissMenuView() },
                     modifier = Modifier
                         .width(200.dp)
-                        .background(color = Color.White)
-                        .border(0.5.dp, color = Color.Black)
+                        .background(color = MaterialTheme.colors.primaryVariant)
+                        .border(0.5.dp, color = MaterialTheme.colors.onPrimary)
                 )
                 {
                     menuItems.forEachIndexed { index, title ->
@@ -138,7 +138,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                             Text(
                                 text = title,
                                 fontSize = 15.sp,
-                                color = Color.Black
+                                color = MaterialTheme.colors.onPrimary
                             )
                         }
                     }
@@ -165,7 +165,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
             Column(
                 Modifier
-                    .background(Color(0xfffcfcf0))
+                    .background(MaterialTheme.colors.primary)
                     .fillMaxWidth()
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -206,7 +206,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
                 Text(
                     "Find din ynglings sang eller digt blandt vores smukke plakater!",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Light,
+                    style = MaterialTheme.typography.subtitle2,
+                    //fontWeight = FontWeight.Light,
                     modifier = Modifier.padding(5.dp)
                 )
 
@@ -240,19 +241,21 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
                             Row {
 
-                                Column() {
+                                Column(modifier = Modifier.weight(5f)) {
                                     Text(
                                         plakatHolder.get(index).title,
-                                        fontSize = 10.sp
+                                        //fontSize = 12.sp,
+                                        style = MaterialTheme.typography.body2
                                     )
                                     Text(
                                         "DKK " + plakatHolder.get(index).priceA3.toString() + " - " + "DKK " + plakatHolder.get(
                                             index
                                         ).price70x100.toString(),
-                                        fontSize = 10.sp
+                                        //fontSize = 12.sp,
+                                        style = MaterialTheme.typography.body2
                                     )
                                 }
-                                FavoritButton(index = index)
+                                FavoritButton(index = index, modifier = Modifier.weight(1f))
                             }
 
                         }
