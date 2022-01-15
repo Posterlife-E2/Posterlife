@@ -264,14 +264,14 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 Box(Modifier.fillMaxSize()) {
 
 
-                                        Image(
-                                            painter = rememberImagePainter(
-                                                data = plakatHolder.get(index).imageURL,
-                                            ),
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .size(300.dp)
-                                        )
+                                    Image(
+                                        painter = rememberImagePainter(
+                                            data = plakatHolder.get(index).imageURL,
+                                        ),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(300.dp)
+                                    )
                                     Box(
                                         modifier = Modifier
                                             .matchParentSize()
@@ -374,6 +374,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             val plakatInfo = PlakatInfo(context)
             val index = inspirationViewModel.currentIndex
             val plakatHolder = index?.let { plakatInfo.getPlakatInfo()[it] }
+            var enlargeBillede = remember { mutableStateOf(false) }
 
             if (plakatHolder != null) {
 
@@ -399,7 +400,11 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             modifier = Modifier
                                 .height(300.dp)
                                 .width(200.dp)
+                                .clickable {
+                                    enlargeBillede.value = true
+                                }
                         )
+
 
                         Column(modifier = Modifier.padding(7.dp)) {
                             Text(plakatHolder.title, fontSize = 20.sp)
@@ -439,7 +444,28 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             FavoritButton(modifier = Modifier.size(20.dp), index = index)
                         }
                     }
-                    Text(plakatHolder.description, Modifier.padding(12.dp), fontSize = 17.sp, textAlign = TextAlign.Justify)
+                    Text(
+                        plakatHolder.description,
+                        Modifier.padding(12.dp),
+                        fontSize = 17.sp,
+                        textAlign = TextAlign.Justify
+                    )
+
+                    if (enlargeBillede.value) {
+                        AlertDialog(modifier = Modifier
+                            .height(400.dp),
+                            backgroundColor = Color.Transparent,
+                            onDismissRequest = { enlargeBillede.value = false },
+                            text = {
+                                Image(
+                                    painter = rememberImagePainter(data = plakatHolder.imageURL),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                )
+                            },
+                            confirmButton = {})
+                    }
 
                 }
             }
