@@ -155,10 +155,14 @@ sealed class Inspiration(val rute: String): ViewModel() {
             navController: NavController
         ) {
 
+            val searching by remember {mutableStateOf(false)}
 
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
             val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
+            //val searchHolder: ArrayList<Plakat> = plakatInfo.searchPlakat()
+
+
 
 
             Column(
@@ -184,7 +188,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
                         Image(
                             painter = rememberImagePainter(
-                                data = plakatHolder.get(index).imageURL,
+                                data = plakatHolder.get(index).imageURL
                             ),
                             contentDescription = null,
                             modifier = Modifier
@@ -311,7 +315,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                         imeAction = ImeAction.Search
                                 ),
                                 keyboardActions = KeyboardActions(onSearch = {
-                                    plakatInfo.searchPlakat(query.value)
+                                    //plakatInfo.searchPlakat(query.value)
                                     keyboardController?.hide() }),
 
                                 textStyle = TextStyle(
