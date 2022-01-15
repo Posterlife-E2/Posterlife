@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
@@ -18,6 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -259,9 +262,15 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
 
 
+    @ExperimentalComposeUiApi
     @ExperimentalFoundationApi
     @Composable
     fun InspirationTopBar() {
+
+        val context = LocalContext.current
+        val plakatInfo = PlakatInfo(context)
+
+        val keyboardController = LocalSoftwareKeyboardController.current
 
         var expanded by remember { mutableStateOf(false)}
         var sizeState by remember { mutableStateOf(0.dp)}
@@ -301,6 +310,9 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                         keyboardType = KeyboardType.Text,
                                         imeAction = ImeAction.Search
                                 ),
+                                keyboardActions = KeyboardActions(onSearch = {
+                                    plakatInfo.searchPlakat(query.value)
+                                    keyboardController?.hide() }),
 
                                 textStyle = TextStyle(
                                         fontSize = 18.sp,
