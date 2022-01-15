@@ -1,10 +1,18 @@
 package com.example.posterlife.view.inspirationView
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.BitmapFactory
+import androidx.compose.compiler.plugins.kotlin.write
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -15,18 +23,31 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.posterlife.R
 //import com.example.posterlife.JsonParser.PlakatInfo
 //import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
+import com.example.posterlife.view.Kamera
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+//import com.google.gson.Gson
+import java.io.File
+import java.io.FileWriter
+import java.net.URL
 import kotlin.collections.ArrayList
 
 /**
@@ -41,11 +62,12 @@ import kotlin.collections.ArrayList
  * Grid - https://www.geeksforgeeks.org/lazy-composables-in-android-jetpack-compose-columns-rows-grids/
  * Icon sizing - https://www.py4u.net/discuss/666679
  *
- * Ting til at lave ting.
- * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
+ *
+ * @Source https://www.youtube.com/watch?v=KPVoQjwmWX4
  */
 
-sealed class Inspiration(val rute: String): ViewModel() {
+sealed class Inspiration(val rute: String) : ViewModel() {
+
 
     object InspirationStart : Inspiration("start") {
 
@@ -89,8 +111,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
                     .width(200.dp)
                     .height(25.dp)
                     .clickable(onClick = { updateMenuExpandStatus() })
-                    .background(Color.White)
-                    .border(0.9.dp, color = Color.Black)
+                    .background(MaterialTheme.colors.primaryVariant)
+                    .border(0.9.dp, color = MaterialTheme.colors.onPrimary)
             )
             {
                 Row(
@@ -99,13 +121,13 @@ sealed class Inspiration(val rute: String): ViewModel() {
                 ) {
                     Text(
                         text = menuItems[selectedIndex],
-                        color = Color.Black,
+                        color = MaterialTheme.colors.onPrimary,
                         modifier = Modifier.padding(3.dp)
                     )
 
                     Icon(
                         Icons.Filled.ArrowDropDown,
-                        tint = Color.Black,
+                        tint = MaterialTheme.colors.onPrimary,
                         contentDescription = null,
                         modifier = Modifier.padding(top = 3.dp, bottom = 3.dp)
                     )
@@ -114,8 +136,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
                     expanded = menuExpandedState, onDismissRequest = { onDismissMenuView() },
                     modifier = Modifier
                         .width(200.dp)
-                        .background(color = Color.White)
-                        .border(0.5.dp, color = Color.Black)
+                        .background(color = MaterialTheme.colors.primaryVariant)
+                        .border(0.5.dp, color = MaterialTheme.colors.onPrimary)
                 )
                 {
                     menuItems.forEachIndexed { index, title ->
@@ -127,7 +149,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                             Text(
                                 text = title,
                                 fontSize = 15.sp,
-                                color = Color.Black
+                                color = MaterialTheme.colors.onPrimary
                             )
                         }
                     }
@@ -139,64 +161,78 @@ sealed class Inspiration(val rute: String): ViewModel() {
         }
 
 
-
-
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
             navController: NavController
         ) {
 
-
             val context = LocalContext.current
+
             val plakatInfo = PlakatInfo(context)
             val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
 
-
             Column(
                 Modifier
-                    .background(Color(0xfffcfcf0))
+                    .background(MaterialTheme.colors.primary)
                     .fillMaxWidth()
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
+
                 Text(
                     text = "Nyheder",
                     fontSize = 30.sp,
-                    fontWeight = FontWeight.Light
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .offset(y = (8).dp)
                 )
 
                 LazyRow(
-                    modifier = Modifier.fillMaxHeight(0.4f)
+                    modifier = Modifier
+                        .fillMaxHeight(0.4f)
+                        .padding(12.dp)
                 ) {
 
 
                     items(plakatHolder.size) { index ->
 
-                        Image(
-                            painter = rememberImagePainter(
-                                data = plakatHolder.get(index).imageURL,
-                            ),
-                            contentDescription = null,
+                        Card(
+                            shape = RoundedCornerShape(8.dp),
                             modifier = Modifier
                                 .height(350.dp)
-                                .width(200.dp)
-                                .padding(2.dp)
-                                .clickable {
-                                    inspirationViewModel.currentIndex = index
-                                    navController.navigate(InspirationFocusImage.rute)
-                                }
-                        )
+                                .width(182.dp)
+                                .padding(10.dp),
+                            elevation = 5.dp
+                        ) {
+                            Box(Modifier.fillMaxSize()) {
+                                Image(
+                                    painter = rememberImagePainter(
+                                        data = plakatHolder.get(index).imageURL,
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable {
+                                            inspirationViewModel.currentIndex = index
+                                            navController.navigate(InspirationFocusImage.rute)
+                                        },
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
+                        }
                     }
 
                 }
 
 
                 Text(
-                    "Find din ynglings sang eller digt blandt vores smukke plakater!",
+                    "Find din yndlings sang eller digt blandt vores smukke plakater!",
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Light,
+                    style = MaterialTheme.typography.subtitle2,
+                    //fontWeight = FontWeight.Light,
                     modifier = Modifier.padding(5.dp)
                 )
 
@@ -218,40 +254,70 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                     inspirationViewModel.currentIndex = index
                                     navController.navigate("focusImage")
                                 }) {
-                            Image(
-                                painter = rememberImagePainter(
-                                    data = plakatHolder.get(index).imageURL,
-                                ),
-                                contentDescription = null,
+                            Card(
                                 modifier = Modifier
-                                    .size(300.dp)
+                                    .size(236.dp)
+                                    .padding(10.dp),
+                                shape = RoundedCornerShape(5.dp),
+                                elevation = 5.dp
+                            ) {
+                                Box(Modifier.fillMaxSize()) {
 
-                            )
 
-                            Row {
-
-                                Column() {
-                                    Text(
-                                        plakatHolder.get(index).title,
-                                        fontSize = 10.sp
+                                        Image(
+                                            painter = rememberImagePainter(
+                                                data = plakatHolder.get(index).imageURL,
+                                            ),
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .size(300.dp)
+                                        )
+                                    Box(
+                                        modifier = Modifier
+                                            .matchParentSize()
+                                            .background(
+                                                Brush.verticalGradient(
+                                                    colors = listOf(Color.Transparent, Color.White),
+                                                )
+                                            )
                                     )
-                                    Text(
-                                        "DKK " + plakatHolder.get(index).priceA3.toString() + " - " + "DKK " + plakatHolder.get(
-                                            index
-                                        ).price70x100.toString(),
-                                        fontSize = 10.sp
-                                    )
+                                    {}
+
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(8.dp),
+                                        contentAlignment = Alignment.BottomCenter
+                                    ) {
+
+                                        Row() {
+                                            Column(modifier = Modifier.weight(5f)) {
+                                                Text(
+                                                    fontSize = 12.sp,
+                                                    style = MaterialTheme.typography.subtitle2,
+                                                    text = plakatHolder[index].title
+                                                )
+                                            }
+                                            FavoritButton(
+                                                index = index,
+                                                modifier = Modifier
+                                                    .weight(1F)
+                                            )
+                                        }
+
+                                    }
                                 }
-                                FavoritButton()
+
                             }
+
 
                         }
                     }
                 }
+
             }
         }
     }
-
 
 
     @ExperimentalFoundationApi
@@ -370,10 +436,10 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                 }
                             }
                             Spacer(modifier = Modifier.padding(47.dp))
-                            FavoritButton(modifier = Modifier.size(20.dp))
+                            FavoritButton(modifier = Modifier.size(20.dp), index = index)
                         }
                     }
-                    Text(plakatHolder.description, Modifier.padding(12.dp), fontSize = 17.sp)
+                    Text(plakatHolder.description, Modifier.padding(12.dp), fontSize = 17.sp, textAlign = TextAlign.Justify)
 
                 }
             }
@@ -439,30 +505,54 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
     }
 
-        /**
-         * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.
-         * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card
-         */
+    /**
+     * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.
+     * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card
+     */
 
-        @Composable
-        fun FavoritButton(
-            modifier: Modifier = Modifier,
-            color: Color = Color.Red,
-        ) {
-            var isFavorite by remember { mutableStateOf(false) }
-            IconToggleButton(checked = isFavorite, onCheckedChange = { isFavorite = !isFavorite }) {
-                Icon(
-                    tint = color, modifier = Modifier.size(15.dp), imageVector = if (isFavorite) {
-                        Icons.Filled.Favorite
-                    } else {
-                        Icons.Default.FavoriteBorder
-                    },
-                    contentDescription = null
-                )
+    private val permissions = arrayOf(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
+    @Composable
+    fun FavoritButton(
+        modifier: Modifier = Modifier,
+        color: Color = Color.Red,
+        index: Int
+    ) {
+
+        val context = LocalContext.current
+
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            permissions, 0
+        )
+
+        val indexFile = File("index.txt")
+
+        var isFavorite by remember { mutableStateOf(false) }
+        IconToggleButton(checked = isFavorite, onCheckedChange = {
+            isFavorite = !isFavorite
+            if (isFavorite) {
+//                indexFile.bufferedWriter().use { indexFil ->
+//                    indexFil.write(index)
+//                    indexFil.write("\n")
+//                }
             }
+        }) {
+            Icon(
+                tint = color, modifier = Modifier.size(30.dp), imageVector = if (isFavorite) {
+                    Icons.Filled.Favorite
+                } else {
+                    Icons.Default.FavoriteBorder
+                },
+                contentDescription = null
+            )
         }
-
     }
+
+}
 
 
 

@@ -10,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.example.posterlife.model.MineDesignModal
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 /**
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example

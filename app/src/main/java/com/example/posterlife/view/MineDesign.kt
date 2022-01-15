@@ -262,8 +262,9 @@ sealed class MineDesign(val rute: String) {
                     Log.d("Update Value",outputString);
                     file.writeText(outputString);
 
+                    UploadImage.DeleteImage(path)
                 }
-                UploadImage.DeleteImage(path)
+
 
             }else{
                 var file = File(context.getOutputDirectory(), "Files.txt")

@@ -1,9 +1,15 @@
 package com.example.posterlife.view.inspirationView
 
+import android.content.SharedPreferences
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import android.content.Context.MODE_PRIVATE
+import androidx.compose.runtime.MutableState
+import com.google.gson.Gson
+import java.io.FileWriter
+
 
 /**
  * @Author Kristoffer Pedersen (s205354)
@@ -22,5 +28,4 @@ import androidx.lifecycle.ViewModel
 
 object InspirationViewModel : ViewModel() {
    var currentIndex by mutableStateOf(0)
-
 }

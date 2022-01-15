@@ -1,6 +1,7 @@
 package com.example.posterlife.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -13,10 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
+import com.example.posterlife.model.Plakat
+import com.example.posterlife.model.jsonParser.PlakatInfo
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStream
+import java.io.InputStreamReader
 
 sealed class Favorit(val rute: String) {
 
@@ -69,9 +79,13 @@ sealed class Favorit(val rute: String) {
         )
     }
 
+
+
+    @ExperimentalCoilApi
     @ExperimentalFoundationApi
     @Composable
     fun MainFavoritePage() {
+        val context = LocalContext.current
         Column(
             modifier = Modifier
                 .background(Color(0xfffcfcf0))
@@ -87,7 +101,22 @@ sealed class Favorit(val rute: String) {
             )
 
             LazyVerticalGrid(cells = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp), ) {
-
+                //val indexList: List<String> = File("index.txt").bufferedReader().readLines()
+//                val plakatInfo = PlakatInfo(context)
+//                val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
+//
+//                //items(indexList.size) {index ->
+//
+//                    Image(
+//                        painter = rememberImagePainter(
+//                            data = plakatHolder.get(index).imageURL,
+//                        ),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .size(300.dp)
+//
+//                    )
+                //}
             }
         }
 

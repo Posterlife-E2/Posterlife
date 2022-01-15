@@ -160,11 +160,14 @@ open class Login(val route: String) {
                             // log in
                             TextButton(
                                 onClick = {
-                                    AuthenticationLogin.signIn(
-                                        emailValue,
-                                        passwordValue,
-                                        navController
-                                    )
+
+                                    if (emailValue != "" && passwordValue != ""){
+                                        AuthenticationLogin.signIn(
+                                            emailValue,
+                                            passwordValue,
+                                            navController
+                                        )
+                                    }
                                 },
                                 modifier = Modifier
                                     .padding(16.dp)

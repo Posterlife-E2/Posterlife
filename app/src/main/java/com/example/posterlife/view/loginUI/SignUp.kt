@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +33,12 @@ sealed class SignUp(val route: String) {
 
     object SignUpScreen : SignUp("signUpScreen") {
 
+        private var passwordForkert = mutableStateOf(false)
+
         @Composable
         fun SignUpScreen(navController: NavController) {
+
+            val context = LocalContext.current
 
             Column(
                 Modifier
@@ -65,7 +70,14 @@ sealed class SignUp(val route: String) {
                             .fillMaxWidth(),
                         verticalArrangement = Arrangement.Center
                     ) {
-                        Text(text = "Opret Bruger", fontSize = 50.sp, fontWeight = FontWeight.Bold,modifier = Modifier.align(Alignment.CenterHorizontally).padding(25.dp))
+                        Text(
+                            text = "Opret Bruger",
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(25.dp)
+                        )
 
 
                         //Email
@@ -116,10 +128,18 @@ sealed class SignUp(val route: String) {
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
 
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color.Black,
-                                focusedLabelColor = Color(0xfffc9003)
-                            ),
+                            colors = if (passwordForkert.value) {
+                                TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedBorderColor = Color.Red,
+                                    focusedLabelColor = Color.Red,
+                                    unfocusedBorderColor = Color.Red
+                                )
+                            } else {
+                                TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedBorderColor = Color.Black,
+                                    focusedLabelColor = Color.Black
+                                )
+                            },
 
                             //Tekst inden i tekstboksen
                             textStyle = TextStyle(
@@ -143,7 +163,6 @@ sealed class SignUp(val route: String) {
                             }
                         )
                         //Password
-                        //TODO check at passwordconfirm = password før at den kan sign up.
                         var passwordConfirmValue by remember { mutableStateOf("") }
                         var passwordConfirmVisibility by remember { mutableStateOf(false) }
                         OutlinedTextField(
@@ -166,10 +185,18 @@ sealed class SignUp(val route: String) {
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
 
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color.Black,
-                                focusedLabelColor = Color(0xfffc9003)
-                            ),
+                            colors = if (passwordForkert.value) {
+                                TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedBorderColor = Color.Red,
+                                    focusedLabelColor = Color.Red,
+                                    unfocusedBorderColor = Color.Red
+                                )
+                            } else {
+                                TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedBorderColor = Color.Black,
+                                    focusedLabelColor = Color.Black
+                                )
+                            },
 
                             //Tekst inden i tekstboksen
                             textStyle = TextStyle(
@@ -192,13 +219,19 @@ sealed class SignUp(val route: String) {
                                 }
                             }
                         )
+                        passwordForkert.value = passwordValue != passwordConfirmValue
+
+
+
                         TextButton(
                             onClick = {
-                                AuthenticationSignUp.SignUpUser(
-                                    emailValue,
-                                    passwordValue,
-                                    navController
-                                )
+                                if (emailValue != "" && passwordValue != "") {
+                                    AuthenticationSignUp.SignUpUser(
+                                        emailValue,
+                                        passwordValue,
+                                        navController
+                                    )
+                                }
                             },
                             modifier = Modifier
                                 .padding(16.dp)

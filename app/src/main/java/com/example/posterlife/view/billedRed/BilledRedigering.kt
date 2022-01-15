@@ -3,7 +3,6 @@ package com.example.posterlife.view.billedRed
 import android.content.Context
 import android.graphics.Typeface
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -14,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,12 +30,10 @@ import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.saveImageController.UploadImage
-import com.example.posterlife.view.Navigation
+import com.example.posterlife.view.NavigationBundNav
 import java.lang.Exception
 import android.provider.MediaStore.Images
-import android.provider.MediaStore.Images.Media.getBitmap
 import android.text.Editable
-import android.text.Layout
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
@@ -49,8 +45,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModel
 import ja.burhanrashid52.photoeditor.*
-import org.intellij.lang.annotations.JdkConstants
 import java.io.ByteArrayOutputStream
 
 
@@ -70,7 +66,7 @@ import java.io.ByteArrayOutputStream
  *
  */
 
-sealed class BilledRedigering(var rute: String) {
+sealed class BilledRedigering(var rute: String) : ViewModel() {
 
     object BilledConfirm : BilledRedigering("billedConfirm") {
 
@@ -146,7 +142,7 @@ sealed class BilledRedigering(var rute: String) {
         BottomAppBar(
             backgroundColor = Color.DarkGray
         ) {
-            IconButton(onClick = { navController.navigate(Navigation.Kamera.route) }) {
+            IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
                 Icon(
                     Icons.Filled.Close,
                     contentDescription = null,
@@ -469,7 +465,7 @@ sealed class BilledRedigering(var rute: String) {
                     BottomAppBar(
                         backgroundColor = Color.DarkGray
                     ) {
-                        IconButton(onClick = { navController.navigate(Navigation.Kamera.route) }) {
+                        IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
                             Icon(
                                 Icons.Filled.Close,
                                 contentDescription = null,
@@ -577,8 +573,6 @@ sealed class BilledRedigering(var rute: String) {
                         ) {
                             Text("Indsæt")
                         }
-
-
                     }
                 }
             )
@@ -701,7 +695,7 @@ sealed class BilledRedigering(var rute: String) {
 
                     if (uri != null) {
                         uploadBillede(uri, context)
-                        navController.navigate(Navigation.MineDesign.route)
+                        navController.navigate(NavigationBundNav.MineDesign.route)
                     }
                 }
 
