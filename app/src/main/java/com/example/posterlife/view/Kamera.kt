@@ -41,6 +41,7 @@ import androidx.navigation.NavController
 import com.example.posterlife.R
 import com.example.posterlife.view.billedRed.BilledRedigering
 import com.example.posterlife.view.billedRed.BilledViewModel
+import com.example.posterlife.view.loginUI.Login
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -89,6 +90,7 @@ sealed class Kamera(val route: String) {
             uriViewModel = billedViewModel
 
             navControllerKamera = navController
+
             val context = LocalContext.current
 
             if (hasNoPermissions(context)) {
@@ -177,7 +179,7 @@ sealed class Kamera(val route: String) {
 
                     IconButton(
                         onClick = {
-                           navControllerKamera.popBackStack()
+                           navControllerKamera.navigate(Login.LoginScreen.route)
                         }){
                         Icon(Icons.Filled.ArrowBack,
                             contentDescription = "Back",
