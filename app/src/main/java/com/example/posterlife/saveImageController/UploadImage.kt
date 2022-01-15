@@ -53,12 +53,16 @@ sealed class UploadImage{
             }
         }
         fun DeleteImage (fileName:String){
-            val storageRef= Firebase.storage.reference.child("Images/$fileName")
-            storageRef.delete().addOnSuccessListener {
-
-            }.addOnFailureListener{
-
-            }
+            firebaseStore = FirebaseStorage.getInstance()
+            val url = firebaseStore!!.reference.child("Images/$fileName").downloadUrl.toString();
+            val photoRef: StorageReference = firebaseStore!!.getReferenceFromUrl(url)
+            photoRef.delete().addOnSuccessListener( OnSuccessListener<Void?> {
+                fun onSuccess(aVoid: Void?) {
+                    Log.d("Message", "onSuccess: deleted file")
+                }
+            }).addOnFailureListener(OnFailureListener { // Uh-oh, an error occurred!
+                Log.d("Message", "onFailure: did not delete file")
+            })
 
         }
         fun makeDirectory(context: Context,filePath:String){
