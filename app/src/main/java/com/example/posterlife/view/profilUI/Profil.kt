@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.posterlife.R
 import com.example.posterlife.loginController.AuthenticationLogin
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
