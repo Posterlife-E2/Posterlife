@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
+import com.example.posterlife.view.NavigationBundNav
 
 sealed class Kontakt(val route : String) {
     object KontaktInfo : Kontakt("kontakt")
@@ -54,7 +55,7 @@ sealed class Kontakt(val route : String) {
             },
             navigationIcon = {
                 IconButton(onClick = {
-                    navController.navigate("profilStart") {
+                    navController.navigate(NavigationBundNav.Profil.route) {
                         popUpTo("ProfilUI")
                     }
                 }) {

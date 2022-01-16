@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.posterlife.view.NavigationBundNav
 
 
 sealed class Handelsbetingelser(val route: String) {
@@ -53,7 +54,7 @@ sealed class Handelsbetingelser(val route: String) {
                 )
             },
             navigationIcon = {
-                IconButton(onClick = {navController.navigate("profilStart"){
+                IconButton(onClick = {navController.navigate(NavigationBundNav.Profil.route){
                     popUpTo("ProfilUI")
                 } }) {
                     Icon(

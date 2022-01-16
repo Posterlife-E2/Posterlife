@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
+import com.example.posterlife.view.NavigationBundNav
 
 
 sealed class DelMedVenner(val route: String) {
@@ -55,7 +56,7 @@ sealed class DelMedVenner(val route: String) {
                 )
             },
             navigationIcon = {
-                             IconButton(onClick = { navController.navigate("profilStart"){
+                             IconButton(onClick = { navController.navigate(NavigationBundNav.Profil.route){
                                  popUpTo("ProfilUI")
                              } }) {
                                  Icon(Icons.Filled.ArrowBack,

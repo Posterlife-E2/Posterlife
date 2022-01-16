@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
+import com.example.posterlife.view.NavigationBundNav
 import androidx.compose.material.Text as MaterialText
 
 sealed class Privatlivspolitik(var route: String) {
@@ -55,7 +56,7 @@ sealed class Privatlivspolitik(var route: String) {
             },
             navigationIcon = {
                 IconButton(onClick = {
-                    navController.navigate("profilStart") {
+                    navController.navigate(NavigationBundNav.Profil.route) {
                         popUpTo("profilUI")
                     }
                 }) {
