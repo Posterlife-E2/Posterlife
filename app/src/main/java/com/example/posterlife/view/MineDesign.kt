@@ -37,6 +37,7 @@ import java.io.File
 
 
 /**
+ * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  * @source https://developer.android.com/jetpack/compose/navigation
  *
  * Ting til at lave ting.

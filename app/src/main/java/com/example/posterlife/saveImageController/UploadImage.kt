@@ -14,6 +14,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 /**
+ *
+ * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
  * https://firebase.google.com/docs/database
  * https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
