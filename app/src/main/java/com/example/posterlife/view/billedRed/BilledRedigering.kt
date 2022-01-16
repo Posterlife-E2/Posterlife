@@ -116,14 +116,12 @@ sealed class BilledRedigering(var rute: String) {
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { }) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = null
                     )
                 }
-
-
             },
 
             backgroundColor = Color(0xfffcfcf0),
@@ -205,7 +203,7 @@ sealed class BilledRedigering(var rute: String) {
                 content = {
                     Column(
                         modifier = Modifier
-                            .background(Color(0xfffcfcf0))
+                            .background(Color.DarkGray)
                             .fillMaxSize(),
 
                         ) {
