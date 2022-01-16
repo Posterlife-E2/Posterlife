@@ -46,6 +46,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
+import com.example.posterlife.view.loginUI.Login
 import ja.burhanrashid52.photoeditor.*
 import java.io.ByteArrayOutputStream
 
@@ -120,14 +121,12 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { }) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = null
                     )
                 }
-
-
             },
 
             backgroundColor = Color(0xfffcfcf0),
@@ -269,7 +268,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                 content = {
                     Column(
                         modifier = Modifier
-                            .background(Color(0xfffcfcf0))
+                            .background(Color.DarkGray)
                             .fillMaxSize(),
 
                         ) {
@@ -695,7 +694,10 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
                     if (uri != null) {
                         uploadBillede(uri, context)
-                        navController.navigate(NavigationBundNav.MineDesign.route)
+                        navController.navigate(NavigationBundNav.MineDesign.route) {
+                            //sletter backstack indtil login.page
+                            popUpTo(Login.LoginScreen.route)
+                        }
                     }
                 }
 

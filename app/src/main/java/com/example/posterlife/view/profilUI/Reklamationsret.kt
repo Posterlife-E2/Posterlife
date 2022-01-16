@@ -42,7 +42,7 @@ sealed class Reklamationsret(val route: String) {
     }
 
 
-    // top app bar til Betalingssiden. Den indeholder et ikon så det er muligt at gå tilbage til handelsbetingelser.
+    // Top app bar til Reklamationssiden. Den indeholder et ikon så det er muligt at gå tilbage til handelsbetingelser.
     @Composable
     fun ReklamationTopBar(navController: NavController) {
         TopAppBar(
@@ -76,6 +76,7 @@ sealed class Reklamationsret(val route: String) {
 
     /**
      * Inspiration til dropdown: https://android--code.blogspot.com/2021/03/jetpack-compose-how-to-use-dropdownmenu.html
+     * Denne funktion består af fire bokse som alle laver dropdown, med forskellig tekst ang. reklamation.
      * */
 
     @Composable
@@ -94,6 +95,7 @@ sealed class Reklamationsret(val route: String) {
                 .fillMaxHeight()
         ) {
 
+            // Overskrift
             Text(
                 text = "Reklamation",
                 fontSize = 30.sp,
@@ -120,7 +122,6 @@ sealed class Reklamationsret(val route: String) {
                         .fillMaxWidth()
                         .fillMaxHeight()
                 ) {
-
                     Text(
                         text = "Reklamationsret",
                         fontSize = 22.sp,
@@ -133,7 +134,7 @@ sealed class Reklamationsret(val route: String) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
-
+                    // Dropdown som indeholder tekst ang. reklamations information.
                     DropdownMenu(
                         expanded = expandedReklamationsret.value,
                         onDismissRequest = { expandedReklamationsret.value = false },
@@ -181,7 +182,7 @@ sealed class Reklamationsret(val route: String) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
-
+                    // Dropdown som indeholder tekst ang. retur.
                     DropdownMenu(
                         expanded = expandedRetur.value,
                         onDismissRequest = { expandedRetur.value = false },
@@ -229,7 +230,7 @@ sealed class Reklamationsret(val route: String) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
-
+                    // Dropdown som indeholder tekst ang. ombytning.
                     DropdownMenu(
                         expanded = expandedOmbyt.value,
                         onDismissRequest = { expandedOmbyt.value = false },
@@ -277,7 +278,7 @@ sealed class Reklamationsret(val route: String) {
                         Icon(Icons.Filled.Add, contentDescription = null)
 
                     }
-
+                    // Dropdown som indeholder tekst ang. reklamations -og ombytningsret.
                     DropdownMenu(
                         expanded = expandedRettigheder.value,
                         onDismissRequest = { expandedRettigheder.value = false },

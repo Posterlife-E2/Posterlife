@@ -7,21 +7,31 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
@@ -33,6 +43,7 @@ import java.io.File
 
 
 /**
+ * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  * @source https://developer.android.com/jetpack/compose/navigation
  *
  * Ting til at lave ting.
@@ -51,10 +62,62 @@ sealed class MineDesign(val rute: String) {
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
+
+        @ExperimentalFoundationApi
         @ExperimentalCoilApi
         @androidx.compose.runtime.Composable
         fun MineDesignStart() {
+            val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                         MineDesignTopBar()
 
+                },
+                content = {
+                    MineDesignContent()
+                }
+            )
+
+
+
+
+        }
+
+        @Composable
+        fun MineDesignTopBar() {
+            TopAppBar(
+                title = {
+
+                    Text(
+                        text = "Mine Design",
+                        color = Color.Black,
+                        fontSize = 30.sp
+                    )
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            tint = Color.Red,
+                            contentDescription = null
+                        )
+                    }
+
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                    }
+                },
+                backgroundColor = Color(0xfffcfcf0),
+
+                elevation = 12.dp
+            )
+
+        }
+
+        @ExperimentalFoundationApi
+        @Composable
+        fun MineDesignContent () {
             val context = LocalContext.current;
 
             ActivityCompat.requestPermissions(context as Activity,
@@ -76,18 +139,10 @@ sealed class MineDesign(val rute: String) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         val openDialog = remember { mutableStateOf(false) }
-                        Text(
-                            text = "Mine Design",
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        LazyColumn(
-                            Modifier
-                                .background(Color(0xfffcfcf0))
-                                .fillMaxWidth()
-                                .padding(20.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
+                        LazyVerticalGrid(
+                            cells = GridCells.Fixed(2),
+                            contentPadding = PaddingValues(8.dp))
+                        {
                             items(result.size) { index ->
                                 val source = "content://media/external/images/media/" + result.get(index)
 
@@ -98,48 +153,91 @@ sealed class MineDesign(val rute: String) {
 
                                 Card(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp)
-                                        .clickable { },
+
+                                        .padding(8.dp),
                                     elevation = 10.dp
 
                                 ) {
-                                    Column(
+                                    Column(modifier = Modifier.padding(start = 3.dp, end = 3.dp)
 
                                     ) {
+                                        Row (modifier = Modifier.height(30.dp), verticalAlignment = Alignment.CenterVertically){
+                                            EditTitle()
+                                            Box(modifier = Modifier.weight(1f))
+                                            Box() {
+
+                                                val showDialog =
+                                                    IconButton(
+                                                        onClick = { openDialog.value = true },
+                                                        modifier = Modifier.size(22.dp)
+                                                    ) {
+                                                        Icon(
+                                                            Icons.Filled.DeleteOutline,
+                                                            contentDescription = null,
+                                                            Modifier.size(22.dp)
+                                                        )
+                                                    }
+                                            }
+                                        }
+
                                         Image(
                                             painter = rememberImagePainter(
                                                 data = Uri.parse(source)
                                             ),
                                             contentDescription = "Image",
                                             modifier = Modifier
-                                                .size(500.dp)
-                                                .background(Color.Black)
-                                                .clickable {
-
-                                                }
+                                                .size(250.dp)
+                                                .background(Color.White)
                                         )
-                                        Button(
-                                            onClick = {
-                                                openDialog.value = true
-                                            },
-                                            modifier = Modifier.fillMaxWidth(),
-                                            contentPadding = PaddingValues(
-                                                start = 20.dp,
-                                                top = 12.dp,
-                                                end = 20.dp,
-                                                bottom = 12.dp
-                                            )
 
-                                        ) {
-                                            // Inner content including an icon and a text label
-                                            Icon(
-                                                Icons.Filled.Delete,
-                                                contentDescription = "Delete",
-                                                modifier = Modifier.size(ButtonDefaults.IconSize)
-                                            )
-                                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                                            Text("Delete")
+                                        Row(modifier = Modifier.height(30.dp), verticalAlignment = Alignment.CenterVertically,) {
+                                            Box(modifier = Modifier.clickable { }) {
+                                                Row() {
+                                                    Text(
+                                                        text = "Rediger",
+                                                        fontWeight = FontWeight.Light
+                                                    )
+
+                                                    Box() {
+                                                        Icon(
+                                                            Icons.Filled.Edit,
+                                                            contentDescription = null,
+                                                            Modifier.size(22.dp)
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                            Box(modifier = Modifier.weight(1f))
+                                            Box() {
+                                                IconButton(
+                                                    onClick = { /*TODO*/ },
+                                                    modifier = Modifier.size(22.dp)
+                                                ) {
+                                                    Icon(
+                                                        Icons.Filled.Send,
+                                                        contentDescription = null,
+                                                        Modifier.size(22.dp)
+                                                    )
+                                                }
+                                            }
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(22.dp)
+                                            ) {
+                                                FavoritButton()
+                                            }
+                                            Box() {
+                                                IconButton(
+                                                    onClick = { /*TODO*/ },
+                                                    modifier = Modifier.size(22.dp)
+                                                ) {
+                                                    Icon(
+                                                        Icons.Filled.AddShoppingCart,
+                                                        contentDescription = null,
+                                                        Modifier.size(22.dp)
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
                                     if (openDialog.value) {
@@ -148,10 +246,10 @@ sealed class MineDesign(val rute: String) {
                                                 openDialog.value = false
                                             },
                                             title = {
-                                                Text(text = "Delete Post")
+                                                Text(text = "Slet Plakat")
                                             },
                                             text = {
-                                                Text("Are you sure you want to delete the post?")
+                                                Text("Er du sikker på at du vil slette denne plakat?")
                                             },
                                             confirmButton = {
                                                 Button(
@@ -169,7 +267,7 @@ sealed class MineDesign(val rute: String) {
 
                                                     }
                                                 ) {
-                                                    Text("Cancel")
+                                                    Text("Afbryd")
                                                 }
                                             }
                                         )
@@ -271,6 +369,50 @@ sealed class MineDesign(val rute: String) {
                 val text = file.readText()
             }
         }
-
     }
+
+    @Composable
+    fun FavoritButton(
+        color: Color = Color.Red,
+    ) {
+        var isFavorite by remember { mutableStateOf(false) }
+        IconToggleButton(checked = isFavorite, onCheckedChange = { isFavorite = !isFavorite }) {
+            Icon(
+                tint = color, modifier = Modifier.size(22.dp), imageVector = if (isFavorite) {
+                    Icons.Filled.Favorite
+                } else {
+                    Icons.Default.FavoriteBorder
+                },
+                contentDescription = null
+            )
+        }
+    }
+
+    @ExperimentalComposeUiApi
+    @Composable
+    fun EditTitle() {
+        val keyboardController = LocalSoftwareKeyboardController.current
+
+        var textFieldState by remember {
+            mutableStateOf("Title")
+        }
+        BasicTextField(
+            textStyle = androidx.compose.ui.text.TextStyle(
+                color = Color.Black,
+                fontSize = 18.sp
+            ),
+            value = textFieldState,
+            onValueChange = {
+                textFieldState = it
+            },
+            keyboardOptions = KeyboardOptions (
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide() }),
+        )
+    }
+
+
 }

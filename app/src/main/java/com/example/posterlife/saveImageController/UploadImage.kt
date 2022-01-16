@@ -14,6 +14,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 /**
+ *
+ * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
  * https://firebase.google.com/docs/database
  * https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
@@ -53,16 +55,12 @@ sealed class UploadImage{
             }
         }
         fun DeleteImage (fileName:String){
-            firebaseStore = FirebaseStorage.getInstance()
-            val url = firebaseStore!!.reference.child("Images/$fileName").downloadUrl.toString();
-            val photoRef: StorageReference = firebaseStore!!.getReferenceFromUrl(url)
-            photoRef.delete().addOnSuccessListener( OnSuccessListener<Void?> {
-                fun onSuccess(aVoid: Void?) {
-                    Log.d("Message", "onSuccess: deleted file")
-                }
-            }).addOnFailureListener(OnFailureListener { // Uh-oh, an error occurred!
-                Log.d("Message", "onFailure: did not delete file")
-            })
+            val storageRef=Firebase.storage.reference.child("Images/$fileName")
+            storageRef.delete().addOnSuccessListener {
+
+            }.addOnFailureListener{
+
+            }
 
         }
         fun makeDirectory(context: Context,filePath:String){

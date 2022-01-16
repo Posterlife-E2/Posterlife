@@ -3,10 +3,6 @@ package com.example.posterlife.view.billedRed
 import android.view.View
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,6 +19,16 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoEditorView
 import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.net.Uri
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.example.posterlife.view.Navigation
 
 
 /**
@@ -85,7 +91,7 @@ class BilledFilterShower(private val billedURI: Uri) {
         "Tint",
         "Vignet",
         "Roter"
-        )
+    )
 
     private val tempFilter = filterValg
 
@@ -107,9 +113,8 @@ class BilledFilterShower(private val billedURI: Uri) {
         val billedTempRedTool =
             remember { PhotoEditor.Builder(context, billedTempRedView) }
                 .setPinchTextScalable(true)
-                .setClipSourceImage(true)
+                .setClipSourceImage(false)
                 .build()
-
 
 
         AlertDialog(
@@ -117,83 +122,79 @@ class BilledFilterShower(private val billedURI: Uri) {
             properties = DialogProperties(usePlatformDefaultWidth = false),
             modifier = Modifier
                 .fillMaxSize(),
-            backgroundColor = Color(0xfffcfcf0),
+            backgroundColor = Color.DarkGray,
             title = null,
             text = {
-                BoxWithConstraints(
+                Box(
                     modifier = Modifier
                         .fillMaxSize(),
                     contentAlignment = Alignment.TopCenter
 
                 ) {
                     //Opretter billedet alt efter hvor stor mobilen er.
-                    if (maxHeight < 700.dp) {
-                        AndroidView(
-                            factory = { billedTempRedView },
-                            Modifier.width(350.dp)
-                        )
-                    } else {
-                        AndroidView(
-                            factory = { billedTempRedView }
-                        )
-                    }
+                    AndroidView(
+                        factory = { billedTempRedView }
+                    )
                 }
 
                 billedTempRedTool.setFilterEffect(filterValg)
 
             },
             confirmButton = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
+
+                Column() {
                     LazyRow(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(4.dp)
                     ) {
+
                         items(filtre.size) { index ->
-                            Button(modifier = Modifier
-                                .padding(4.dp),
-                                shape = RectangleShape,
-                                colors = ButtonDefaults.textButtonColors(
-                                    backgroundColor = Color.Black, contentColor = Color.White
-                                ),
-                                onClick = {
-                                    billedTempRedTool.setFilterEffect(filtre.get(index))
-                                    filterValg = filtre.get(index)
-                                }) {
-                                Text(filterNavn[index])
+
+                            Box(
+                                modifier = Modifier
+                                    .width(80.dp)
+                                    .height(80.dp)
+                                    .border(1.dp, Color.White, shape = RectangleShape)
+                                    .background(color = Color.Black)
+                                    .padding(end = 3.dp)
+                                    .clickable(onClick = {
+                                        billedTempRedTool.setFilterEffect(filtre.get(index))
+                                        filterValg = filtre.get(index)
+                                    })) {
+
+                                Column(modifier = Modifier.fillMaxSize(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center) {
+                                    Text(filterNavn[index], color = Color.White)
+                                }
                             }
                         }
                     }
-                }
-                Button(
-                    onClick = {
-                        BilledRedigering.BilledRed.visFilterMenu.value = false
-                    },
-                    shape = RectangleShape,
-                    colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = Color.Black, contentColor = Color.White
-                    )
-                ) {
-                    Text("Accepter")
-                }
-            },
-            dismissButton = {
 
-                Button(
-                    onClick = {
-                        filterValg = tempFilter
-                        BilledRedigering.BilledRed.visFilterMenu.value = false
-                    },
-                    shape = RectangleShape,
-                    colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = Color.Black, contentColor = Color.White
-                    )
-                ) {
-                    Text("Luk")
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                        IconButton(onClick = { filterValg = tempFilter
+                            BilledRedigering.BilledRed.visFilterMenu.value = false}) {
+                            Icon(
+                                Icons.Filled.Close,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                        Text(text = "VÆLG FILTER", color = Color.White, fontSize = 20.sp)
+
+                        IconButton(onClick = { BilledRedigering.BilledRed.visFilterMenu.value = false }) {
+                            Icon(
+                                Icons.Filled.Done,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                    }
+
                 }
-            })
+            }
+        )
     }
 }
