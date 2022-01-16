@@ -5,4 +5,21 @@
     <string name="icn_camera_view_view_gallery_content_description" />
     <!-- TODO: Remove or change this placeholder text -->
     <string name="Login">Login</string>
+
+    <string name="LeveringInfo">Her kan du læse mere om vores leveringsbetingelser- og vilkår.</string>
+    <string name="Levering">Vi leverer inden for 2-5 hverdage i Danmark. \n\nVi sender med PostNord. \n\nLevering til tiden forudsætter, at PostNord overholder leveringstidpunkter. \n\nKommer en pakke retur til Posterlife pga. fejl i adresse/forkert oplyst adresse, opkræver vi 58 kr. i fragt og administrationsgebyr for at skulle fremsende ordren igen. Også selvom ordren er leveret fragtfrit. \n\nVed forsendelse til udlandet, kontakt os venligst for en aftale (info@posterlife.dk).</string>
+
+    <string name="BetalingInfo">Din shoppingoplevelse skal være god og nem! \n\nDerfor tilbyder vi følgende betalingsmåder, du kan vælge imellem\:\</string>
+    <string name="Betaling">Hos Posterlife kan du betale med følgende kort: \n\n- Dankort \n- VISA/dankort \n- VISA Electron \n- Mastercard \n\nBetalingen bliver naturligvis først trukket fra din konto, når varen afsendes. \n\nDet er ikke muligt at trække større beløb fra kundens konto, end det der er godkendt på ordrebekræftelsen. \n\nAlle varer er angivet i DKK og er inkl. 25 % moms.</string>
+
+    <string name="ReklamationsInfo">Du har som forbruger 2 års reklamationsret, hvilket betyder, at du kan få varen ombyttet eller pengene retur. \n\nEr varen defekt ved din modtagelse, skal der reklameres inden 48 timer. \n\nVed reklamationer betaler Posterlife naturligvis omkostningerne, når varen sendes retur i sikker emballage. \n\nVi anbefaler, at en eventuel returnering af købt produkt sker med PostNord som pakkepost, så du kan spore pakken. \nDet er din sikkerhed for, at pakken når sikkert frem til Posterlife. \n\nAnsvaret for pakken er dit, indtil vi har modtaget den. \n\nVi modtager ikke pakker sendt pr. efterkrav eller lignende. \n\nVi refunderer altid til den konto, der er tilknyttet det betalingskort, som blev anvendt ved købet.</string>
+    <string name="ReklmationRetur">Er der fejl, eller ønsker du blot at ombytte en vare, så kontakt os altid inden returnering af varen: \n\nE-mail: info@posterlife.dk \n\nAdr.: Posterlife, Svanholmsvej 1A., 1905 Frederiksberg C \n\nReturnering af varer skal ske til ovennævnte adresse.</string>
+    <string name="Returret_ombytning">Vi tilbyder dig altid 14 dages fuld returret. \n\nDette gælder, hvis varen er i samme stand som ved modtagelsen. \n\nNår varen er hos os og godkendt, kan du enten få varen ombyttet eller overført købsprisen til din konto. \n\nOmkostninger ifm. ombytning sker for kundens egen regning. \n\nPorto for genforsendelse bedes indsat på reg.nr.: 4316 – kontonr.: 13081190. \n\nVi sender en e-mail med beløbet forinden.</string>
+    <string name="Retur_ombytningsret">Vi har ikke fri retur- og ombytningsret! \n\nHvis du ikke henter din bestilling på posthuset, et postafhentningssted eller i en pakke-shop inden for afhentningsfristens udløb, får vi pakken retur. \n\nI sådanne tilfælde opkræver vi et fragt- og ekspeditionsgebyr på 58 kr., hvilket vi fratrækker dit returbeløb. \n\nØnsker du at købe varen igen, skal du lave en ny bestilling. \n\nSamme vilkår gælder, hvis du har indtastet forkert leveringsadresse på din bestilling. \n\nEr der af en eller anden grund sket en fejl eller mangel i leveringen, så kontakt os straks på info@posterlife.dk, og vi vil med det samme rette op på fejlen. \n\nGem venligst emballagen, hvis der er tegn på brud.</string>
+
+    <string name="KontaktOs" >Hvis du har spørgsmål eller en forespørgsel til posterlife.dk, er du velkommen til at kontakte os på info@posterlife.dk. \n\nVi tager også meget gerne imod ideer og forslag til sange fra Højskolesangbogen, der fortjener en plads på en sangplakat. \n\nHar du et særligt ønske om et større format, kan vi levere i mål op til 120 x 240 cm på forskellige materialer, herunder finérplader, metal, lyddæmpende materiale og skumplader. \nKontakt os for priser.</string>
+    <string name="MailInfo" >info@posterlife.dk \n+45 22 93 04 47</string>
+    <string name="Addresse" >Posterlife ApS \nSvanholmsvej 1A \nDK-1905, Frederiksberg C \nDenmark</string>
+    <string name="CVR">31770041</string>
+
 </resources>

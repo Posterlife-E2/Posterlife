@@ -1,11 +1,10 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,31 +17,30 @@ import com.example.posterlife.R
  */
 
 //Håndtering af bottom nav
-sealed class Navigation(var route: String, var icon: Int, var title: String) {
+sealed class NavigationBundNav(var route: String, var icon: Int, var title: String) {
 
-    object Inspiration : Navigation("inspiration", R.drawable.ic_lightbulb, "Inspiration")
-    object Favorit: Navigation("favorit",R.drawable.ic_favorite, "Favorit")
-    object Kamera : Navigation("kamera", R.drawable.ic_kamera, "Kamera")
-    object Profil : Navigation("profil", R.drawable.ic_profil, "Profil")
-    object MineDesign : Navigation("mine design", R.drawable.ic_star, "Designs")
+    object Inspiration : NavigationBundNav("inspiration", R.drawable.ic_lightbulb, "Inspiration")
+    object Favorit: NavigationBundNav("favorit",R.drawable.ic_favorite, "Favorit")
+    object Kamera : NavigationBundNav("kamera", R.drawable.ic_kamera, "Kamera")
+    object Profil : NavigationBundNav("profil", R.drawable.ic_profil, "Profil")
+    object MineDesign : NavigationBundNav("mine design", R.drawable.ic_star, "Designs")
 }
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
 
-    var hidden by remember { mutableStateOf(false)}
 
     val items = listOf(
-        Navigation.Inspiration,
-        Navigation.Favorit,
-        Navigation.Kamera,
-        Navigation.MineDesign,
-        Navigation.Profil
+        NavigationBundNav.Inspiration,
+        NavigationBundNav.Favorit,
+        NavigationBundNav.Kamera,
+        NavigationBundNav.MineDesign,
+        NavigationBundNav.Profil
     )
-    if (!hidden)
+
     BottomNavigation(
-        backgroundColor = Color.Gray,
-        contentColor = Color.White,
+        backgroundColor = MaterialTheme.colors.secondaryVariant,
+        contentColor = MaterialTheme.colors.onSecondary,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -51,14 +49,12 @@ fun BottomNavigationBar(navController: NavController) {
                 icon = { Icon(painterResource(id = item.icon,), contentDescription = item.title, modifier = Modifier
                     .size(30.dp)
                     .padding(top = 3.dp) ) },
-                label = { Text(text = item.title) },
-                selectedContentColor = Color.Black,
-                unselectedContentColor = Color(0xfffcfcf0),
+                label = { Text(text = item.title, style = MaterialTheme.typography.overline)},
+                selectedContentColor = MaterialTheme.colors.onPrimary,
+                unselectedContentColor = MaterialTheme.colors.primary,
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {
-                    if (item.route == Navigation.Kamera.route)
-                        hidden = !hidden
 
                     navController.navigate(item.route) {
 

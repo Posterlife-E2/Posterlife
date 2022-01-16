@@ -1,13 +1,11 @@
-package com.example.posterlife.ui
+package com.example.posterlife.view
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.media.MediaScannerConnection
 import android.net.Uri
-import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
@@ -19,6 +17,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.sharp.FlipCameraAndroid
@@ -38,11 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import androidx.navigation.NavController
 import com.example.posterlife.R
-import com.example.posterlife.saveImageController.UploadImage
-import kotlinx.coroutines.*
+import com.example.posterlife.view.billedRed.BilledRedigering
+import com.example.posterlife.view.billedRed.BilledViewModel
+import com.example.posterlife.view.loginUI.Login
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,6 +52,10 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.properties.Delegates
 
 /**
+ * @author Najib Hebrawi (s181663), Kristoffer Pedersen (s205354), Lauritz Pepke (s191179)
+ *
+ * Vi har primært brugt løsningen fra Devbits and Bytes til at implementere kameraet, da deres implementation passede godt med vores usecase.
+ * Vi har dog ændret i compose delen, så det passer til vores, og ændret hvordan det bliver gemt.
  * @Source https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
  *
  * Ift. implementeringen af CameraX har vi stort set udlukkende brugt hvordan MK fra Devbitsandbytes har implementeret, og ændret i den
@@ -73,30 +76,10 @@ sealed class Kamera(val route: String) {
     @SuppressLint("StaticFieldLeak")
     object KameraAccess : Kamera("openKamera") {
 
-        @SuppressLint("StaticFieldLeak")
         private lateinit var navControllerKamera: NavController
 
-        private var cropListener = ArrayList<() -> Unit>()
+        private lateinit var uriViewModel: BilledViewModel
 
-        private lateinit var kameraThreadExecutor: Executor
-
-
-        private var cropSavedUri: String by Delegates.observable("") { property, oldValue, newValue ->
-
-            kameraThreadExecutor.execute{
-                try {
-                    val cropValue = newValue.replace('/', '§')
-                    navControllerKamera.navigate("billedConfirm/$cropValue")
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-
-
-            cropListener.forEach {
-                it()
-            }
-        }
 
         //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @SuppressLint("StaticFieldLeak")
@@ -104,13 +87,15 @@ sealed class Kamera(val route: String) {
         fun KameraAccess(
             onImageCaptured: (Uri, Boolean) -> Unit,
             onError: (ImageCaptureException) -> Unit,
-            navController: NavController
+            navController: NavController,
+            billedViewModel: BilledViewModel
         ) {
 
-            navControllerKamera = navController
-            val context = LocalContext.current
+            uriViewModel = billedViewModel
 
-            kameraThreadExecutor = ContextCompat.getMainExecutor(context)
+            navControllerKamera = navController
+
+            val context = LocalContext.current
 
             if (hasNoPermissions(context)) {
                 requestPermission(context)
@@ -189,7 +174,7 @@ sealed class Kamera(val route: String) {
                 }
                 Row(
                     Modifier
-                        .background(Black.copy(alpha = 0.5f))
+                        .background(MaterialTheme.colors.onPrimary.copy(alpha = 0.5f))
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -198,12 +183,12 @@ sealed class Kamera(val route: String) {
 
                     IconButton(
                         onClick = {
-                           navControllerKamera.popBackStack()
+                           navControllerKamera.navigate(Login.LoginScreen.route)
                         }){
                         Icon(Icons.Filled.ArrowBack,
                             contentDescription = "Back",
                             Modifier.size(46.dp),
-                            tint = White)
+                            tint = MaterialTheme.colors.primaryVariant)
                     }
                     CameraControl(
                         Icons.Sharp.FlipCameraAndroid,
@@ -241,7 +226,7 @@ sealed class Kamera(val route: String) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Black.copy(alpha = 0.5f))
+                    .background(MaterialTheme.colors.onPrimary.copy(alpha = 0.5f))
                     .padding(16.dp)
                     .height(70.dp),
                 horizontalArrangement = Arrangement.End,
@@ -254,7 +239,7 @@ sealed class Kamera(val route: String) {
                     modifier = Modifier
                         .size(64.dp)
                         .padding(1.dp)
-                        .border(1.dp, Color.White, CircleShape),
+                        .border(1.dp, MaterialTheme.colors.primaryVariant, CircleShape),
                     onClick = { cameraUIAction(CameraUIAction.OnCameraClick)
                     }
                 )
@@ -288,7 +273,7 @@ sealed class Kamera(val route: String) {
                     imageVector,
                     contentDescription = stringResource(id = contentDescId),
                     modifier = modifier,
-                    tint = Color.White
+                    tint = MaterialTheme.colors.primaryVariant
                 )
             }
 
@@ -316,7 +301,14 @@ sealed class Kamera(val route: String) {
                     override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                         val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
 
-                        cropSavedUri = savedUri.toString()
+                        val kameraThreadExecutor = ContextCompat.getMainExecutor(context)
+
+                        kameraThreadExecutor.execute{
+                            uriViewModel.setBilledURI(savedUri)
+                            navControllerKamera.navigate(BilledRedigering.BilledConfirm.rute)
+                        }
+
+
                     }
 
                     override fun onError(exception: ImageCaptureException) {

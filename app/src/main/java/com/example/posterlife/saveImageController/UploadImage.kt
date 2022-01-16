@@ -10,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.example.posterlife.model.MineDesignModal
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 /**
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
@@ -30,7 +32,7 @@ sealed class UploadImage{
         val dataList = ArrayList<String>()
         fun uploadImage(filePath: Uri,context:Context) {
 
-            val file = File(filePath.path).name;
+            val file = File(filePath.path).name
 
             firebaseStore = FirebaseStorage.getInstance()
             storageReference = FirebaseStorage.getInstance()

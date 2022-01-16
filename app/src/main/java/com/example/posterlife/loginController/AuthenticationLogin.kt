@@ -1,7 +1,7 @@
 package com.example.posterlife.loginController
 
 import androidx.navigation.NavController
-import com.example.posterlife.ui.Profil
+import com.example.posterlife.view.profilUI.Profil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -10,7 +10,7 @@ sealed class AuthenticationLogin {
 
     companion object {
 
-        private lateinit var authentication: FirebaseAuth
+        lateinit var authentication: FirebaseAuth
 
         fun signIn(email: String, password: String, navController: NavController) {
 
@@ -18,7 +18,8 @@ sealed class AuthenticationLogin {
 
             val user = authentication.currentUser
             if(user != null) {
-                //noget med at den bare skal finde getUser og komme videre i sit liv.
+                //Tjek om den allerede er logget ind.
+                return
             }
 
             authentication.signInWithEmailAndPassword(email, password)
