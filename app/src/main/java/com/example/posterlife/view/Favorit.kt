@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -97,7 +98,7 @@ sealed class Favorit(val rute: String) {
 
             LazyVerticalGrid(
                 cells = GridCells.Fixed(2),
-                contentPadding = PaddingValues(8.dp),
+                contentPadding = PaddingValues(16.dp),
             ) {
 
                 items(plakatHolder.size) { index ->
@@ -106,12 +107,13 @@ sealed class Favorit(val rute: String) {
                         modifier = Modifier
                             .height(300.dp)
                             .width(210.dp)
-                            .padding(10.dp),
+                            .padding(top = 16.dp, start = 10.dp, end = 10.dp, bottom = 8.dp),
                         elevation = 5.dp,
                         shape = RoundedCornerShape(4.dp),
                     ) {
 
                         Image(
+                            contentScale = ContentScale.Crop,
                             painter = rememberImagePainter(
                                 data = plakatHolder.get(index).imageURL,
                             ),
@@ -125,7 +127,7 @@ sealed class Favorit(val rute: String) {
                                 .fillMaxSize()
                                 .background(
                                     Brush.verticalGradient(
-                                        colors = listOf(Color.Transparent, Color.LightGray),
+                                        colors = listOf(Color.Transparent, Color.White),
                                     )
                                 )
                         )
@@ -145,7 +147,7 @@ sealed class Favorit(val rute: String) {
                                     FavoritButton()
                                 }
 
-                                Box() {
+                                Box(Modifier.padding(start = 4.dp,end = 4.dp)) {
                                     IconButton(
                                         onClick = { /*TODO*/ },
                                         modifier = Modifier.size(22.dp)

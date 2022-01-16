@@ -43,6 +43,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import coil.compose.ImagePainter.State.Empty.painter
 import coil.compose.rememberImagePainter
 import com.example.posterlife.R
 //import com.example.posterlife.JsonParser.PlakatInfo
@@ -84,6 +85,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
         private val inspirationViewModel = InspirationViewModel
 
+        @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
         fun InspirationOverview(
@@ -255,76 +257,69 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 ) {
 
                     items(plakatHolder.size) { index ->
-                        Column(
+
+                        Card(
                             modifier = Modifier
-                                .padding(
-                                    start = 12.dp,
-                                    top = 0.dp,
-                                    end = 12.dp,
-                                    bottom = 0.dp
-                                )
+                                .height(280.dp)
+                                .width(150.dp)
+                                .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
                                 .clickable {
                                     inspirationViewModel.currentIndex = index
                                     navController.navigate("focusImage")
-                                }) {
-                            Card(
-                                modifier = Modifier
-                                    .size(236.dp)
-                                    .padding(10.dp),
-                                shape = RoundedCornerShape(4.dp),
-                                elevation = 5.dp
-                            ) {
-                                Box(Modifier.fillMaxSize()) {
+                                },
+                            shape = RoundedCornerShape(4.dp),
+                            elevation = 5.dp
+                        ) {
+                            Box(Modifier.fillMaxSize()) {
 
-
-                                    Image(
-                                        painter = rememberImagePainter(
-                                            data = plakatHolder.get(index).imageURL,
-                                        ),
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .size(300.dp)
-                                    )
-                                    Box(
-                                        modifier = Modifier
-                                            .matchParentSize()
-                                            .background(
-                                                Brush.verticalGradient(
-                                                    colors = listOf(Color.Transparent, Color.White),
-                                                )
+                                Image(
+                                    contentScale = ContentScale.Crop,
+                                    painter = rememberImagePainter(
+                                        data = plakatHolder.get(index).imageURL,
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(300.dp)
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .matchParentSize()
+                                        .background(
+                                            Brush.verticalGradient(
+                                                colors = listOf(Color.Transparent, Color.White),
                                             )
-                                    )
-                                    {}
+                                        )
+                                )
+                                {}
 
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(8.dp),
-                                        contentAlignment = Alignment.BottomCenter
-                                    ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    contentAlignment = Alignment.BottomCenter
+                                ) {
 
-                                        Row() {
-                                            Column(modifier = Modifier.weight(5f)) {
-                                                Text(
-                                                    fontSize = 12.sp,
-                                                    style = MaterialTheme.typography.subtitle2,
-                                                    text = plakatHolder[index].title
-                                                )
-                                            }
-                                            FavoritButton(
-                                                index = index,
-                                                modifier = Modifier
-                                                    .weight(1F)
+                                    Row() {
+                                        Column(modifier = Modifier.weight(5f)) {
+                                            Text(
+                                                fontSize = 12.sp,
+                                                style = MaterialTheme.typography.subtitle2,
+                                                text = plakatHolder[index].title
                                             )
                                         }
-
+                                        FavoritButton(
+                                            index = index,
+                                            modifier = Modifier
+                                                .weight(1F)
+                                        )
                                     }
-                                }
 
+                                }
                             }
 
-
                         }
+
+
                     }
                 }
 
@@ -658,7 +653,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             }
         }) {
             Icon(
-                tint = color, modifier = Modifier.size(30.dp), imageVector = if (isFavorite) {
+                tint = color, modifier = Modifier.size(25.dp), imageVector = if (isFavorite) {
                     Icons.Filled.Favorite
                 } else {
                     Icons.Default.FavoriteBorder
