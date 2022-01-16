@@ -1,5 +1,8 @@
 package com.example.posterlife.view.profilUI
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,15 +16,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import com.example.posterlife.R
-import com.example.posterlife.loginController.AuthenticationLogin
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 
 sealed class Profil(val rute: String) {
@@ -85,6 +88,11 @@ sealed class Profil(val rute: String) {
 
     @Composable
     fun ProfilContent(navController: NavController) {
+        val context = LocalContext.current
+        val intent = remember{
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Posterlife.dk"))
+        }
+
         Column(
             Modifier
                 .background(Color(0xfffcfcf0))
@@ -208,9 +216,11 @@ sealed class Profil(val rute: String) {
                     .background(Color.White)
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {navController.navigate("privatPolitik"){
-                        popUpTo("PrivatPolitikOverview")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("privatPolitik") {
+                            popUpTo("PrivatPolitikOverview")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -280,19 +290,22 @@ sealed class Profil(val rute: String) {
 
 
             }
-            Spacer(modifier = Modifier.padding(110.dp))
+            Spacer(modifier = Modifier.padding(90.dp))
 
             //row med ikoner hvor man bliver linket til posterlifes sider på de sociale medier.
             Row(modifier = Modifier
                 .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.Bottom)
+                verticalAlignment = Alignment.Bottom)
             {
+
+                }
                     Image(
                         painter = painterResource(id = R.drawable.facebookiconposterlife),
                         contentDescription = null,
                         modifier = Modifier
                             .size(20.dp)
-                            .clickable { /*TODO*/}
+                            .clickable(onClick = { context.startActivity(intent) }
+                            )
 
                         )
                     Image(
@@ -300,7 +313,8 @@ sealed class Profil(val rute: String) {
                         contentDescription = null,
                         modifier = Modifier
                             .size(22.dp)
-                            .clickable { /*TODO*/ }
+                            .clickable(onClick = { /*TODO*/ }
+                            )
 
                         )
 
@@ -309,13 +323,51 @@ sealed class Profil(val rute: String) {
                         contentDescription = null,
                         modifier = Modifier
                             .size(22.dp)
-                            .clickable {/*TODO*/}
-
+                            .clickable(onClick = {/*TODO*/ }
+                            )
                         )
+
             }
 
         }
 
+
+
+    /**
+     * https://stackoverflow.com/questions/64994507/is-there-a-way-to-open-a-webpage-on-click-of-iconbutton-from-the-topappbar-in-a
+     */
+
+    @Composable
+    fun LinkToFacebook (context: Context){
+        val context = LocalContext.current
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse("https://www.facebook.com/Posterlife.dk")
+        startActivity(context, openURL, null)
+
     }
-}
+
+    @Composable
+    fun LinkToInsta(context: Context){
+        val context = LocalContext.current
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse("https://www.instagram.com/posterlife.dk/")
+        startActivity(context, openURL, null)
+
+
+
+    }
+    @Composable
+    fun LinkToLinkedin(context: Context){
+        val context = LocalContext.current
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse("https://www.linkedin.com/company/posterlife/")
+        startActivity(context, openURL, null)
+
+
+
+    }
+
+    }
+
+
 
