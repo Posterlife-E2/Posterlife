@@ -251,8 +251,8 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
                         Card(
                             modifier = Modifier
-                                .height(250.dp)
-                                .width(175.dp)
+                                .height(280.dp)
+                                .width(150.dp)
                                 .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
                                 .clickable {
                                     inspirationViewModel.currentIndex = index
