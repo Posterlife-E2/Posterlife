@@ -95,7 +95,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    InspirationTopBar()
+                    InspirationTopBar(navController)
                 },
 
                 content = {
@@ -328,10 +328,13 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     }
 
 
+    /**
+     * @Source https://www.youtube.com/watch?v=trVmP1rw0uw&t=310s
+     */
     @ExperimentalComposeUiApi
     @ExperimentalFoundationApi
     @Composable
-    fun InspirationTopBar() {
+    fun InspirationTopBar(navController: NavController) {
 
         val context = LocalContext.current
         val plakatInfo = PlakatInfo(context)
@@ -426,7 +429,12 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                         )
                 }
                 if(!expanded)
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        navController.navigate(NavigationBundNav.Favorit.route) {
+                            navController.popBackStack()
+                        }
+                    })  {
+
                         Icon(
                             Icons.Filled.Favorite,
                             tint = Color.Red,
