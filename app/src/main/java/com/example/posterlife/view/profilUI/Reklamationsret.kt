@@ -42,7 +42,7 @@ sealed class Reklamationsret(val route: String) {
     }
 
 
-    // top app bar til Betalingssiden. Den indeholder et ikon så det er muligt at gå tilbage til handelsbetingelser.
+    // Top app bar til Reklamationssiden. Den indeholder et ikon så det er muligt at gå tilbage til handelsbetingelser.
     @Composable
     fun ReklamationTopBar(navController: NavController) {
         TopAppBar(
