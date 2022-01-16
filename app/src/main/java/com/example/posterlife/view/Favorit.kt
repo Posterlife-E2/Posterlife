@@ -171,7 +171,7 @@ sealed class Favorit(val rute: String) {
     fun FavoritButton(
         color: Color = Color.Red,
     ) {
-        var isFavorite by remember { mutableStateOf(false) }
+        var isFavorite by remember { mutableStateOf(true) }
         IconToggleButton(
             checked = isFavorite,
             modifier = Modifier.size(22.dp),
