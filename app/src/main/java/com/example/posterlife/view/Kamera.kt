@@ -52,6 +52,10 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.properties.Delegates
 
 /**
+ * @author Najib Hebrawi (s181663), Kristoffer Pedersen (s205354), Lauritz Pepke (s191179)
+ *
+ * Vi har primært brugt løsningen fra Devbits and Bytes til at implementere kameraet, da deres implementation passede godt med vores usecase.
+ * Vi har dog ændret i compose delen, så det passer til vores, og ændret hvordan det bliver gemt.
  * @Source https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
  *
  * Ift. implementeringen af CameraX har vi stort set udlukkende brugt hvordan MK fra Devbitsandbytes har implementeret, og ændret i den
