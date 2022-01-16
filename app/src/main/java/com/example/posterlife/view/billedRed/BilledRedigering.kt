@@ -46,6 +46,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
+import com.example.posterlife.view.loginUI.Login
 import ja.burhanrashid52.photoeditor.*
 import java.io.ByteArrayOutputStream
 
@@ -693,7 +694,10 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
                     if (uri != null) {
                         uploadBillede(uri, context)
-                        navController.navigate(NavigationBundNav.MineDesign.route)
+                        navController.navigate(NavigationBundNav.MineDesign.route) {
+                            //sletter backstack indtil login.page
+                            popUpTo(Login.LoginScreen.route)
+                        }
                     }
                 }
 
