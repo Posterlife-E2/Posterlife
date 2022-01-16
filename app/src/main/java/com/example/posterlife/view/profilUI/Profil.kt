@@ -3,6 +3,7 @@ package com.example.posterlife.view.profilUI
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -86,12 +87,12 @@ sealed class Profil(val rute: String) {
 
     }
 
+    /**
+     *  @Source https://stackoverflow.com/questions/66801838/how-do-i-programmatically-open-an-external-url-on-button-click-with-jetpack-comp?fbclid=IwAR1n9oUU0LJ3xaFE633WAfAGWPlO6Q9cwIZoJ2AUAmNU5yHaXhRM6ifEAJo
+     */
     @Composable
     fun ProfilContent(navController: NavController) {
         val context = LocalContext.current
-        val intent = remember{
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Posterlife.dk"))
-        }
 
         Column(
             Modifier
@@ -101,32 +102,32 @@ sealed class Profil(val rute: String) {
         ) {
 
             // række til at tilgå Login siden.
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.White)
-                        .height(60.dp)
-                        .padding(start = 8.dp)
-                        .clickable(onClick = {
-                            navController.navigate("Login") {
-                                popUpTo("Login.LoginScreen.LoginStart")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .height(60.dp)
+                    .padding(start = 8.dp)
+                    .clickable(onClick = {
+                        navController.navigate("Login") {
+                            popUpTo("Login.LoginScreen.LoginStart")
 
-                            }
-                        }),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+                        }
+                    }),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
 
-                    Text(
-                        text = "Login",
-                        fontWeight = FontWeight.Light,
-                        fontSize = 22.sp
-                    )
-                    Icon(
-                        imageVector = Icons.Filled.NavigateNext,
-                        contentDescription = null,
-                        modifier = Modifier.size(30.dp)
-                    )
+                Text(
+                    text = "Login",
+                    fontWeight = FontWeight.Light,
+                    fontSize = 22.sp
+                )
+                Icon(
+                    imageVector = Icons.Filled.NavigateNext,
+                    contentDescription = null,
+                    modifier = Modifier.size(30.dp)
+                )
 
 
             }
@@ -290,84 +291,75 @@ sealed class Profil(val rute: String) {
 
 
             }
-            Spacer(modifier = Modifier.padding(90.dp))
+            Spacer(modifier = Modifier.padding(110.dp))
 
             //row med ikoner hvor man bliver linket til posterlifes sider på de sociale medier.
-            Row(modifier = Modifier
-                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.Bottom)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.Bottom
+            )
             {
 
-                }
-                    Image(
-                        painter = painterResource(id = R.drawable.facebookiconposterlife),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(20.dp)
-                            .clickable(onClick = { context.startActivity(intent) }
-                            )
 
-                        )
-                    Image(
-                        painter = painterResource(id = R.drawable.instaiconposterlife),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(22.dp)
-                            .clickable(onClick = { /*TODO*/ }
-                            )
-
+                Image(
+                    painter = painterResource(id = R.drawable.facebookiconposterlife),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable(onClick = {
+                            CustomTabsIntent
+                                .Builder()
+                                .build()
+                                .launchUrl(
+                                    context,
+                                    Uri.parse("https://www.facebook.com/Posterlife.dk")
+                                )
+                        }
                         )
 
-                    Image(
-                        painter = painterResource(id = R.drawable.linkedinicon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(22.dp)
-                            .clickable(onClick = {/*TODO*/ }
-                            )
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.instaiconposterlife),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clickable(onClick = {
+                            CustomTabsIntent
+                                .Builder()
+                                .build()
+                                .launchUrl(
+                                    context,
+                                    Uri.parse("https://www.instagram.com/posterlife.dk/")
+                                )
+                        }
                         )
 
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.linkedinicon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clickable(onClick = {
+                            CustomTabsIntent
+                                .Builder()
+                                .build()
+                                .launchUrl(
+                                    context,
+                                    Uri.parse("https://www.linkedin.com/company/posterlife/")
+                                )
+                        }
+                        )
+                )
             }
 
         }
 
-
-
-    /**
-     * https://stackoverflow.com/questions/64994507/is-there-a-way-to-open-a-webpage-on-click-of-iconbutton-from-the-topappbar-in-a
-     */
-
-    @Composable
-    fun LinkToFacebook (context: Context){
-        val context = LocalContext.current
-        val openURL = Intent(Intent.ACTION_VIEW)
-        openURL.data = Uri.parse("https://www.facebook.com/Posterlife.dk")
-        startActivity(context, openURL, null)
-
     }
 
-    @Composable
-    fun LinkToInsta(context: Context){
-        val context = LocalContext.current
-        val openURL = Intent(Intent.ACTION_VIEW)
-        openURL.data = Uri.parse("https://www.instagram.com/posterlife.dk/")
-        startActivity(context, openURL, null)
-
-
-
-    }
-    @Composable
-    fun LinkToLinkedin(context: Context){
-        val context = LocalContext.current
-        val openURL = Intent(Intent.ACTION_VIEW)
-        openURL.data = Uri.parse("https://www.linkedin.com/company/posterlife/")
-        startActivity(context, openURL, null)
-
-
-
-    }
-
-    }
+}
 
 
 
