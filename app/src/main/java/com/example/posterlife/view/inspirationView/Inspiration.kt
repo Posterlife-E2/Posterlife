@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import coil.compose.rememberImagePainter
 import com.example.posterlife.R
 //import com.example.posterlife.JsonParser.PlakatInfo
@@ -41,6 +42,8 @@ import com.example.posterlife.R
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
 import com.example.posterlife.view.Kamera
+import com.example.posterlife.view.NavigationBundNav
+import com.example.posterlife.view.loginUI.Login
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -217,7 +220,9 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                         .fillMaxSize()
                                         .clickable {
                                             inspirationViewModel.currentIndex = index
-                                            navController.navigate(InspirationFocusImage.rute)
+                                            navController.navigate(InspirationFocusImage.rute) {
+                                                navController.popBackStack()
+                                            }
                                         },
                                     contentScale = ContentScale.Crop
                                 )
