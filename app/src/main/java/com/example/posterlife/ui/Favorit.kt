@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -90,6 +92,7 @@ sealed class Favorit(val rute: String) {
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val shape = RoundedCornerShape(4.dp)
 
             Text(
                 text = "Favoritter",
@@ -103,57 +106,94 @@ sealed class Favorit(val rute: String) {
             ) {
 
                 items(plakatHolder.size) { index ->
-                    Column(
-                        modifier = Modifier
-                            .padding(
-                                start = 12.dp,
-                                top = 0.dp,
-                                end = 12.dp,
-                                bottom = 12.dp
-                            )
+                    Surface(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.padding(10.dp)
                     ) {
-                        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.align(Alignment.End).size(22.dp)) {
-                            Icon(Icons.Filled.DeleteOutline, contentDescription = null, Modifier.size(22.dp))
-
-                        }
-                        Image(
-                            painter = rememberImagePainter(
-                                data = plakatHolder.get(index).imageURL,
-                            ),
-                            contentDescription = null,
+                        Column(
                             modifier = Modifier
-                                .size(250.dp)
-                                .clickable { }
+                                .clip(shape)
+                                .background(color = Color(0xfffcfcf0)),
+                        ) {
 
-                        )
+                            Row(
+                                horizontalArrangement = Arrangement.End,
+                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                            ) {
+                                Box(modifier = Modifier.weight(1f)) {
+                                }
 
-                        Row(horizontalArrangement = Arrangement.End) {
+                                Box() {
 
-                            Box(modifier = Modifier.weight(1f)) {
-                            }
-                            Box(modifier = Modifier.padding(end = 4.dp)) {
-                                FavoritButton()
-                            }
+                                    IconButton(
+                                        onClick = { /*TODO*/ },
+                                        modifier = Modifier
+                                            .size(22.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.DeleteOutline,
+                                            contentDescription = null,
+                                            Modifier.size(22.dp)
+                                        )
 
-                            Box() {
-                                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(22.dp)) {
-                                    Icon(Icons.Filled.ShoppingCart, contentDescription = null, Modifier.size(22.dp))
+                                    }
                                 }
                             }
+
+                            Image(
+                                painter = rememberImagePainter(
+                                    data = plakatHolder.get(index).imageURL,
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(250.dp)
+                                    .clickable { }
+                                    .padding(bottom = 4.dp)
+
+                            )
+                            Row(
+                                horizontalArrangement = Arrangement.End,
+                                modifier = Modifier.padding(bottom = 4.dp)
+                            ) {
+
+                                Box(modifier = Modifier.weight(1f)) {
+                                }
+                                Box() {
+                                    FavoritButton()
+                                }
+
+                                Box() {
+                                    IconButton(
+                                        onClick = { /*TODO*/ },
+                                        modifier = Modifier.size(22.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.ShoppingCart,
+                                            contentDescription = null,
+                                            Modifier.size(22.dp)
+                                        )
+                                    }
+                                }
                             }
                         }
+
                     }
+
                 }
             }
-
         }
     }
+
     @Composable
     fun FavoritButton(
         color: Color = Color.Red,
     ) {
         var isFavorite by remember { mutableStateOf(false) }
-        IconToggleButton(checked = isFavorite, modifier = Modifier.size(22.dp), onCheckedChange = { isFavorite = !isFavorite }) {
+        IconToggleButton(
+            checked = isFavorite,
+            modifier = Modifier.size(22.dp),
+            onCheckedChange = { isFavorite = !isFavorite }) {
             Icon(
                 tint = color, modifier = Modifier.size(22.dp), imageVector = if (isFavorite) {
                     Icons.Filled.Favorite
@@ -164,4 +204,6 @@ sealed class Favorit(val rute: String) {
             )
         }
     }
+}
+
 
