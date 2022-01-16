@@ -107,7 +107,7 @@ sealed class Privatlivspolitik(var route: String) {
             // Tekst der beskriver generalt.
             androidx.compose.material.Text(
                 text = context.getString(R.string.PersonoplysningerGeneralt),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
@@ -125,7 +125,7 @@ sealed class Privatlivspolitik(var route: String) {
             // teksten der beskriver "indsamling og behandling af oplysninger"
             androidx.compose.material.Text(
                 text = context.getString(R.string.PersonoplysningerIndsamler),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
@@ -143,7 +143,7 @@ sealed class Privatlivspolitik(var route: String) {
             // teksten der beskriver sikkerhed.
             androidx.compose.material.Text(
                 text = context.getString(R.string.PersonoplysningerSikkerhed),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
@@ -161,7 +161,7 @@ sealed class Privatlivspolitik(var route: String) {
             // Teksten der beskriver formål
             androidx.compose.material.Text(
                 text = context.getString(R.string.PersonoplysningerFormål),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
@@ -180,7 +180,7 @@ sealed class Privatlivspolitik(var route: String) {
             // Teksten der beskriver Periode for opbevaring.
             androidx.compose.material.Text(
                 text = context.getString(R.string.PersonoplysningerFormål),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
@@ -199,7 +199,7 @@ sealed class Privatlivspolitik(var route: String) {
             // Teksten der beskriver Videregivelse af oplysninger
             androidx.compose.material.Text(
                 text = context.getString(R.string.VideregivelseAfOplysninger),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
@@ -218,7 +218,7 @@ sealed class Privatlivspolitik(var route: String) {
             // Teksten der beskriver Indsigt og klager
             androidx.compose.material.Text(
                 text = context.getString(R.string.IndsigtOgKlager),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
@@ -227,7 +227,7 @@ sealed class Privatlivspolitik(var route: String) {
             // Tekst med mail til indsigt og klager
             androidx.compose.material.Text(
                 text = context.getString(R.string.mailKlage),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -238,7 +238,7 @@ sealed class Privatlivspolitik(var route: String) {
             // Tekst klage
             androidx.compose.material.Text(
                 text = context.getString(R.string.Klage),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp, bottom = 80.dp)
