@@ -5,6 +5,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.compiler.plugins.kotlin.write
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -14,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
@@ -23,10 +27,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -325,9 +333,27 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     }
 
 
+    @ExperimentalComposeUiApi
     @ExperimentalFoundationApi
     @Composable
     fun InspirationTopBar() {
+
+        val context = LocalContext.current
+        val plakatInfo = PlakatInfo(context)
+
+        val keyboardController = LocalSoftwareKeyboardController.current
+
+        var expanded by remember { mutableStateOf(false)}
+        var sizeState by remember { mutableStateOf(0.dp)}
+        val size by animateDpAsState(
+            targetValue = sizeState,
+            tween(
+                durationMillis = 400,
+                easing = LinearOutSlowInEasing
+            )
+        )
+
+        val query = remember {mutableStateOf("")}
 
         TopAppBar(
             title = {
@@ -335,28 +361,87 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 Text(
                     text = "Inspiration",
                     color = Color.Black,
-                    fontSize = 30.sp
+                    fontSize = 30.sp,
+                    maxLines = 1
                 )
             },
             actions = {
 
-                IconButton(onClick = { }) {
-                    Icon(
-                        Icons.Filled.Search,
-                        contentDescription = null
-                    )
-                }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        Icons.Filled.Favorite,
-                        tint = Color.Red,
-                        contentDescription = null
-                    )
-                }
+                if(expanded)
+                    TextField(
+                        modifier = Modifier
+                            .size(size)
+                            .padding(1.dp),
 
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                        value = query.value,
+
+                        onValueChange = { newValue -> query.value = newValue},
+
+                        keyboardOptions = KeyboardOptions (
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Search
+                        ),
+                        keyboardActions = KeyboardActions(onSearch = {
+                            //plakatInfo.searchPlakat(query.value)
+                            keyboardController?.hide() }),
+
+                        textStyle = TextStyle(
+                            fontSize = 18.sp,
+                        ),
+
+                        maxLines = 1,
+
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.Search,
+                                contentDescription = null,
+
+                                )
+                        },
+
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color (0xfffcfcf0),
+                            textColor = Color.Black,
+                            focusedIndicatorColor = Color.Black,
+                            cursorColor = Color.Black,
+                            leadingIconColor = Color.Black
+
+                        )
+
+                    )
+                IconButton(onClick = {
+
+                    expanded = !expanded
+                    query.value = ""
+                    if (expanded)
+                        sizeState = 350.dp
+                    else if (!expanded)
+                        sizeState = 0.dp
+
+                }) {
+                    if(!expanded)
+                        Icon(
+                            Icons.Filled.Search,
+                            contentDescription = null
+                        )
+                    else if (expanded)
+                        Icon(
+                            Icons.Filled.ArrowForward,
+                            contentDescription = null
+                        )
                 }
+                if(!expanded)
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            tint = Color.Red,
+                            contentDescription = null
+                        )
+                    }
+                if(!expanded)
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                    }
             },
 
 
