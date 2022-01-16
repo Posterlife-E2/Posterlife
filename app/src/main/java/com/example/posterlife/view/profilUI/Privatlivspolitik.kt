@@ -234,6 +234,7 @@ sealed class Privatlivspolitik(var route: String) {
                 fontStyle = FontStyle.Italic,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
                     .padding(top = 5.dp, start = 10.dp, end = 10.dp)
 
             )
@@ -243,10 +244,9 @@ sealed class Privatlivspolitik(var route: String) {
                 fontSize = 16.sp,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
-                    .padding(top = 5.dp, start = 10.dp, end = 10.dp)
+                    .padding(top = 5.dp, start = 10.dp, end = 10.dp, bottom = 80.dp)
 
             )
-
 
         }
 
