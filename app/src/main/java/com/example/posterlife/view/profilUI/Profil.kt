@@ -198,14 +198,16 @@ sealed class Profil(val rute: String) {
                 )
 
             }
-            // række til at tilgå side hvor der står hvor man kan følge posterlife.
+            // række til at tilgå side hvor man kan læse om privatelivspolitik.
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {/* TODO */ }),
+                    .clickable(onClick = {navController.navigate("privatPolitik"){
+                        popUpTo("PrivatPolitikOverview")
+                    } }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

@@ -129,6 +129,11 @@ fun Navigation() {
                 composable(Reklamationsret.Reklamation.route){
                     Reklamationsret.Reklamation.ReklamationUI(navController = navController)
                 }
+                
+                //---- PrivatlivsPolitik ----
+                composable(Privatlivspolitik.Privatpolitik.route){
+                    Privatlivspolitik.Privatpolitik.PrivatPolitikOverview(navController = navController)
+                }
 
                 //---- Mine Design ----
                 composable(Navigation.MineDesign.route) {
