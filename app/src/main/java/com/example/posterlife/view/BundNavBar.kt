@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,13 +17,13 @@ import com.example.posterlife.R
  */
 
 //Håndtering af bottom nav
-sealed class Navigation(var route: String, var icon: Int, var title: String) {
+sealed class NavigationBundNav(var route: String, var icon: Int, var title: String) {
 
-    object Inspiration : Navigation("inspiration", R.drawable.ic_lightbulb, "Inspiration")
-    object Favorit: Navigation("favorit",R.drawable.ic_favorite, "Favorit")
-    object Kamera : Navigation("kamera", R.drawable.ic_kamera, "Kamera")
-    object Profil : Navigation("profil", R.drawable.ic_profil, "Profil")
-    object MineDesign : Navigation("mine design", R.drawable.ic_star, "Designs")
+    object Inspiration : NavigationBundNav("inspiration", R.drawable.ic_lightbulb, "Inspiration")
+    object Favorit: NavigationBundNav("favorit",R.drawable.ic_favorite, "Favorit")
+    object Kamera : NavigationBundNav("kamera", R.drawable.ic_kamera, "Kamera")
+    object Profil : NavigationBundNav("profil", R.drawable.ic_profil, "Profil")
+    object MineDesign : NavigationBundNav("mine design", R.drawable.ic_star, "Designs")
 }
 
 @Composable
@@ -33,11 +31,11 @@ fun BottomNavigationBar(navController: NavController) {
 
 
     val items = listOf(
-        Navigation.Inspiration,
-        Navigation.Favorit,
-        Navigation.Kamera,
-        Navigation.MineDesign,
-        Navigation.Profil
+        NavigationBundNav.Inspiration,
+        NavigationBundNav.Favorit,
+        NavigationBundNav.Kamera,
+        NavigationBundNav.MineDesign,
+        NavigationBundNav.Profil
     )
 
     BottomNavigation(

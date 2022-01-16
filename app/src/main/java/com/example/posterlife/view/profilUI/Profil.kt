@@ -18,8 +18,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.posterlife.R
-import org.intellij.lang.annotations.JdkConstants
+import com.example.posterlife.loginController.AuthenticationLogin
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 sealed class Profil(val rute: String) {
@@ -91,31 +92,32 @@ sealed class Profil(val rute: String) {
         ) {
 
             // række til at tilgå Login siden.
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .height(60.dp)
-                    .padding(start = 8.dp)
-                    .clickable(onClick = {
-                        navController.navigate("Login") {
-                            popUpTo("Login.LoginScreen.LoginStart")
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .height(60.dp)
+                        .padding(start = 8.dp)
+                        .clickable(onClick = {
+                            navController.navigate("Login") {
+                                popUpTo("Login.LoginScreen.LoginStart")
 
-                        }
-                    }),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Login",
-                    fontWeight = FontWeight.Light,
-                    fontSize = 22.sp
-                )
-                Icon(
-                    imageVector = Icons.Filled.NavigateNext,
-                    contentDescription = null,
-                    modifier = Modifier.size(30.dp)
-                )
+                            }
+                        }),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
+                    Text(
+                        text = "Login",
+                        fontWeight = FontWeight.Light,
+                        fontSize = 22.sp
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.NavigateNext,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
 
 
             }
@@ -274,7 +276,7 @@ sealed class Profil(val rute: String) {
                     contentDescription = null,
                     modifier = Modifier.size(30.dp)
                 )
-                
+
 
             }
             Spacer(modifier = Modifier.padding(110.dp))

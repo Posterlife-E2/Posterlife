@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -89,11 +90,13 @@ sealed class MineDesign(val rute: String) {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             items(result.size) { index ->
-                                val source = BitmapFactory.decodeFile(
-                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
-                                        index
-                                    )
-                                )
+                                val source = "content://media/external/images/media/" + result.get(index)
+
+//                                    "file://" +
+//                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
+//                                        index
+//                                    )
+
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -107,7 +110,7 @@ sealed class MineDesign(val rute: String) {
                                     ) {
                                         Image(
                                             painter = rememberImagePainter(
-                                                data = source
+                                                data = Uri.parse(source)
                                             ),
                                             contentDescription = "Image",
                                             modifier = Modifier
@@ -115,7 +118,8 @@ sealed class MineDesign(val rute: String) {
                                                 .background(Color.Black)
                                                 .clickable {
 
-                                                }
+                                                },
+                                            contentScale = ContentScale.Crop
                                         )
                                         Button(
                                             onClick = {
@@ -260,8 +264,9 @@ sealed class MineDesign(val rute: String) {
                     Log.d("Update Value",outputString);
                     file.writeText(outputString);
 
+                    UploadImage.DeleteImage(path)
                 }
-                UploadImage.DeleteImage(path)
+
 
             }else{
                 var file = File(context.getOutputDirectory(), "Files.txt")

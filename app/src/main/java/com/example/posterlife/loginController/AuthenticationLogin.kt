@@ -10,7 +10,7 @@ sealed class AuthenticationLogin {
 
     companion object {
 
-        private lateinit var authentication: FirebaseAuth
+        lateinit var authentication: FirebaseAuth
 
         fun signIn(email: String, password: String, navController: NavController) {
 
@@ -18,7 +18,8 @@ sealed class AuthenticationLogin {
 
             val user = authentication.currentUser
             if(user != null) {
-                //noget med at den bare skal finde getUser og komme videre i sit liv.
+                //Tjek om den allerede er logget ind.
+                return
             }
 
             authentication.signInWithEmailAndPassword(email, password)

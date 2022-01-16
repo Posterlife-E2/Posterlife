@@ -43,6 +43,8 @@ android {
 
 dependencies {
 
+
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -87,7 +89,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.firebaseui:firebase-ui-database:7.2.0'
-    implementation 'com.google.android.gms:play-services-auth:20.0.0'
+    implementation 'com.google.android.gms:play-services-auth:20.0.1'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 
     //Async picture load
@@ -104,5 +106,7 @@ dependencies {
     //Til billedRedigering
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
 
+
     implementation 'com.godaddy.android.colorpicker:compose-color-picker:0.3.1'
+    implementation 'com.google.code.gson:gson:2.8.8'
 }

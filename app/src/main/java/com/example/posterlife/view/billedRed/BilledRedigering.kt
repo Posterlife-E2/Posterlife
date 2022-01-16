@@ -3,7 +3,6 @@ package com.example.posterlife.view.billedRed
 import android.content.Context
 import android.graphics.Typeface
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -14,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,10 +21,6 @@ import androidx.core.content.res.ResourcesCompat
 import com.example.posterlife.R
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
-import ja.burhanrashid52.photoeditor.OnSaveBitmap
-import ja.burhanrashid52.photoeditor.PhotoEditor
-import ja.burhanrashid52.photoeditor.PhotoEditorView
-import ja.burhanrashid52.photoeditor.PhotoFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
@@ -36,17 +30,23 @@ import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.saveImageController.UploadImage
-import com.example.posterlife.view.Navigation
+import com.example.posterlife.view.NavigationBundNav
 import java.lang.Exception
 import android.provider.MediaStore.Images
-import android.provider.MediaStore.Images.Media.getBitmap
-import android.text.Layout
+import android.text.Editable
+import android.view.MotionEvent
+import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
-import org.intellij.lang.annotations.JdkConstants
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModel
+import ja.burhanrashid52.photoeditor.*
 import java.io.ByteArrayOutputStream
 
 
@@ -57,12 +57,16 @@ import java.io.ByteArrayOutputStream
  * @Source https://github.com/godaddy/compose-color-picker
  * @Source https://stackoverflow.com/questions/56651444/deprecated-getbitmap-with-api-29-any-alternative-codes
  *
+ * Diverse
+ * @Source https://developer.android.com/reference/kotlin/android/view/inputmethod/InputMethodManager
+ * @Source https://stackoverflow.com/questions/8035107/how-to-set-cursor-position-in-edittext
+ *
  * Material Sources
  * @Source https://foso.github.io/Jetpack-Compose-Playground/foundation/lazyrow/
  *
  */
 
-sealed class BilledRedigering(var rute: String) {
+sealed class BilledRedigering(var rute: String) : ViewModel() {
 
     object BilledConfirm : BilledRedigering("billedConfirm") {
 
@@ -116,14 +120,12 @@ sealed class BilledRedigering(var rute: String) {
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { }) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = null
                     )
                 }
-
-
             },
 
             backgroundColor = Color(0xfffcfcf0),
@@ -138,7 +140,7 @@ sealed class BilledRedigering(var rute: String) {
         BottomAppBar(
             backgroundColor = Color.DarkGray
         ) {
-            IconButton(onClick = { navController.navigate(Navigation.Kamera.route) }) {
+            IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
                 Icon(
                     Icons.Filled.Close,
                     contentDescription = null,
@@ -181,8 +183,6 @@ sealed class BilledRedigering(var rute: String) {
 
             val savedBilledURI = billedViewModel.getBilledURI()
 
-            val billedBitmap = getBitmap(context.contentResolver, savedBilledURI)
-
             val tekstFont = ResourcesCompat.getFont(context, R.font.roboto)
 
             val billedRedView = remember { mutableStateOf(PhotoEditorView(context)) }
@@ -197,6 +197,68 @@ sealed class BilledRedigering(var rute: String) {
 
             var eraserState by remember { mutableStateOf(false) }
 
+            billedRedTool.setOnPhotoEditorListener(object : OnPhotoEditorListener {
+                override fun onEditTextChangeListener(
+                    rootView: View,
+                    text: String?,
+                    colorCode: Int
+                ) {
+                    //Da vi ikke kan bruge compose med det her bibliotek der bliver brugt til redigering,
+                    //så må vi være lidt opfindsomme. Koden her åbner en AlertDialog widget som man ikke kan se
+                    //med en EditText i, som fungere som mellemmand mellem den tekst vi skal redigere og det som
+                    //brugeren indtaster.
+
+                    val tekstInput = EditText(context)
+                    tekstInput.requestFocus()
+
+                    val alertDialog = android.app.AlertDialog.Builder(context)
+                    tekstInput.text = Editable.Factory.getInstance().newEditable(text)
+                    alertDialog.create()
+                    tekstInput.background.clearColorFilter()
+                    alertDialog.setView(tekstInput)
+
+                    val alertSetWindow = alertDialog.show()
+                    alertSetWindow.window?.setBackgroundDrawableResource(R.drawable.transparent)
+                    alertSetWindow.window?.setLayout(1, 1)
+                    alertSetWindow.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+                    tekstInput.setSelection(tekstInput.length())
+
+                    val keyboard =
+                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    keyboard.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+
+                    tekstInput.addTextChangedListener {
+                        billedRedTool.editText(rootView, tekstInput.text.toString(), colorCode)
+                    }
+                }
+
+                override fun onAddViewListener(viewType: ViewType?, numberOfAddedViews: Int) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onRemoveViewListener(
+                    viewType: ViewType?,
+                    numberOfAddedViews: Int
+                ) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onStartViewChangeListener(viewType: ViewType?) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onStopViewChangeListener(viewType: ViewType?) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+                override fun onTouchSourceImage(event: MotionEvent?) {
+                    //Skal ikke bruges til noget, men er påkrævet overriden pga. anonymous object.
+                }
+
+            })
+
+
             Scaffold(
                 topBar = {
                     TopBar(title = "Rediger")
@@ -205,7 +267,7 @@ sealed class BilledRedigering(var rute: String) {
                 content = {
                     Column(
                         modifier = Modifier
-                            .background(Color(0xfffcfcf0))
+                            .background(Color.DarkGray)
                             .fillMaxSize(),
 
                         ) {
@@ -228,7 +290,11 @@ sealed class BilledRedigering(var rute: String) {
                             }
                         }
                         Spacer(
-                            modifier = Modifier.fillMaxWidth().weight(1f).background(Color.DarkGray))
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .background(Color.DarkGray)
+                        )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -376,7 +442,11 @@ sealed class BilledRedigering(var rute: String) {
                             }
                         }
                         Spacer(
-                            modifier = Modifier.fillMaxWidth().height(60.dp).background(Color.DarkGray))
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp)
+                                .background(Color.DarkGray)
+                        )
 
                         if (visFilterMenu.value) {
                             val billedFilterShower = BilledFilterShower(savedBilledURI)
@@ -393,7 +463,7 @@ sealed class BilledRedigering(var rute: String) {
                     BottomAppBar(
                         backgroundColor = Color.DarkGray
                     ) {
-                        IconButton(onClick = { navController.navigate(Navigation.Kamera.route) }) {
+                        IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
                             Icon(
                                 Icons.Filled.Close,
                                 contentDescription = null,
@@ -501,8 +571,6 @@ sealed class BilledRedigering(var rute: String) {
                         ) {
                             Text("Indsæt")
                         }
-
-
                     }
                 }
             )
@@ -625,7 +693,7 @@ sealed class BilledRedigering(var rute: String) {
 
                     if (uri != null) {
                         uploadBillede(uri, context)
-                        navController.navigate(Navigation.MineDesign.route)
+                        navController.navigate(NavigationBundNav.MineDesign.route)
                     }
                 }
 
