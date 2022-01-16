@@ -85,6 +85,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
         private val inspirationViewModel = InspirationViewModel
 
+        @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
         fun InspirationOverview(
