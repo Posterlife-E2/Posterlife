@@ -200,7 +200,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     items(plakatHolder.size) { index ->
 
                         Card(
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(4.dp),
                             modifier = Modifier
                                 .height(350.dp)
                                 .width(182.dp)
@@ -258,7 +258,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 modifier = Modifier
                                     .size(236.dp)
                                     .padding(10.dp),
-                                shape = RoundedCornerShape(5.dp),
+                                shape = RoundedCornerShape(4.dp),
                                 elevation = 5.dp
                             ) {
                                 Box(Modifier.fillMaxSize()) {
