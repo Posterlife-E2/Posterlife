@@ -58,7 +58,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
     object InspirationStart : Inspiration("start") {
 
-        private val inspirationViewModel = InspirationViewModel
+        private val inspirationViewModel = InspirationViewModel()
 
         @ExperimentalFoundationApi
         @Composable
@@ -139,8 +139,11 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             )
                         }
                     }
+
+
                 }
             }
+
         }
 
 
@@ -154,6 +157,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
             val plakatInfo = PlakatInfo(context)
             val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
+            inspirationViewModel.getFavorites(context)
 
             Column(
                 Modifier
@@ -200,7 +204,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .clickable {
-                                                inspirationViewModel.currentIndex = index
+                                                inspirationViewModel.setIndex(index)
                                                 navController.navigate(InspirationFocusImage.rute) {
                                                     navController.popBackStack()
                                                 }
@@ -235,7 +239,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 .width(150.dp)
                                 .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
                                 .clickable {
-                                    inspirationViewModel.currentIndex = index
+                                    inspirationViewModel.setIndex(index)
                                     navController.navigate("focusImage")
                                 },
                             shape = RoundedCornerShape(4.dp),
@@ -599,19 +603,24 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     ) {
 
         val context = LocalContext.current
+        val inspirationViewModel = InspirationViewModel()
 
         ActivityCompat.requestPermissions(
             context as Activity,
             permissions, 0
         )
 
+
         val indexFile = File("index.txt")
 
         var isFavorite by remember { mutableStateOf(false) }
+        //if (inspirationViewModel.getFavorites(context)[index] == index) {
+        //    isFavorite = true
+        //}
         IconToggleButton(checked = isFavorite, onCheckedChange = {
             isFavorite = !isFavorite
             if (isFavorite) {
-
+                inspirationViewModel.setFavorites(index, context)
             }
         }) {
             Icon(
