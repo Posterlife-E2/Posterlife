@@ -2,14 +2,9 @@ package com.example.posterlife.view.inspirationView
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
-import android.content.SharedPreferences
-import android.graphics.BitmapFactory
-import androidx.compose.compiler.plugins.kotlin.write
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,7 +20,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -34,24 +28,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import coil.compose.ImagePainter.State.Empty.painter
 import coil.compose.rememberImagePainter
-import com.example.posterlife.R
 //import com.example.posterlife.JsonParser.PlakatInfo
 //import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
-import com.example.posterlife.view.Kamera
-import com.example.posterlife.view.NavigationBundNav
-import com.example.posterlife.view.loginUI.Login
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 //import com.google.gson.Gson
 import java.io.File
-import java.io.FileWriter
-import java.net.URL
 import kotlin.collections.ArrayList
 
 /**
@@ -362,8 +345,60 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     object InspirationFocusImage : Inspiration("focusImage") {
 
         @Composable
-        fun InspirationFocusImage() {
+        fun InspirationFocusImage(navController: NavController) {
+            Scaffold(
+                topBar = {
+                    FocusImageTopBar(navController)
+                },
+                content = {
+                    FocusImageContent()
+                },
+            )
+        }
 
+        @Composable
+        fun FocusImageTopBar (navController: NavController) {
+            TopAppBar(
+                title = {
+
+                    Text(
+                        text = "Inspiration",
+                        color = Color.Black,
+                        fontSize = 30.sp
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                    }) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            tint = Color.Black,
+                            contentDescription = null
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            tint = Color.Red,
+                            contentDescription = null
+                        )
+                    }
+
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                    }
+                },
+                backgroundColor = Color(0xfffcfcf0),
+
+                elevation = 12.dp
+            )
+
+        }
+
+        @Composable
+        fun FocusImageContent () {
             val inspirationViewModel = InspirationViewModel
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
@@ -480,6 +515,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
                 }
             }
+
         }
 
         @Composable
