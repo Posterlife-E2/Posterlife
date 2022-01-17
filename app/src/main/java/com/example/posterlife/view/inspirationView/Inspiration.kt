@@ -38,6 +38,7 @@ import coil.compose.rememberImagePainter
 //import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
+import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.filteredPosters
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -86,6 +87,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
                 }
             )
         }
+
+        lateinit var filteredPosters: ArrayList<Plakat>
 
 
         /**
@@ -158,6 +161,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
 
 
+
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
@@ -168,7 +172,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
             val posters = plakatInfo.getPlakatInfo()
-            var filteredPosters: ArrayList<Plakat>
+
 
             //https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
             //Viser en filtreret liste af Plakat-objekter, hvis der er skrevet noget i søgefelt, ellers viser den originale liste
@@ -218,7 +222,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                 .width(200.dp)
                                 .padding(2.dp)
                                 .clickable {
-                                    //inspirationViewModel.currentIndex = index
+                                    inspirationViewModel.currentIndex = index
                                     navController.navigate(InspirationFocusImage.rute)
                                 }
                         )
@@ -249,7 +253,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                     bottom = 0.dp
                                 )
                                 .clickable {
-                                    //inspirationViewModel.currentIndex = index
+                                    inspirationViewModel.currentIndex = index
                                     navController.navigate("focusImage")
                                 }) {
                             Image(
@@ -430,7 +434,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
             val index = inspirationViewModel.currentIndex
-            val plakatHolder = index?.let { plakatInfo.getPlakatInfo()[it] }
+            val plakatHolder = index?.let { filteredPosters[it] }
+
 
             if (plakatHolder != null) {
 
