@@ -2,9 +2,6 @@ package com.example.posterlife.view.inspirationView
 
 import android.Manifest
 import android.app.Activity
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -12,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
@@ -22,32 +18,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+//import com.example.posterlife.JsonParser.PlakatInfo
+//import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
-import com.example.posterlife.view.NavigationBundNav
-import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.filteredPlakatHolder
-import java.util.*
+//import com.google.gson.Gson
+import java.io.File
 import kotlin.collections.ArrayList
 
 /**
- * @Author Kristoffer Pedersen (s205354), Thamara Linnea (s205337), Camilla Bøjden (s205360), Lauritz Pepke (s191179)
+ * @Author Kristoffer Pedersen (s205354), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  *
  * @source https://developer.android.com/jetpack/compose/navigation
  *
@@ -60,42 +51,32 @@ import kotlin.collections.ArrayList
  *
  *
  * @Source https://www.youtube.com/watch?v=KPVoQjwmWX4
- *
- * * Filter arraylist for searchfunction
- * @Source https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
- *
  */
 
 sealed class Inspiration(val rute: String) : ViewModel() {
 
+
     object InspirationStart : Inspiration("start") {
 
-        private val inspirationViewModel = InspirationViewModel()
+        private val inspirationViewModel = InspirationViewModel
 
-        @ExperimentalCoilApi
-        @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
         fun InspirationOverview(
             navController: NavController,
         ) {
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
-            val textState = remember { mutableStateOf((TextFieldValue(""))) }
-
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    InspirationTopBar(navController, textState)
+                    InspirationTopBar()
                 },
 
                 content = {
-                    InspirationContent(navController = navController, textState)
+                    InspirationContent(navController = navController)
                 }
             )
         }
-
-        lateinit var filteredPlakatHolder: ArrayList<Plakat>
-
 
         /**
          *
@@ -158,42 +139,21 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             )
                         }
                     }
-
-
                 }
             }
-
         }
 
 
-        @ExperimentalCoilApi
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
-            navController: NavController,
-            query: MutableState<TextFieldValue>
+            navController: NavController
         ) {
 
             val context = LocalContext.current
+
             val plakatInfo = PlakatInfo(context)
             val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
-
-            //https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
-            //Viser en filtreret liste af Plakat-objekter, hvis der er skrevet noget i søgefelt, ellers viser den originale liste
-            val searchedQuery = query.value.text
-            filteredPlakatHolder = if (searchedQuery.isEmpty()) {
-                plakatHolder
-            } else {
-                val resultList = ArrayList<Plakat>()
-                for (Plakat in plakatHolder) {
-                    if (Plakat.title.lowercase(Locale.getDefault())
-                            .contains(searchedQuery.lowercase(Locale.getDefault()))
-                    ) {
-                        resultList.add(Plakat)
-                    }
-                }
-                resultList
-            }
 
             Column(
                 Modifier
@@ -220,36 +180,37 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 ) {
 
 
-                    items(filteredPlakatHolder.size) { index ->
+                    items(plakatHolder.size) { index ->
+                        if (index in 20..30) {
 
-                        Card(
-                            shape = RoundedCornerShape(4.dp),
-                            modifier = Modifier
-                                .height(350.dp)
-                                .width(182.dp)
-                                .padding(10.dp),
-                            elevation = 5.dp
-                        ) {
-                            Box(Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = rememberImagePainter(
-                                        data = filteredPlakatHolder.get(index).imageURL,
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clickable {
-                                            inspirationViewModel.setIndex(index)
-                                            navController.navigate(InspirationFocusImage.rute) {
-                                                popUpTo(NavigationBundNav.Inspiration.route)
-                                            }
-                                        },
-                                    contentScale = ContentScale.Crop
-                                )
+                            Card(
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .height(350.dp)
+                                    .width(182.dp)
+                                    .padding(10.dp),
+                                elevation = 5.dp
+                            ) {
+                                Box(Modifier.fillMaxSize()) {
+                                    Image(
+                                        painter = rememberImagePainter(
+                                            data = plakatHolder.get(index).imageURL,
+                                        ),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clickable {
+                                                inspirationViewModel.currentIndex = index
+                                                navController.navigate(InspirationFocusImage.rute) {
+                                                    navController.popBackStack()
+                                                }
+                                            },
+                                        contentScale = ContentScale.Crop
+                                    )
+                                }
                             }
                         }
                     }
-
                 }
 
 
@@ -266,7 +227,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     contentPadding = PaddingValues(8.dp),
                 ) {
 
-                    items(filteredPlakatHolder.size) { index ->
+                    items(plakatHolder.size) { index ->
 
                         Card(
                             modifier = Modifier
@@ -274,10 +235,8 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 .width(150.dp)
                                 .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
                                 .clickable {
-                                    inspirationViewModel.setIndex(index)
-                                    navController.navigate("focusImage") {
-                                        popUpTo(NavigationBundNav.Inspiration.route)
-                                    }
+                                    inspirationViewModel.currentIndex = index
+                                    navController.navigate("focusImage")
                                 },
                             shape = RoundedCornerShape(4.dp),
                             elevation = 5.dp
@@ -287,7 +246,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 Image(
                                     contentScale = ContentScale.Crop,
                                     painter = rememberImagePainter(
-                                        data = filteredPlakatHolder.get(index).imageURL,
+                                        data = plakatHolder.get(index).imageURL,
                                     ),
                                     contentDescription = null,
                                     modifier = Modifier
@@ -316,7 +275,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                             Text(
                                                 fontSize = 12.sp,
                                                 style = MaterialTheme.typography.subtitle2,
-                                                text = filteredPlakatHolder[index].title
+                                                text = plakatHolder[index].title
                                             )
                                         }
                                         FavoritButton(
@@ -337,165 +296,120 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
             }
         }
+    }
 
 
-        /**
-         * @Source https://www.youtube.com/watch?v=trVmP1rw0uw&t=310s
-         */
-        @ExperimentalComposeUiApi
-        @ExperimentalFoundationApi
-        @Composable
-        fun InspirationTopBar(navController: NavController, query: MutableState<TextFieldValue>) {
+    @ExperimentalFoundationApi
+    @Composable
+    fun InspirationTopBar() {
 
+        TopAppBar(
+            title = {
 
-            val keyboardController = LocalSoftwareKeyboardController.current
-
-            var expanded by remember { mutableStateOf(false) }
-            var sizeState by remember { mutableStateOf(0.dp) }
-            val size by animateDpAsState(
-                targetValue = sizeState,
-                tween(
-                    durationMillis = 400,
-                    easing = LinearOutSlowInEasing
+                Text(
+                    text = "Inspiration",
+                    color = Color.Black,
+                    fontSize = 30.sp
                 )
-            )
+            },
+            actions = {
 
-            TopAppBar(
-                title = {
-
-                    Text(
-                        text = "Inspiration",
-                        color = Color.Black,
-                        fontSize = 30.sp,
-                        maxLines = 1
+                IconButton(onClick = { }) {
+                    Icon(
+                        Icons.Filled.Search,
+                        contentDescription = null
                     )
-                },
-                actions = {
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        Icons.Filled.Favorite,
+                        tint = Color.Red,
+                        contentDescription = null
+                    )
+                }
 
-                    if (expanded)
-                        TextField(
-                            modifier = Modifier
-                                .size(size)
-                                .padding(1.dp),
-
-                            value = query.value,
-
-                            onValueChange = { newValue -> query.value = newValue },
-
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Text,
-                                imeAction = ImeAction.Search
-                            ),
-                            keyboardActions = KeyboardActions(onSearch = {
-                                keyboardController?.hide()
-                            }),
-
-                            textStyle = TextStyle(
-                                fontSize = 18.sp,
-                            ),
-
-                            maxLines = 1,
-
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Search,
-                                    contentDescription = null,
-
-                                    )
-                            },
-
-                            trailingIcon = {
-                                if (query.value != TextFieldValue("")) {
-                                    IconButton(
-                                        onClick = {
-                                            query.value = TextFieldValue("")
-                                        }
-                                    ) {
-                                        Icon(
-                                            Icons.Filled.Close,
-                                            contentDescription = null,
-                                        )
-                                    }
-                                }
-
-                            },
-
-                            colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = Color(0xfffcfcf0),
-                                textColor = Color.Black,
-                                focusedIndicatorColor = Color.Black,
-                                cursorColor = Color.Black,
-                                leadingIconColor = Color.Black
-
-                            )
-
-                        )
-                    IconButton(onClick = {
-
-                        expanded = !expanded
-                        if (expanded)
-                            sizeState = 350.dp
-                        else if (!expanded)
-                            sizeState = 0.dp
-                        query.value = TextFieldValue("")
-
-                    }) {
-                        if (!expanded)
-                            Icon(
-                                Icons.Filled.Search,
-                                contentDescription = null
-                            )
-                        else if (expanded)
-                            Icon(
-                                Icons.Filled.ArrowForward,
-                                contentDescription = null
-                            )
-                    }
-                    if (!expanded)
-                        IconButton(onClick = {
-                            navController.navigate(NavigationBundNav.Favorit.route) {
-                            }
-                        }) {
-
-                            Icon(
-                                Icons.Filled.Favorite,
-                                tint = Color.Red,
-                                contentDescription = null
-                            )
-                        }
-                    if (!expanded)
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(Icons.Filled.ShoppingCart, contentDescription = null)
-                        }
-                },
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                }
+            },
 
 
-                backgroundColor = Color(0xfffcfcf0),
+            backgroundColor = Color(0xfffcfcf0),
 
-                elevation = 12.dp
-            )
-        }
+            elevation = 12.dp
+        )
 
     }
 
 
     object InspirationFocusImage : Inspiration("focusImage") {
 
-        @ExperimentalCoilApi
         @Composable
         fun InspirationFocusImage() {
+            Scaffold(
+                topBar = {
+                    FocusImageTopBar()
+                },
+                content = {
+                    FocusImageContent()
+                },
+            )
+        }
 
-            val inspirationViewModel = InspirationViewModel()
+        @Composable
+        fun FocusImageTopBar () {
+            TopAppBar(
+                title = {
 
+                    Text(
+                        text = "Inspiration",
+                        color = Color.Black,
+                        fontSize = 30.sp
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                    }) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            tint = Color.Black,
+                            contentDescription = null
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            tint = Color.Red,
+                            contentDescription = null
+                        )
+                    }
+
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                    }
+                },
+                backgroundColor = Color(0xfffcfcf0),
+
+                elevation = 12.dp
+            )
+
+        }
+
+        @Composable
+        fun FocusImageContent () {
+            val inspirationViewModel = InspirationViewModel
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
-            val index = inspirationViewModel.getIndex()
-            val plakatHolder = index?.let { filteredPlakatHolder[it] }
+            val index = inspirationViewModel.currentIndex
+            val plakatHolder = index?.let { plakatInfo.getPlakatInfo()[it] }
             var enlargeBillede = remember { mutableStateOf(false) }
+            var pris by remember {
+                mutableStateOf(" DKK" + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString())
+            }
 
             if (plakatHolder != null) {
-                //val plakatHolder = index.let { plakatInfo.getPlakatInfo()[it] }
-                val enlargeBillede = remember { mutableStateOf(false) }
 
                 Column(
                     Modifier
@@ -507,11 +421,12 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
                     Text(
                         "Forfatter",
-                        fontWeight = FontWeight.Light,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
+                        modifier = Modifier.padding(10.dp)
                     )
 
-                    Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 20.dp)) {
+                    Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
 
                         Image(
                             painter = rememberImagePainter(data = plakatHolder.imageURL),
@@ -529,11 +444,24 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             Text(plakatHolder.title, fontSize = 20.sp)
                             Spacer(modifier = Modifier.height(14.dp))
                             Text(
-                                "DKK " + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString(),
+                                pris,
                                 fontSize = 18.sp
                             )
 
-                            MenuItems()
+                            var selectedpris = MenuItems()
+
+                            if (selectedpris == 1) {
+                                pris = "DKK 179,00"
+                            }
+                            if (selectedpris == 2) {
+                                pris = "DKK 249,00"
+                            }
+                            if (selectedpris == 3) {
+                                pris = "DKK 389,00"
+                            }
+                            else {
+
+                            }
                             Spacer(modifier = Modifier.height(4.dp))
 
                             Row(
@@ -588,67 +516,70 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
                 }
             }
+
         }
-    }
 
-    @Composable
-    fun MenuItems() {
-        val options = listOf(
-            "Vælg en mulighed",
-            "A3 - 170g silk",
-            "50x70 cm - 170g silk",
-            "70x100 cm - 170g silk"
-        )
-        var optionsExpanded by remember { mutableStateOf(false) }
-        var selectedIndex by remember { mutableStateOf(0) }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-        )
-        {
-            InspirationStart.DropdownMenu(
-                menuItems = options,
-                menuExpandedState = optionsExpanded,
-                selectedIndex = selectedIndex,
-                updateMenuExpandStatus = { optionsExpanded = true },
-                onDismissMenuView = { optionsExpanded = false },
-                onMenuItemClick = { index ->
-                    selectedIndex = index
-                    optionsExpanded = false
-                }
+        @Composable
+        fun MenuItems(): Int {
+            val options = listOf(
+                "Vælg en mulighed",
+                "A3 - 170g silk",
+                "50x70 cm - 170g silk",
+                "70x100 cm - 170g silk"
             )
+            var optionsExpanded by remember { mutableStateOf(false) }
+            var selectedIndex by remember { mutableStateOf(0) }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+            )
+            {
+                InspirationStart.DropdownMenu(
+                    menuItems = options,
+                    menuExpandedState = optionsExpanded,
+                    selectedIndex = selectedIndex,
+                    updateMenuExpandStatus = { optionsExpanded = true },
+                    onDismissMenuView = { optionsExpanded = false },
+                    onMenuItemClick = { index ->
+                        selectedIndex = index
+                        optionsExpanded = false
+                    }
+                )
+            }
+            return selectedIndex
+
         }
-    }
 
-    @Composable
-    fun PosterAmount() {
-        var textFieldState by remember {
-            mutableStateOf("1")
+        @Composable
+        fun PosterAmount() {
+            var textFieldState by remember {
+                mutableStateOf("1")
+            }
+
+            BasicTextField(
+                modifier = Modifier
+                    .height(30.dp)
+                    .width(40.dp)
+                    .background(color = Color.LightGray)
+                    .border(0.5.dp, color = Color.Black)
+                    .padding(5.dp),
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    color = Color.Black,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
+                ),
+                value = textFieldState,
+                onValueChange = {
+                    textFieldState = it
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
+
         }
 
-        BasicTextField(
-            modifier = Modifier
-                .height(30.dp)
-                .width(40.dp)
-                .background(color = Color.LightGray)
-                .border(0.5.dp, color = Color.Black)
-                .padding(5.dp),
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontSize = 15.sp,
-                textAlign = TextAlign.Center
-            ),
-            value = textFieldState,
-            onValueChange = {
-                textFieldState = it
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
-
     }
-
 
     /**
      * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.
@@ -668,26 +599,23 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     ) {
 
         val context = LocalContext.current
-        val inspirationViewModel = InspirationViewModel()
 
         ActivityCompat.requestPermissions(
             context as Activity,
             permissions, 0
         )
 
-
+        val indexFile = File("index.txt")
 
         var isFavorite by remember { mutableStateOf(false) }
         IconToggleButton(checked = isFavorite, onCheckedChange = {
             isFavorite = !isFavorite
             if (isFavorite) {
-                inspirationViewModel.setFavorites(index, context)
+
             }
         }) {
             Icon(
-                tint = color,
-                modifier = Modifier.size(25.dp),
-                imageVector = if (isFavorite) {
+                tint = color, modifier = Modifier.size(25.dp), imageVector = if (isFavorite) {
                     Icons.Filled.Favorite
                 } else {
                     Icons.Default.FavoriteBorder

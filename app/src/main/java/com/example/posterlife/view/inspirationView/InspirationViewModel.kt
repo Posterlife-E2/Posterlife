@@ -30,7 +30,7 @@ import java.io.*
 class InspirationViewModel : ViewModel() {
 
     companion object {
-        private var currentIndex by mutableStateOf(0)
+        var currentIndex by mutableStateOf(0)
         private var favoriteIndexList = mutableListOf<Int>()
     }
 
