@@ -70,11 +70,11 @@ import kotlin.collections.ArrayList
 
 sealed class Inspiration(val rute: String) : ViewModel() {
 
+
     object InspirationStart : Inspiration("start") {
 
         private val inspirationViewModel = InspirationViewModel()
 
-        @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
         fun InspirationOverview(
@@ -744,30 +744,28 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 permissions, 0
             )
 
-
-            val indexFile = File("index.txt")
-
-            var isFavorite by remember { mutableStateOf(false) }
-            //if (inspirationViewModel.getFavorites(context)[index] == index) {
-            //    isFavorite = true
-            //}
-            IconToggleButton(checked = isFavorite, onCheckedChange = {
-                isFavorite = !isFavorite
-                if (isFavorite) {
-                    inspirationViewModel.setFavorites(index, context)
-                }
-            }) {
-                Icon(
-                    tint = color, modifier = Modifier.size(25.dp), imageVector = if (isFavorite) {
-                        Icons.Filled.Favorite
-                    } else {
-                        Icons.Default.FavoriteBorder
-                    },
-                    contentDescription = null
-                )
+        var isFavorite by remember { mutableStateOf(false) }
+        if (index in inspirationViewModel.getFavorites(context)) {
+            isFavorite = true
+        }
+        IconToggleButton(checked = isFavorite, onCheckedChange = {
+            isFavorite = !isFavorite
+            if (isFavorite) {
+                inspirationViewModel.setFavorites(index, context)
             }
+        }) {
+            Icon(
+                tint = color, modifier = Modifier.size(25.dp), imageVector = if (isFavorite) {
+                    Icons.Filled.Favorite
+                } else {
+                    Icons.Default.FavoriteBorder
+                },
+                contentDescription = null
+            )
         }
     }
+
+}
 
 
 
