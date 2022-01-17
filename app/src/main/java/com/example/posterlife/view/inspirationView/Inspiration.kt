@@ -8,7 +8,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,18 +32,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-//import com.example.posterlife.JsonParser.PlakatInfo
-//import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
-//import com.google.gson.Gson
 import java.io.File
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.filteredPosters
 import java.util.*
@@ -225,7 +220,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 ) {
 
 
-                    items(filteredPosters.size) { index ->
+                    items(plakatHolder.size) { index ->
                         if (index in 20..30) {
 
                             Card(
@@ -239,7 +234,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 Box(Modifier.fillMaxSize()) {
                                     Image(
                                         painter = rememberImagePainter(
-                                            data = filteredPosters.get(index).imageURL,
+                                            data = plakatHolder.get(index).imageURL,
                                         ),
                                         contentDescription = null,
                                         modifier = Modifier
