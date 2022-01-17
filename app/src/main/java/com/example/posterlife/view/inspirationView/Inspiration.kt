@@ -269,6 +269,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             LazyVerticalGrid(
                 cells = GridCells.Fixed(2),
                 contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.padding(bottom = 50.dp)
             ) {
 
                 items(filteredPosters.size) { index ->
@@ -335,7 +336,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                         }
 
                     }
-
                 }
                 }
             }
