@@ -26,6 +26,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
+import com.example.posterlife.view.inspirationView.InspirationViewModel
 
 
 sealed class Favorit(val rute: String) {
@@ -88,6 +89,7 @@ sealed class Favorit(val rute: String) {
         val context = LocalContext.current
         val plakatInfo = PlakatInfo(context)
         val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
+        val inspirationViewModel = InspirationViewModel()
         Column(
             Modifier
                 .background(Color(0xfffcfcf0))
@@ -101,7 +103,7 @@ sealed class Favorit(val rute: String) {
                 contentPadding = PaddingValues(16.dp),
             ) {
 
-                items(plakatHolder.size) { index ->
+                items(inspirationViewModel.getFavorites(context).size) { index ->
 
                     Card(
                         modifier = Modifier
@@ -115,7 +117,7 @@ sealed class Favorit(val rute: String) {
                         Image(
                             contentScale = ContentScale.Crop,
                             painter = rememberImagePainter(
-                                data = plakatHolder.get(index).imageURL,
+                                data = plakatHolder.get(inspirationViewModel.getFavorites(context)[index]).imageURL,
                             ),
                             contentDescription = null,
                             modifier = Modifier

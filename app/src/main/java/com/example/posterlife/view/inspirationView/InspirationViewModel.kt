@@ -6,10 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.io.*
-import java.util.*
 
 /**
  * @Author Kristoffer Pedersen (s205354)
@@ -23,6 +20,10 @@ import java.util.*
  *
  * Denne viewModel har kun til opgave at pass currentIndex til vores FocusImage screen, som giver mere information om en
  * given plakat fra inspiration.
+ *
+ * Til håndtering af at kunne gemme listerne til strings.
+ * @Source https://www.techiedelight.com/convert-list-to-string-kotlin/
+ *
  *
  */
 
@@ -49,9 +50,7 @@ class InspirationViewModel : ViewModel() {
         val seperator = "-"
         Log.e("SEE HERE", favoriteIndexList.joinToString(seperator))
         val favStr = favoriteIndexList.joinToString(seperator)
-        //Log.e("SEE HERE", listOf(favStr.split("-")).toString())
         fileOutputStream.write(favStr.toByteArray())
-
         getFavorites(context)
     }
 
@@ -60,13 +59,23 @@ class InspirationViewModel : ViewModel() {
         val inputStreamReader = InputStreamReader(fileInputStream)
         val bufferedReader = BufferedReader(inputStreamReader)
         val stringBuilder = StringBuilder()
-        var text: String? = null
-        while ({ text = bufferedReader.readLine(); text }() != null) {
+        var text: String?
+        while (run {
+                text = bufferedReader.readLine()
+                text
+            } != null) {
             stringBuilder.append(text)
         }
 
-        stringBuilder?.let { Log.e("SEE HERE", it.toString()) }
+        stringBuilder.let { Log.e("SEE HERE EFTER LÆS", it.toString()) }
+        val favoritListeTemp = stringBuilder.split("-")
+        val favoritListe = favoritListeTemp.map { it.toInt() }
+        favoriteIndexList = favoritListe.toMutableList()
 
-        return mutableListOf<Int>()
+        return favoriteIndexList
+    }
+
+    fun fjernFavorite(index: Int){
+        favoriteIndexList
     }
 }
