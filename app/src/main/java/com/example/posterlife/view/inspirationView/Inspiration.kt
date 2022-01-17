@@ -86,7 +86,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    InspirationTopBar(textState)
+                    InspirationTopBar(navController, textState)
                 },
 
                 content = {
@@ -345,7 +345,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
-        fun InspirationTopBar(query: MutableState<TextFieldValue>) {
+        fun InspirationTopBar(navController: NavController, query: MutableState<TextFieldValue>) {
 
             val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -453,7 +453,11 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             )
                     }
                     if (!expanded)
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = {
+                            navController.navigate(NavigationBundNav.Favorit.route) {
+                                popUpTo(NavigationBundNav.Inspiration.route)
+                            }
+                        }) {
                             Icon(
                                 Icons.Filled.Favorite,
                                 tint = Color.Red,
