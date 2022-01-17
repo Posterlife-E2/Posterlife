@@ -610,13 +610,10 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             permissions, 0
         )
 
-
-        val indexFile = File("index.txt")
-
         var isFavorite by remember { mutableStateOf(false) }
-        //if (inspirationViewModel.getFavorites(context)[index] == index) {
-        //    isFavorite = true
-        //}
+        if (index in inspirationViewModel.getFavorites(context)) {
+            isFavorite = true
+        }
         IconToggleButton(checked = isFavorite, onCheckedChange = {
             isFavorite = !isFavorite
             if (isFavorite) {
