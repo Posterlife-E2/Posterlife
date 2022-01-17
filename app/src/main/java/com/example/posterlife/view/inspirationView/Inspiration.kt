@@ -293,7 +293,9 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
                                 .clickable {
                                     inspirationViewModel.currentIndex = index
-                                    navController.navigate("focusImage")
+                                    navController.navigate("focusImage") {
+                                        popUpTo(0)
+                                    }
                                 },
                             shape = RoundedCornerShape(4.dp),
                             elevation = 5.dp
