@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
+import com.example.posterlife.view.NavigationBundNav
 import java.io.File
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.filteredPosters
 import java.util.*
@@ -242,7 +243,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                             .clickable {
                                                 inspirationViewModel.setIndex(index)
                                                 navController.navigate(InspirationFocusImage.rute) {
-                                                    navController.popBackStack()
+                                                    popUpTo(NavigationBundNav.Inspiration.route)
                                                 }
                                             },
                                         contentScale = ContentScale.Crop
@@ -278,7 +279,9 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
                             .clickable {
                                 inspirationViewModel.setIndex(index)
-                                navController.navigate("focusImage")
+                                navController.navigate("focusImage"){
+                                    popUpTo(NavigationBundNav.Inspiration.route)
+                                }
                             },
                         shape = RoundedCornerShape(4.dp),
                         elevation = 5.dp
