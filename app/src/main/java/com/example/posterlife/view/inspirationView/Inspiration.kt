@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,6 +53,7 @@ import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
 import com.example.posterlife.view.Kamera
 import com.example.posterlife.view.NavigationBundNav
+import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.filteredPlakatHolder
 import com.example.posterlife.view.loginUI.Login
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,6 +62,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileWriter
 import java.net.URL
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -76,6 +79,10 @@ import kotlin.collections.ArrayList
  *
  *
  * @Source https://www.youtube.com/watch?v=KPVoQjwmWX4
+ *
+ * * Filter arraylist for searchfunction
+ * @Source https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
+ *
  */
 
 sealed class Inspiration(val rute: String) : ViewModel() {
@@ -92,17 +99,21 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             navController: NavController,
         ) {
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
+            val textState = remember { mutableStateOf((TextFieldValue("")))}
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    InspirationTopBar(navController)
+                    InspirationTopBar(navController, textState)
                 },
 
                 content = {
-                    InspirationContent(navController = navController)
+                    InspirationContent(navController = navController, textState)
                 }
             )
         }
+
+        lateinit var filteredPlakatHolder: ArrayList<Plakat>
 
 
         /**
@@ -177,13 +188,30 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
-            navController: NavController
+            navController: NavController,
+            query: MutableState<TextFieldValue>
         ) {
 
             val context = LocalContext.current
-
             val plakatInfo = PlakatInfo(context)
             val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
+
+            //https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
+            //Viser en filtreret liste af Plakat-objekter, hvis der er skrevet noget i søgefelt, ellers viser den originale liste
+            val searchedQuery = query.value.text
+            filteredPlakatHolder = if (searchedQuery.isEmpty()) {
+                plakatHolder
+            } else {
+                val resultList = ArrayList<Plakat>()
+                for (Plakat in plakatHolder) {
+                    if (Plakat.title.lowercase(Locale.getDefault())
+                            .contains(searchedQuery.lowercase(Locale.getDefault()))
+                    ) {
+                        resultList.add(Plakat)
+                    }
+                }
+                resultList
+            }
 
             Column(
                 Modifier
@@ -210,7 +238,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 ) {
 
 
-                    items(plakatHolder.size) { index ->
+                    items(filteredPlakatHolder.size) { index ->
 
                         Card(
                             shape = RoundedCornerShape(4.dp),
@@ -223,7 +251,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             Box(Modifier.fillMaxSize()) {
                                 Image(
                                     painter = rememberImagePainter(
-                                        data = plakatHolder.get(index).imageURL,
+                                        data = filteredPlakatHolder.get(index).imageURL,
                                     ),
                                     contentDescription = null,
                                     modifier = Modifier
@@ -256,7 +284,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     contentPadding = PaddingValues(8.dp),
                 ) {
 
-                    items(plakatHolder.size) { index ->
+                    items(filteredPlakatHolder.size) { index ->
 
                         Card(
                             modifier = Modifier
@@ -275,7 +303,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 Image(
                                     contentScale = ContentScale.Crop,
                                     painter = rememberImagePainter(
-                                        data = plakatHolder.get(index).imageURL,
+                                        data = filteredPlakatHolder.get(index).imageURL,
                                     ),
                                     contentDescription = null,
                                     modifier = Modifier
@@ -304,7 +332,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                             Text(
                                                 fontSize = 12.sp,
                                                 style = MaterialTheme.typography.subtitle2,
-                                                text = plakatHolder[index].title
+                                                text = filteredPlakatHolder[index].title
                                             )
                                         }
                                         FavoritButton(
@@ -334,7 +362,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     @ExperimentalComposeUiApi
     @ExperimentalFoundationApi
     @Composable
-    fun InspirationTopBar(navController: NavController) {
+    fun InspirationTopBar(navController: NavController, query: MutableState<TextFieldValue>) {
 
         val context = LocalContext.current
         val plakatInfo = PlakatInfo(context)
@@ -350,8 +378,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 easing = LinearOutSlowInEasing
             )
         )
-
-        val query = remember {mutableStateOf("")}
 
         TopAppBar(
             title = {
@@ -380,7 +406,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             imeAction = ImeAction.Search
                         ),
                         keyboardActions = KeyboardActions(onSearch = {
-                            //plakatInfo.searchPlakat(query.value)
                             keyboardController?.hide() }),
 
                         textStyle = TextStyle(
@@ -397,6 +422,22 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 )
                         },
 
+                        trailingIcon = {
+                            if (query.value != TextFieldValue("")) {
+                                IconButton(
+                                    onClick = {
+                                        query.value = TextFieldValue("")
+                                    }
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Close,
+                                        contentDescription = null,
+                                    )
+                                }
+                            }
+
+                        },
+
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color (0xfffcfcf0),
                             textColor = Color.Black,
@@ -410,11 +451,11 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 IconButton(onClick = {
 
                     expanded = !expanded
-                    query.value = ""
                     if (expanded)
                         sizeState = 350.dp
                     else if (!expanded)
                         sizeState = 0.dp
+                    query.value = TextFieldValue("")
 
                 }) {
                     if(!expanded)
@@ -466,7 +507,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
             val index = inspirationViewModel.currentIndex
-            val plakatHolder = index?.let { plakatInfo.getPlakatInfo()[it] }
+            val plakatHolder = index?.let { filteredPlakatHolder[it] }
             var enlargeBillede = remember { mutableStateOf(false) }
 
             if (plakatHolder != null) {
