@@ -62,6 +62,7 @@ fun Navigation() {
                     //---- Inspiration ----
                     composable(NavigationBundNav.Inspiration.route) {
                         InspirationOverview(navController = navController)
+
                     }
 
                     composable(Inspiration.InspirationFocusImage.rute) {

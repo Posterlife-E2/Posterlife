@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.posterlife.R
+import com.example.posterlife.view.NavigationBundNav
 
 
 sealed class Profil(val rute: String) {
@@ -61,7 +62,7 @@ sealed class Profil(val rute: String) {
             actions = {
                 IconButton(onClick = {
                     navController.navigate("Favorit") {
-                        navController.popBackStack()
+                        popUpTo(NavigationBundNav.Profil.route)
                     }
                 }) {
                     Icon(
@@ -106,7 +107,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Login") {
-                            navController.popBackStack()
+                            popUpTo(NavigationBundNav.Profil.route)
 
                         }
                     }),
@@ -135,7 +136,7 @@ sealed class Profil(val rute: String) {
                     .padding(8.dp)
                     .clickable(onClick = {
                         navController.navigate("delStart") {
-                            navController.popBackStack()
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -162,7 +163,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Mine Design") {
-                            navController.popBackStack()
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -188,7 +189,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("favorit") {
-                            navController.popBackStack()
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -215,7 +216,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("privatPolitik") {
-                            navController.popBackStack()
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -241,7 +242,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("betingelser") {
-                            navController.popBackStack()
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -268,7 +269,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("kontakt") {
-                            navController.popBackStack()
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
