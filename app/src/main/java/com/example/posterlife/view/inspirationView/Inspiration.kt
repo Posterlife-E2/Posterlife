@@ -95,7 +95,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             )
         }
 
-
         /**
          *
          * https://betterprogramming.pub/build-android-dropdownmenu-in-jetpack-compose-25512fe08068
@@ -157,11 +156,8 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             )
                         }
                     }
-
-
                 }
             }
-
         }
 
 
@@ -202,7 +198,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
 
                     items(plakatHolder.size) { index ->
-                        if ( index in 20..30) {
+                        if (index in 20..30) {
 
                             Card(
                                 shape = RoundedCornerShape(4.dp),
@@ -232,7 +228,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             }
                         }
                     }
-
                 }
 
 
@@ -370,12 +365,14 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         fun InspirationFocusImage() {
 
             val inspirationViewModel = InspirationViewModel
-
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
             val index = inspirationViewModel.currentIndex
             val plakatHolder = index?.let { plakatInfo.getPlakatInfo()[it] }
             var enlargeBillede = remember { mutableStateOf(false) }
+            var pris by remember {
+                mutableStateOf(" DKK" + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString())
+            }
 
             if (plakatHolder != null) {
 
@@ -411,11 +408,24 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             Text(plakatHolder.title, fontSize = 20.sp)
                             Spacer(modifier = Modifier.height(14.dp))
                             Text(
-                                "DKK " + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString(),
+                                pris,
                                 fontSize = 18.sp
                             )
 
-                            MenuItems()
+                            var selectedpris = MenuItems()
+
+                            if (selectedpris == 1) {
+                                pris = "DKK 179,00"
+                            }
+                            if (selectedpris == 2) {
+                                pris = "DKK 249,00"
+                            }
+                            if (selectedpris == 3) {
+                                pris = "DKK 389,00"
+                            }
+                            else {
+
+                            }
                             Spacer(modifier = Modifier.height(4.dp))
 
                             Row(
@@ -473,7 +483,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         }
 
         @Composable
-        fun MenuItems() {
+        fun MenuItems(): Int {
             val options = listOf(
                 "Vælg en mulighed",
                 "A3 - 170g silk",
@@ -501,6 +511,8 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     }
                 )
             }
+            return selectedIndex
+
         }
 
         @Composable
@@ -562,10 +574,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         IconToggleButton(checked = isFavorite, onCheckedChange = {
             isFavorite = !isFavorite
             if (isFavorite) {
-//                indexFile.bufferedWriter().use { indexFil ->
-//                    indexFil.write(index)
-//                    indexFil.write("\n")
-//                }
+
             }
         }) {
             Icon(
