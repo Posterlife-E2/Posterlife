@@ -53,6 +53,7 @@ sealed class MineDesign(val rute: String) {
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
+        @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @ExperimentalCoilApi
         @androidx.compose.runtime.Composable
@@ -96,6 +97,7 @@ sealed class MineDesign(val rute: String) {
             )
         }
 
+        @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
         fun MineDesignContent() {
