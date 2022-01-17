@@ -345,10 +345,10 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     object InspirationFocusImage : Inspiration("focusImage") {
 
         @Composable
-        fun InspirationFocusImage(navController: NavController) {
+        fun InspirationFocusImage() {
             Scaffold(
                 topBar = {
-                    FocusImageTopBar(navController)
+                    FocusImageTopBar()
                 },
                 content = {
                     FocusImageContent()
@@ -357,7 +357,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         }
 
         @Composable
-        fun FocusImageTopBar (navController: NavController) {
+        fun FocusImageTopBar () {
             TopAppBar(
                 title = {
 
@@ -421,11 +421,12 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
                     Text(
                         "Forfatter",
-                        fontWeight = FontWeight.Light,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
+                        modifier = Modifier.padding(10.dp)
                     )
 
-                    Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 20.dp)) {
+                    Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
 
                         Image(
                             painter = rememberImagePainter(data = plakatHolder.imageURL),
