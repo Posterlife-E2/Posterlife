@@ -64,7 +64,7 @@ sealed class MineDesign(val rute: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                         MineDesignTopBar()
+                    MineDesignTopBar()
 
                 },
                 content = {
@@ -72,11 +72,9 @@ sealed class MineDesign(val rute: String) {
                 }
             )
 
-
-
-
         }
 
+        // Topbar - Navigation mangler mellem ikonerne mangler stadig
         @Composable
         fun MineDesignTopBar() {
             TopAppBar(
@@ -108,13 +106,16 @@ sealed class MineDesign(val rute: String) {
 
         }
 
+        // Funktion der indeholder konteksten på MineDesign siden
         @ExperimentalFoundationApi
         @Composable
-        fun MineDesignContent () {
+        fun MineDesignContent() {
             val context = LocalContext.current;
 
-            ActivityCompat.requestPermissions(context as Activity,
-                permissions, 0)
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                permissions, 0
+            )
 
             var file = File(context.getOutputDirectory(), "Files.txt")
 
@@ -122,7 +123,7 @@ sealed class MineDesign(val rute: String) {
                 var file = File(context.getOutputDirectory(), "Files.txt")
                 val text = file.readText()
                 var result: List<String> = text.split(",").map { it.trim() }
-                Log.d("Data",result.toString())
+                Log.d("Data", result.toString())
                 if (result.isNotEmpty()) {
                     Column(
                         Modifier
@@ -134,10 +135,12 @@ sealed class MineDesign(val rute: String) {
                         val openDialog = remember { mutableStateOf(false) }
                         LazyVerticalGrid(
                             cells = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(8.dp))
+                            contentPadding = PaddingValues(8.dp)
+                        )
                         {
                             items(result.size) { index ->
-                                val source = "content://media/external/images/media/" + result.get(index)
+                                val source =
+                                    "content://media/external/images/media/" + result.get(index)
 
 //                                    "file://" +
 //                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
@@ -151,10 +154,14 @@ sealed class MineDesign(val rute: String) {
                                     elevation = 10.dp
 
                                 ) {
-                                    Column(modifier = Modifier.padding(start = 3.dp, end = 3.dp)
+                                    Column(
+                                        modifier = Modifier.padding(start = 3.dp, end = 3.dp)
 
                                     ) {
-                                        Row (modifier = Modifier.height(30.dp), verticalAlignment = Alignment.CenterVertically){
+                                        Row(
+                                            modifier = Modifier.height(30.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
                                             EditTitle()
                                             Box(modifier = Modifier.weight(1f))
                                             Box() {
@@ -183,7 +190,10 @@ sealed class MineDesign(val rute: String) {
                                                 .background(Color.White)
                                         )
 
-                                        Row(modifier = Modifier.height(30.dp), verticalAlignment = Alignment.CenterVertically,) {
+                                        Row(
+                                            modifier = Modifier.height(30.dp),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
                                             Box(modifier = Modifier.clickable { }) {
                                                 Row() {
                                                     Text(
@@ -248,7 +258,7 @@ sealed class MineDesign(val rute: String) {
                                                 Button(
                                                     onClick = {
                                                         openDialog.value = false
-                                                        ReadsPost(context,result.get(index),true)
+                                                        ReadsPost(context, result.get(index), true)
                                                     }) {
                                                     Text("Ok")
                                                 }
@@ -270,7 +280,8 @@ sealed class MineDesign(val rute: String) {
                             }
                         }
                     }
-                }else{
+                    // hvis der ikke er nogle design vises en blank side med en tekst.
+                } else {
                     Column(
                         Modifier
                             .background(Color(0xfffcfcf0))
@@ -280,7 +291,7 @@ sealed class MineDesign(val rute: String) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "No Mine Design",
+                            text = "Mine Designs er tom",
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -288,7 +299,8 @@ sealed class MineDesign(val rute: String) {
                     }
 
                 }
-            }else {
+                // Der er oprettet to else statement, da hvis plakatens slettes og der ikke er flere plakater tilbage vil samme side vises som hvis der aldrig havde været nogle plakater
+            } else {
                 Column(
                     Modifier
                         .background(Color(0xfffcfcf0))
@@ -298,7 +310,7 @@ sealed class MineDesign(val rute: String) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "No Mine Design",
+                        text = "Mine Designs er tom",
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -307,8 +319,9 @@ sealed class MineDesign(val rute: String) {
             }
 
         }
-        fun loadData(data:ArrayList<String>){
-            mineDesignData=data;
+
+        fun loadData(data: ArrayList<String>) {
+            mineDesignData = data;
         }
 
 
@@ -327,8 +340,9 @@ sealed class MineDesign(val rute: String) {
             return if (mediaDir != null && mediaDir.exists())
                 mediaDir else this.filesDir
         }
-        private fun ReadsPost (context: Context, path:String, isDelete:Boolean){
-            if(isDelete) {
+
+        private fun ReadsPost(context: Context, path: String, isDelete: Boolean) {
+            if (isDelete) {
                 var fdelete = File(context.getOutputDirectory(), "Files.txt")
                 val text = fdelete.readText()
                 var result: List<String> = text.split(",").map { it.trim() }
@@ -339,31 +353,32 @@ sealed class MineDesign(val rute: String) {
                         System.out.println("file not Deleted")
                     }
                 }
-                Log.d("Original Value",result.toString());
-                var outputString:String = ""
-                for (i in 0..result.size-1) {
-                    if (!path.equals(result.get(i)) && i===0) {
-                        outputString+=result.get(i);
-                    }else if (!path.equals(result.get(i)) && i>0){
-                        outputString+= ",${result.get(i)}";
+                Log.d("Original Value", result.toString());
+                var outputString: String = ""
+                for (i in 0..result.size - 1) {
+                    if (!path.equals(result.get(i)) && i === 0) {
+                        outputString += result.get(i);
+                    } else if (!path.equals(result.get(i)) && i > 0) {
+                        outputString += ",${result.get(i)}";
                     }
                 }
-                if(outputString.length>0) {
+                if (outputString.length > 0) {
                     var file = File(context.getOutputDirectory(), "Files.txt")
-                    Log.d("Update Value",outputString);
+                    Log.d("Update Value", outputString);
                     file.writeText(outputString);
 
                     UploadImage.DeleteImage(path)
                 }
 
 
-            }else{
+            } else {
                 var file = File(context.getOutputDirectory(), "Files.txt")
                 val text = file.readText()
             }
         }
     }
 
+    // En composable funktion der UI farver favorit knappen når den trykkes på.
     @Composable
     fun FavoritButton(
         color: Color = Color.Red,
@@ -381,6 +396,7 @@ sealed class MineDesign(val rute: String) {
         }
     }
 
+    // Et tekst felt der der gør det muligt for brugeren at give sin plakat en titel
     @Composable
     fun EditTitle() {
         var textFieldState by remember {
