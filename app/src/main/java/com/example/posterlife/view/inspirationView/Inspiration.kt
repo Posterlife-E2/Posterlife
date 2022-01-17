@@ -242,7 +242,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                         .clickable {
                                             inspirationViewModel.setIndex(index)
                                             navController.navigate(InspirationFocusImage.rute) {
-                                                popUpTo(0)
+                                                popUpTo(NavigationBundNav.Inspiration.route)
                                             }
                                         },
                                     contentScale = ContentScale.Crop
@@ -277,7 +277,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 .clickable {
                                     inspirationViewModel.setIndex(index)
                                     navController.navigate("focusImage") {
-                                        popUpTo(0)
+                                        popUpTo(NavigationBundNav.Inspiration.route)
                                     }
                                 },
                             shape = RoundedCornerShape(4.dp),
