@@ -24,7 +24,8 @@ import java.io.*
  * Til håndtering af at kunne gemme listerne til strings.
  * @Source https://www.techiedelight.com/convert-list-to-string-kotlin/
  *
- *
+ * Til at gemme filer og læse
+ * @Source https://www.javatpoint.com/kotlin-android-read-and-write-internal-storage
  */
 
 class InspirationViewModel : ViewModel() {
@@ -42,6 +43,7 @@ class InspirationViewModel : ViewModel() {
         currentIndex = index
     }
 
+    //Inspiration til at sklrive til fil: https://www.javatpoint.com/kotlin-android-read-and-write-internal-storage
     fun setFavorites(index: Int, context: Context) {
 
         val file = File("favorites").toString()
@@ -49,12 +51,13 @@ class InspirationViewModel : ViewModel() {
         if (index != -1) {
         favoriteIndexList.add(index)}
         val seperator = "-"
-        Log.e("SEE HERE", favoriteIndexList.joinToString(seperator))
+        Log.e("Liste før read", favoriteIndexList.joinToString(seperator))
         val favStr = favoriteIndexList.joinToString(seperator)
         fileOutputStream.write(favStr.toByteArray())
         getFavorites(context)
     }
 
+    //Inspiration til at læse fra fil: https://www.javatpoint.com/kotlin-android-read-and-write-internal-storage
     fun getFavorites(context: Context): MutableList<Int> {
         val fileInputStream = context.openFileInput("favorites")
         val inputStreamReader = InputStreamReader(fileInputStream)
@@ -68,7 +71,7 @@ class InspirationViewModel : ViewModel() {
             stringBuilder.append(text)
         }
 
-        stringBuilder.let { Log.e("SEE HERE EFTER LÆS", it.toString()) }
+        stringBuilder.let { Log.e("Liste efter read", it.toString()) }
         if (stringBuilder.isNotEmpty()) {
         val favoritListeTemp = stringBuilder.split("-")
         val favoritListe = favoritListeTemp.map { it.toInt() }
@@ -81,6 +84,6 @@ class InspirationViewModel : ViewModel() {
         favoriteIndexList.remove(favoriteIndexList[index])
         //Så vi kan gemme det.
         setFavorites(-1, context)
-        Log.e("SE", favoriteIndexList.toString())
+        Log.e("Liste efter delete", favoriteIndexList.toString())
     }
 }
