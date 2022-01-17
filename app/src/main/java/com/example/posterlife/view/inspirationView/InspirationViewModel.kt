@@ -46,7 +46,8 @@ class InspirationViewModel : ViewModel() {
 
         val file = File("favorites").toString()
         val fileOutputStream = context.openFileOutput(file, Context.MODE_PRIVATE)
-        favoriteIndexList.add(index)
+        if (index != -1) {
+        favoriteIndexList.add(index)}
         val seperator = "-"
         Log.e("SEE HERE", favoriteIndexList.joinToString(seperator))
         val favStr = favoriteIndexList.joinToString(seperator)
@@ -68,14 +69,18 @@ class InspirationViewModel : ViewModel() {
         }
 
         stringBuilder.let { Log.e("SEE HERE EFTER LÆS", it.toString()) }
+        if (stringBuilder.isNotEmpty()) {
         val favoritListeTemp = stringBuilder.split("-")
         val favoritListe = favoritListeTemp.map { it.toInt() }
-        favoriteIndexList = favoritListe.toMutableList()
+        favoriteIndexList = favoritListe.toMutableList()}
 
         return favoriteIndexList
     }
 
-    fun fjernFavorite(index: Int){
-        favoriteIndexList
+    fun fjernFavorite(index: Int, context: Context){
+        favoriteIndexList.remove(favoriteIndexList[index])
+        //Så vi kan gemme det.
+        setFavorites(-1, context)
+        Log.e("SE", favoriteIndexList.toString())
     }
 }

@@ -146,7 +146,7 @@ sealed class Favorit(val rute: String) {
                                 Box(modifier = Modifier.weight(1f)) {
                                 }
                                 Box() {
-                                    FavoritButton()
+                                    FavoritButton(index = index)
                                 }
 
                                 Box(Modifier.padding(start = 4.dp,end = 4.dp)) {
@@ -174,12 +174,18 @@ sealed class Favorit(val rute: String) {
     @Composable
     fun FavoritButton(
         color: Color = Color.Red,
+        index: Int
     ) {
         var isFavorite by remember { mutableStateOf(true) }
+        val inspirationViewModel = InspirationViewModel()
+        val context = LocalContext.current
         IconToggleButton(
             checked = isFavorite,
             modifier = Modifier.size(22.dp),
-            onCheckedChange = { isFavorite = !isFavorite }) {
+            onCheckedChange = { isFavorite = !isFavorite
+            if (!isFavorite) {
+                inspirationViewModel.fjernFavorite(index, context)
+            }}) {
             Icon(
                 tint = color, modifier = Modifier.size(22.dp), imageVector = if (isFavorite) {
                     Icons.Filled.Favorite
