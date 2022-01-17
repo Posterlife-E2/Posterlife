@@ -202,31 +202,33 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
 
                     items(plakatHolder.size) { index ->
+                        if ( index in 20..30) {
 
-                        Card(
-                            shape = RoundedCornerShape(4.dp),
-                            modifier = Modifier
-                                .height(350.dp)
-                                .width(182.dp)
-                                .padding(10.dp),
-                            elevation = 5.dp
-                        ) {
-                            Box(Modifier.fillMaxSize()) {
-                                Image(
-                                    painter = rememberImagePainter(
-                                        data = plakatHolder.get(index).imageURL,
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clickable {
-                                            inspirationViewModel.currentIndex = index
-                                            navController.navigate(InspirationFocusImage.rute) {
-                                                navController.popBackStack()
-                                            }
-                                        },
-                                    contentScale = ContentScale.Crop
-                                )
+                            Card(
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .height(350.dp)
+                                    .width(182.dp)
+                                    .padding(10.dp),
+                                elevation = 5.dp
+                            ) {
+                                Box(Modifier.fillMaxSize()) {
+                                    Image(
+                                        painter = rememberImagePainter(
+                                            data = plakatHolder.get(index).imageURL,
+                                        ),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clickable {
+                                                inspirationViewModel.currentIndex = index
+                                                navController.navigate(InspirationFocusImage.rute) {
+                                                    navController.popBackStack()
+                                                }
+                                            },
+                                        contentScale = ContentScale.Crop
+                                    )
+                                }
                             }
                         }
                     }
