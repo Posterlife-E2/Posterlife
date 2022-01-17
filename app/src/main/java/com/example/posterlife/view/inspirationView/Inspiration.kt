@@ -231,7 +231,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                         .clickable {
                                             inspirationViewModel.currentIndex = index
                                             navController.navigate(InspirationFocusImage.rute) {
-                                                navController.popBackStack()
+                                                popUpTo(0)
                                             }
                                         },
                                     contentScale = ContentScale.Crop

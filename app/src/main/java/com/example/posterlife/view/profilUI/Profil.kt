@@ -65,7 +65,7 @@ sealed class Profil(val rute: String) {
             actions = {
                 IconButton(onClick = {
                     navController.navigate("Favorit") {
-                        popUpTo("FavoritOverview")
+                        navController.popBackStack()
                     }
                 }) {
                     Icon(
@@ -110,7 +110,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Login") {
-                            popUpTo("Login.LoginScreen.LoginStart")
+                            navController.popBackStack()
 
                         }
                     }),
@@ -139,7 +139,7 @@ sealed class Profil(val rute: String) {
                     .padding(8.dp)
                     .clickable(onClick = {
                         navController.navigate("delStart") {
-                            popUpTo("DelOverview")
+                            navController.popBackStack()
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -166,7 +166,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Mine Design") {
-                            popUpTo("MineDesign.MineDesignStart.MineDesignStart")
+                            navController.popBackStack()
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -192,7 +192,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("favorit") {
-                            popUpTo("FavoritOverview")
+                            navController.popBackStack()
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -219,7 +219,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("privatPolitik") {
-                            popUpTo("PrivatPolitikOverview")
+                            navController.popBackStack()
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -245,7 +245,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("betingelser") {
-                            popUpTo(" BetingelserOverview")
+                            navController.popBackStack()
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -272,7 +272,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("kontakt") {
-                            popUpTo("KontaktOverview")
+                            navController.popBackStack()
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
