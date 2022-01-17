@@ -88,6 +88,7 @@ sealed class Handelsbetingelser(val route: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("levering") {
                             popUpTo("LeveringOverview")
@@ -115,6 +116,7 @@ sealed class Handelsbetingelser(val route: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {navController.navigate("betaling"){
                         popUpTo("BetalingOverview")
                     } }),
@@ -139,6 +141,7 @@ sealed class Handelsbetingelser(val route: String) {
                     .fillMaxWidth()
                     .background(Color.White)
                     .height(60.dp)
+                    .padding(start = 8.dp)
                     .clickable(onClick = {navController.navigate("reklamation"){
                         popUpTo("ReklamationUI")
                     }
