@@ -10,6 +10,8 @@ import java.io.*
  * @Author Kristoffer Pedersen s205354
  *
  * @Source https://github.com/cbeust/klaxon#streaming-api
+ *
+ * Vi har brugt løsningen fra deres dokumentation og ændret til at det passer til vores behov.
  */
 
 class PlakatInfo(context: Context) {

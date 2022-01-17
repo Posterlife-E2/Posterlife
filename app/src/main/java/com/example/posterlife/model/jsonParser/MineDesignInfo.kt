@@ -22,7 +22,7 @@ sealed class MineDesignInfo {
     companion object {
         var database = FirebaseDatabase.getInstance()
         var myRef = database.getReference("Images")
-        var mineDesignData = ArrayList<String>();
+        var mineDesignData = ArrayList<String>()
         fun getMineDesignInfo() {
             // Read from the database
             // Read from the database
@@ -30,7 +30,7 @@ sealed class MineDesignInfo {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    mineDesignData = ArrayList<String>()
+                    mineDesignData = ArrayList()
                     for (ds in dataSnapshot.children) {
                         val url = ds.child("imageUrl").getValue(String::class.java)
                         mineDesignData.add(url.toString())

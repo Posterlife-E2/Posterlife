@@ -6,15 +6,19 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+/**
+ * @Source https://firebase.google.com/docs/auth
+ *
+ * Firebase har en god løsning og vi har implementeret en lignende version fra deres dokumentation.
+ */
+
 sealed class AuthenticationLogin {
 
     companion object {
 
-        lateinit var authentication: FirebaseAuth
+        val authentication = Firebase.auth
 
         fun signIn(email: String, password: String, navController: NavController) {
-
-            authentication = Firebase.auth
 
             val user = authentication.currentUser
             if(user != null) {

@@ -26,9 +26,6 @@ import androidx.compose.material.icons.sharp.PhotoLibrary
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -45,11 +42,9 @@ import com.example.posterlife.view.loginUI.Login
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-import kotlin.properties.Delegates
 
 /**
  * @author Najib Hebrawi (s181663), Kristoffer Pedersen (s205354), Lauritz Pepke (s191179)
@@ -63,6 +58,7 @@ import kotlin.properties.Delegates
  *
  * @Source https://gabrieltanner.org/blog/android-camerax
  * @Source https://developer.android.com/training/camerax/architecture#permissions
+ * @Source https://developer.android.com/reference/kotlin/java/util/concurrent/Executor
  */
 
 sealed class Kamera(val route: String) {

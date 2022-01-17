@@ -2,17 +2,12 @@ package com.example.posterlife.view.inspirationView
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
-import android.content.SharedPreferences
-import android.graphics.BitmapFactory
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.compiler.plugins.kotlin.write
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +27,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,15 +37,10 @@ import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import coil.compose.ImagePainter.State.Empty.painter
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.example.posterlife.R
-//import com.example.posterlife.JsonParser.PlakatInfo
-//import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
-import com.example.posterlife.view.Kamera
 import com.example.posterlife.view.NavigationBundNav
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.filteredPlakatHolder
 import com.example.posterlife.view.loginUI.Login
@@ -92,6 +81,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
         private val inspirationViewModel = InspirationViewModel
 
+        @ExperimentalCoilApi
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
@@ -185,6 +175,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         }
 
 
+        @ExperimentalCoilApi
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
@@ -366,8 +357,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     @Composable
     fun InspirationTopBar(navController: NavController, query: MutableState<TextFieldValue>) {
 
-        val context = LocalContext.current
-        val plakatInfo = PlakatInfo(context)
 
         val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -501,6 +490,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
     object InspirationFocusImage : Inspiration("focusImage") {
 
+        @ExperimentalCoilApi
         @Composable
         fun InspirationFocusImage() {
 
@@ -513,97 +503,98 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             var enlargeBillede = remember { mutableStateOf(false) }
 
             if (plakatHolder != null) {
+            val plakatHolder = index.let { plakatInfo.getPlakatInfo()[it] }
+            val enlargeBillede = remember { mutableStateOf(false) }
 
-                Column(
-                    Modifier
-                        .background(Color(0xfffcfcf0))
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+            Column(
+                Modifier
+                    .background(Color(0xfffcfcf0))
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-                    Text(
-                        "Forfatter",
-                        fontWeight = FontWeight.Light,
-                        fontSize = 30.sp,
+                Text(
+                    "Forfatter",
+                    fontWeight = FontWeight.Light,
+                    fontSize = 30.sp,
+                )
+
+                Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 20.dp)) {
+
+                    Image(
+                        painter = rememberImagePainter(data = plakatHolder.imageURL),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .height(300.dp)
+                            .width(200.dp)
+                            .clickable {
+                                enlargeBillede.value = true
+                            }
                     )
 
-                    Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 20.dp)) {
 
-                        Image(
-                            painter = rememberImagePainter(data = plakatHolder.imageURL),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(300.dp)
-                                .width(200.dp)
-                                .clickable {
-                                    enlargeBillede.value = true
-                                }
+                    Column(modifier = Modifier.padding(7.dp)) {
+                        Text(plakatHolder.title, fontSize = 20.sp)
+                        Spacer(modifier = Modifier.height(14.dp))
+                        Text(
+                            "DKK " + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString(),
+                            fontSize = 18.sp
                         )
 
+                        MenuItems()
+                        Spacer(modifier = Modifier.height(4.dp))
 
-                        Column(modifier = Modifier.padding(7.dp)) {
-                            Text(plakatHolder.title, fontSize = 20.sp)
-                            Spacer(modifier = Modifier.height(14.dp))
-                            Text(
-                                "DKK " + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString(),
-                                fontSize = 18.sp
-                            )
+                        Row(
+                            modifier = Modifier
+                                .width(200.dp)
+                        ) {
 
-                            MenuItems()
-                            Spacer(modifier = Modifier.height(4.dp))
+                            PosterAmount()
 
-                            Row(
+                            Box(
                                 modifier = Modifier
-                                    .width(200.dp)
-                            ) {
-
-                                PosterAmount()
-
-                                Box(
-                                    modifier = Modifier
-                                        .background(Color.Gray)
-                                        .border(0.5.dp, Color.Black)
-                                        .width(160.dp)
-                                        .height(30.dp)
-                                        .clickable { })
-                                {
-                                    Text(
-                                        "TILFØJ TIL KURV",
-                                        textAlign = TextAlign.Center,
-                                        color = Color.White,
-                                        modifier = Modifier.padding(5.dp)
-                                    )
-                                }
-                            }
-                            Spacer(modifier = Modifier.padding(47.dp))
-                            FavoritButton(modifier = Modifier.size(20.dp), index = index)
-                        }
-                    }
-                    Text(
-                        plakatHolder.description,
-                        Modifier.padding(12.dp),
-                        fontSize = 17.sp,
-                        textAlign = TextAlign.Justify
-                    )
-
-                    if (enlargeBillede.value) {
-                        AlertDialog(modifier = Modifier
-                            .height(400.dp),
-                            backgroundColor = Color.Transparent,
-                            onDismissRequest = { enlargeBillede.value = false },
-                            text = {
-                                Image(
-                                    painter = rememberImagePainter(data = plakatHolder.imageURL),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .fillMaxSize()
+                                    .background(Color.Gray)
+                                    .border(0.5.dp, Color.Black)
+                                    .width(160.dp)
+                                    .height(30.dp)
+                                    .clickable { })
+                            {
+                                Text(
+                                    "TILFØJ TIL KURV",
+                                    textAlign = TextAlign.Center,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(5.dp)
                                 )
-                            },
-                            confirmButton = {})
+                            }
+                        }
+                        Spacer(modifier = Modifier.padding(47.dp))
+                        FavoritButton(modifier = Modifier.size(20.dp), index = index)
                     }
-
                 }
+                Text(
+                    plakatHolder.description,
+                    Modifier.padding(12.dp),
+                    fontSize = 17.sp,
+                    textAlign = TextAlign.Justify
+                )
+
+                if (enlargeBillede.value) {
+                    AlertDialog(modifier = Modifier
+                        .height(400.dp),
+                        backgroundColor = Color.Transparent,
+                        onDismissRequest = { enlargeBillede.value = false },
+                        text = {
+                            Image(
+                                painter = rememberImagePainter(data = plakatHolder.imageURL),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            )
+                        },
+                        confirmButton = {})
+                }
+
             }
         }
 
@@ -651,7 +642,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     .background(color = Color.LightGray)
                     .border(0.5.dp, color = Color.Black)
                     .padding(5.dp),
-                textStyle = androidx.compose.ui.text.TextStyle(
+                textStyle = TextStyle(
                     color = Color.Black,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center
@@ -691,7 +682,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             permissions, 0
         )
 
-        val indexFile = File("index.txt")
+//        val indexFile = File("index.txt")
 
         var isFavorite by remember { mutableStateOf(false) }
         IconToggleButton(checked = isFavorite, onCheckedChange = {
