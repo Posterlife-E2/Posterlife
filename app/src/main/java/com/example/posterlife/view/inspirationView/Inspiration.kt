@@ -496,7 +496,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 var enlargeBillede = remember { mutableStateOf(false) }
 
                 if (plakatHolder != null) {
-                    val plakatHolder = index.let { plakatInfo.getPlakatInfo()[it] }
+                    //val plakatHolder = index.let { plakatInfo.getPlakatInfo()[it] }
                     val enlargeBillede = remember { mutableStateOf(false) }
 
                     Column(
