@@ -68,7 +68,6 @@ import kotlin.collections.ArrayList
 
 sealed class Inspiration(val rute: String) : ViewModel() {
 
-
     object InspirationStart : Inspiration("start") {
 
         private val inspirationViewModel = InspirationViewModel()
@@ -669,22 +668,20 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     ) {
 
         val context = LocalContext.current
+        val inspirationViewModel = InspirationViewModel()
 
         ActivityCompat.requestPermissions(
             context as Activity,
             permissions, 0
         )
 
-//        val indexFile = File("index.txt")
+
 
         var isFavorite by remember { mutableStateOf(false) }
         IconToggleButton(checked = isFavorite, onCheckedChange = {
             isFavorite = !isFavorite
             if (isFavorite) {
-//                indexFile.bufferedWriter().use { indexFil ->
-//                    indexFil.write(index)
-//                    indexFil.write("\n")
-//                }
+                inspirationViewModel.setFavorites(index, context)
             }
         }) {
             Icon(
