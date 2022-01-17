@@ -71,7 +71,7 @@ fun Navigation() {
 
                     //----Favorit ----
                     composable(NavigationBundNav.Favorit.route) {
-                        FavoritOverview(navigation = navController)
+                        FavoritOverview()
                     }
 
                     //---- Kamera ----

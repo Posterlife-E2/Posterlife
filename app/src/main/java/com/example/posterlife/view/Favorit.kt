@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
@@ -35,7 +35,7 @@ sealed class Favorit(val rute: String) {
 
     @ExperimentalFoundationApi
     @Composable
-    fun FavoritOverview(navigation: NavHostController) {
+    fun FavoritOverview() {
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
         Scaffold(
             scaffoldState = scaffoldState,
@@ -80,6 +80,7 @@ sealed class Favorit(val rute: String) {
     }
 
 
+    @ExperimentalCoilApi
     @ExperimentalFoundationApi
     @Composable
     fun MainFavoritePage() {
@@ -94,7 +95,6 @@ sealed class Favorit(val rute: String) {
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val shape = RoundedCornerShape(4.dp)
 
             LazyVerticalGrid(
                 cells = GridCells.Fixed(2),

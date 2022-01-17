@@ -81,7 +81,7 @@ sealed class Reklamationsret(val route: String) {
 
     @Composable
     fun DropdownInfo() {
-        val context = LocalContext.current;
+        val context = LocalContext.current
         val expandedReklamationsret = remember { mutableStateOf(false)}
         val expandedRetur = remember { mutableStateOf(false) }
         val expandedOmbyt = remember { mutableStateOf(false) }
