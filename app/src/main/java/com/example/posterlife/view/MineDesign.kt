@@ -3,9 +3,7 @@ package com.example.posterlife.view
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -13,7 +11,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
@@ -41,27 +37,21 @@ import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
 
-
 /**
  * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  * @source https://developer.android.com/jetpack/compose/navigation
- *
  * Ting til at lave ting.
  * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
  */
-
-
 sealed class MineDesign(val rute: String) {
 
     object MineDesignStart : MineDesign("MineDesignStart") {
         var mineDesignData = ArrayList<String>()
-
         private val permissions = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
-
 
         @ExperimentalFoundationApi
         @ExperimentalCoilApi
@@ -71,24 +61,18 @@ sealed class MineDesign(val rute: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                         MineDesignTopBar()
-
+                    MineDesignTopBar()
                 },
                 content = {
                     MineDesignContent()
                 }
             )
-
-
-
-
         }
 
         @Composable
         fun MineDesignTopBar() {
             TopAppBar(
                 title = {
-
                     Text(
                         text = "Mine Design",
                         color = Color.Black,
@@ -103,33 +87,29 @@ sealed class MineDesign(val rute: String) {
                             contentDescription = null
                         )
                     }
-
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)
                     }
                 },
                 backgroundColor = Color(0xfffcfcf0),
-
                 elevation = 12.dp
             )
-
         }
 
         @ExperimentalFoundationApi
         @Composable
-        fun MineDesignContent () {
-            val context = LocalContext.current;
-
-            ActivityCompat.requestPermissions(context as Activity,
-                permissions, 0)
-
-            var file = File(context.getOutputDirectory(), "Files.txt")
-
+        fun MineDesignContent() {
+            val context = LocalContext.current
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                permissions, 0
+            )
+            val file = File(context.getOutputDirectory(), "Files.txt")
             if (file.exists()) {
-                var file = File(context.getOutputDirectory(), "Files.txt")
-                val text = file.readText()
-                var result: List<String> = text.split(",").map { it.trim() }
-                Log.d("Data",result.toString())
+                val theFile = File(context.getOutputDirectory(), "Files.txt")
+                val text = theFile.readText()
+                val result: List<String> = text.split(",").map { it.trim() }
+                Log.d("Data", result.toString())
                 if (result.isNotEmpty()) {
                     Column(
                         Modifier
@@ -141,10 +121,12 @@ sealed class MineDesign(val rute: String) {
                         val openDialog = remember { mutableStateOf(false) }
                         LazyVerticalGrid(
                             cells = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(8.dp))
+                            contentPadding = PaddingValues(8.dp)
+                        )
                         {
                             items(result.size) { index ->
-                                val source = "content://media/external/images/media/" + result.get(index)
+                                val source =
+                                    "content://media/external/images/media/" + result.get(index)
 
 //                                    "file://" +
 //                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
@@ -153,33 +135,31 @@ sealed class MineDesign(val rute: String) {
 
                                 Card(
                                     modifier = Modifier
-
                                         .padding(8.dp),
                                     elevation = 10.dp
-
                                 ) {
-                                    Column(modifier = Modifier.padding(start = 3.dp, end = 3.dp)
-
+                                    Column(
+                                        modifier = Modifier.padding(start = 3.dp, end = 3.dp)
                                     ) {
-                                        Row (modifier = Modifier.height(30.dp), verticalAlignment = Alignment.CenterVertically){
+                                        Row(
+                                            modifier = Modifier.height(30.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
                                             EditTitle()
                                             Box(modifier = Modifier.weight(1f))
                                             Box() {
-
-                                                val showDialog =
-                                                    IconButton(
-                                                        onClick = { openDialog.value = true },
-                                                        modifier = Modifier.size(22.dp)
-                                                    ) {
-                                                        Icon(
-                                                            Icons.Filled.DeleteOutline,
-                                                            contentDescription = null,
-                                                            Modifier.size(22.dp)
-                                                        )
-                                                    }
+                                                IconButton(
+                                                    onClick = { openDialog.value = true },
+                                                    modifier = Modifier.size(22.dp)
+                                                ) {
+                                                    Icon(
+                                                        Icons.Filled.DeleteOutline,
+                                                        contentDescription = null,
+                                                        Modifier.size(22.dp)
+                                                    )
+                                                }
                                             }
                                         }
-
                                         Image(
                                             painter = rememberImagePainter(
                                                 data = Uri.parse(source)
@@ -189,15 +169,16 @@ sealed class MineDesign(val rute: String) {
                                                 .size(250.dp)
                                                 .background(Color.White)
                                         )
-
-                                        Row(modifier = Modifier.height(30.dp), verticalAlignment = Alignment.CenterVertically,) {
+                                        Row(
+                                            modifier = Modifier.height(30.dp),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
                                             Box(modifier = Modifier.clickable { }) {
                                                 Row() {
                                                     Text(
                                                         text = "Rediger",
                                                         fontWeight = FontWeight.Light
                                                     )
-
                                                     Box() {
                                                         Icon(
                                                             Icons.Filled.Edit,
@@ -255,7 +236,7 @@ sealed class MineDesign(val rute: String) {
                                                 Button(
                                                     onClick = {
                                                         openDialog.value = false
-                                                        ReadsPost(context,result.get(index),true)
+                                                        readsPost(context, result.get(index), true)
                                                     }) {
                                                     Text("Ok")
                                                 }
@@ -277,7 +258,7 @@ sealed class MineDesign(val rute: String) {
                             }
                         }
                     }
-                }else{
+                } else {
                     Column(
                         Modifier
                             .background(Color(0xfffcfcf0))
@@ -295,7 +276,7 @@ sealed class MineDesign(val rute: String) {
                     }
 
                 }
-            }else {
+            } else {
                 Column(
                     Modifier
                         .background(Color(0xfffcfcf0))
@@ -314,12 +295,12 @@ sealed class MineDesign(val rute: String) {
             }
 
         }
-        fun loadData(data:ArrayList<String>){
-            mineDesignData=data;
+
+        fun loadData(data: ArrayList<String>) {
+            mineDesignData = data
         }
 
-
-        fun android.content.Context.getOutputDirectory(): File {
+        private fun Context.getOutputDirectory(): File {
             val mediaDir = this.externalMediaDirs.firstOrNull()?.let {
                 File(it, "ImagesFile").apply { mkdirs() }
             }
@@ -334,39 +315,38 @@ sealed class MineDesign(val rute: String) {
             return if (mediaDir != null && mediaDir.exists())
                 mediaDir else this.filesDir
         }
-        private fun ReadsPost (context: Context, path:String, isDelete:Boolean){
-            if(isDelete) {
-                var fdelete = File(context.getOutputDirectory(), "Files.txt")
-                val text = fdelete.readText()
-                var result: List<String> = text.split(",").map { it.trim() }
-                if (fdelete.exists()) {
-                    if (fdelete.delete()) {
-                        System.out.println("file Deleted")
+
+        private fun readsPost(context: Context, path: String, isDelete: Boolean) {
+            if (isDelete) {
+                val fileDelete = File(context.getOutputDirectory(), "Files.txt")
+                val text = fileDelete.readText()
+                val result: List<String> = text.split(",").map { it.trim() }
+                if (fileDelete.exists()) {
+                    if (fileDelete.delete()) {
+                        println("file Deleted")
                     } else {
-                        System.out.println("file not Deleted")
+                        println("file not Deleted")
                     }
                 }
-                Log.d("Original Value",result.toString());
-                var outputString:String = ""
-                for (i in 0..result.size-1) {
-                    if (!path.equals(result.get(i)) && i===0) {
-                        outputString+=result.get(i);
-                    }else if (!path.equals(result.get(i)) && i>0){
-                        outputString+= ",${result.get(i)}";
+                Log.d("Original Value", result.toString())
+                var outputString = ""
+                for (i in result.indices) {
+                    if (path != result[i] && i === 0) {
+                        outputString += result[i]
+                    } else if (path != result[i] && i > 0) {
+                        outputString += ",${result[i]}"
                     }
                 }
-                if(outputString.length>0) {
-                    var file = File(context.getOutputDirectory(), "Files.txt")
-                    Log.d("Update Value",outputString);
-                    file.writeText(outputString);
+                if (outputString.isNotEmpty()) {
+                    val file = File(context.getOutputDirectory(), "Files.txt")
+                    Log.d("Update Value", outputString)
+                    file.writeText(outputString)
 
-                    UploadImage.DeleteImage(path)
+                    UploadImage.deleteImage(path)
                 }
-
-
-            }else{
-                var file = File(context.getOutputDirectory(), "Files.txt")
-                val text = file.readText()
+            } else {
+                val file = File(context.getOutputDirectory(), "Files.txt")
+                file.readText()
             }
         }
     }
@@ -392,7 +372,6 @@ sealed class MineDesign(val rute: String) {
     @Composable
     fun EditTitle() {
         val keyboardController = LocalSoftwareKeyboardController.current
-
         var textFieldState by remember {
             mutableStateOf("Title")
         }
@@ -405,14 +384,13 @@ sealed class MineDesign(val rute: String) {
             onValueChange = {
                 textFieldState = it
             },
-            keyboardOptions = KeyboardOptions (
+            keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide() }),
+                keyboardController?.hide()
+            }),
         )
     }
-
-
 }
