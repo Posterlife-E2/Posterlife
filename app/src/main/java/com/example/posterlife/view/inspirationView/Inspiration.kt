@@ -455,7 +455,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     if (!expanded)
                         IconButton(onClick = {
                             navController.navigate(NavigationBundNav.Favorit.route) {
-                                navController.popBackStack()
                             }
                         }) {
 
