@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
@@ -25,7 +26,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
@@ -35,6 +38,7 @@ import coil.compose.rememberImagePainter
 //import com.example.posterlife.Model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.model.Plakat
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -51,6 +55,10 @@ import kotlin.collections.ArrayList
  *
  * Ting til at lave ting.
  * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
+ *
+ * Filter arraylist for searchfunction
+ * https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
+ *
  */
 
 sealed class Inspiration(val rute: String): ViewModel() {
@@ -65,14 +73,16 @@ sealed class Inspiration(val rute: String): ViewModel() {
             navController: NavController,
         ) {
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
+            val textState = remember { mutableStateOf((TextFieldValue("")))}
+
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    InspirationTopBar()
+                    InspirationTopBar(textState)
                 },
 
                 content = {
-                    InspirationContent(navController = navController)
+                    InspirationContent(navController = navController, textState)
                 }
             )
         }
@@ -148,22 +158,34 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
 
 
-
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
-            navController: NavController
-        ) {
+            navController: NavController, query: MutableState<TextFieldValue>
 
-            val searching by remember {mutableStateOf(false)}
+        ) {
 
             val context = LocalContext.current
             val plakatInfo = PlakatInfo(context)
-            val plakatHolder: ArrayList<Plakat> = plakatInfo.getPlakatInfo()
-            //val searchHolder: ArrayList<Plakat> = plakatInfo.searchPlakat()
+            val posters = plakatInfo.getPlakatInfo()
+            var filteredPosters: ArrayList<Plakat>
 
-
-
+            //https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
+            //Viser en filtreret liste af Plakat-objekter, hvis der er skrevet noget i søgefelt, ellers viser den originale liste
+            val searchedQuery = query.value.text
+            filteredPosters = if (searchedQuery.isEmpty()) {
+                posters
+            } else {
+                val resultList = ArrayList<Plakat>()
+                for (Plakat in posters) {
+                    if (Plakat.title.lowercase(Locale.getDefault())
+                            .contains(searchedQuery.lowercase(Locale.getDefault()))
+                    ) {
+                        resultList.add(Plakat)
+                    }
+                }
+                resultList
+            }
 
             Column(
                 Modifier
@@ -184,11 +206,11 @@ sealed class Inspiration(val rute: String): ViewModel() {
                 ) {
 
 
-                    items(plakatHolder.size) { index ->
+                    items(filteredPosters.size) { index ->
 
                         Image(
                             painter = rememberImagePainter(
-                                data = plakatHolder.get(index).imageURL
+                                data = filteredPosters.get(index).imageURL
                             ),
                             contentDescription = null,
                             modifier = Modifier
@@ -196,7 +218,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                 .width(200.dp)
                                 .padding(2.dp)
                                 .clickable {
-                                    inspirationViewModel.currentIndex = index
+                                    //inspirationViewModel.currentIndex = index
                                     navController.navigate(InspirationFocusImage.rute)
                                 }
                         )
@@ -217,7 +239,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
                     contentPadding = PaddingValues(8.dp),
                 ) {
 
-                    items(plakatHolder.size) { index ->
+                    items(filteredPosters.size) { index ->
                         Column(
                             modifier = Modifier
                                 .padding(
@@ -227,12 +249,12 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                     bottom = 0.dp
                                 )
                                 .clickable {
-                                    inspirationViewModel.currentIndex = index
+                                    //inspirationViewModel.currentIndex = index
                                     navController.navigate("focusImage")
                                 }) {
                             Image(
                                 painter = rememberImagePainter(
-                                    data = plakatHolder.get(index).imageURL,
+                                    data = filteredPosters[index].imageURL,
                                 ),
                                 contentDescription = null,
                                 modifier = Modifier
@@ -244,11 +266,11 @@ sealed class Inspiration(val rute: String): ViewModel() {
 
                                 Column() {
                                     Text(
-                                        plakatHolder.get(index).title,
+                                        filteredPosters.get(index).title,
                                         fontSize = 10.sp
                                     )
                                     Text(
-                                        "DKK " + plakatHolder.get(index).priceA3.toString() + " - " + "DKK " + plakatHolder.get(
+                                        "DKK " + filteredPosters.get(index).priceA3.toString() + " - " + "DKK " + filteredPosters.get(
                                             index
                                         ).price70x100.toString(),
                                         fontSize = 10.sp
@@ -269,10 +291,7 @@ sealed class Inspiration(val rute: String): ViewModel() {
     @ExperimentalComposeUiApi
     @ExperimentalFoundationApi
     @Composable
-    fun InspirationTopBar() {
-
-        val context = LocalContext.current
-        val plakatInfo = PlakatInfo(context)
+    fun InspirationTopBar(query: MutableState<TextFieldValue>) {
 
         val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -286,7 +305,6 @@ sealed class Inspiration(val rute: String): ViewModel() {
                 )
         )
 
-        val query = remember {mutableStateOf("")}
 
         TopAppBar(
                 title = {
@@ -303,8 +321,8 @@ sealed class Inspiration(val rute: String): ViewModel() {
                     if(expanded)
                         TextField(
                                 modifier = Modifier
-                                        .size(size)
-                                        .padding(1.dp),
+                                    .size(size)
+                                    .padding(1.dp),
 
                                 value = query.value,
 
@@ -332,6 +350,23 @@ sealed class Inspiration(val rute: String): ViewModel() {
                                             )
                                 },
 
+                                trailingIcon = {
+                                if (query.value != TextFieldValue("")) {
+                                    IconButton(
+                                        onClick = {
+                                            query.value = TextFieldValue("")
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.Close,
+                                            contentDescription = null,
+                                        )
+                                    }
+                                }
+
+                                },
+
+
                                 colors = TextFieldDefaults.textFieldColors(
                                         backgroundColor = Color (0xfffcfcf0),
                                         textColor = Color.Black,
@@ -345,11 +380,11 @@ sealed class Inspiration(val rute: String): ViewModel() {
                     IconButton(onClick = {
 
                         expanded = !expanded
-                        query.value = ""
                         if (expanded)
                             sizeState = 350.dp
                         else if (!expanded)
                             sizeState = 0.dp
+                            query.value = TextFieldValue("")
 
                     }) {
                         if(!expanded)
@@ -384,7 +419,6 @@ sealed class Inspiration(val rute: String): ViewModel() {
         )
 
     }
-
 
     object InspirationFocusImage : Inspiration("focusImage") {
 
@@ -550,7 +584,6 @@ sealed class Inspiration(val rute: String): ViewModel() {
                 )
             }
         }
-
     }
 
 

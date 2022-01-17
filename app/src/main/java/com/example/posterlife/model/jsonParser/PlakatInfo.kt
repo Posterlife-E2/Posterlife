@@ -34,16 +34,4 @@ class PlakatInfo(context: Context) {
             return plakatResult
         }
     }
-
-
-    fun searchPlakat(query: String, array: ArrayList<Plakat> = getPlakatInfo()): ArrayList<Plakat> {
-        val filteredList = ArrayList<Plakat>()
-        array.forEach { Plakat ->
-            //needs to take in query from searchbar in inspiration
-            if (Plakat.title.contains(query)) {
-                filteredList.add(Plakat)
-            }
-        }
-        return filteredList
-    }
 }
