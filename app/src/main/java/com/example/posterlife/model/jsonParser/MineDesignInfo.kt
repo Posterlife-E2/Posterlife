@@ -35,10 +35,8 @@ sealed class MineDesignInfo {
                         val url = ds.child("imageUrl").getValue(String::class.java)
                         mineDesignData.add(url.toString())
                     }
-
                     MineDesign.MineDesignStart.loadData(mineDesignData)
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     // Failed to read value
                     Log.w("Error", "Failed to read value.", error.toException())

@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
@@ -552,7 +553,13 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 mutableStateOf(" DKK" + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString())
             }
 
-            if (plakatHolder != null) {
+                if (plakatHolder != null) {
+                    val title = plakatHolder.title
+                    val dot = "·"
+                    val parentheses = "("
+                    val list = title.split(dot)
+                    val authorAndYear = list.get(1)
+                    val author = authorAndYear.split(parentheses)
 
                 Column(
                     Modifier
@@ -562,12 +569,12 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Text(
-                        "Forfatter",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        modifier = Modifier.padding(10.dp)
-                    )
+                        Text(
+                            author.get(0),
+                            fontSize = 30.sp,
+                            modifier = Modifier.padding(10.dp),
+                            textDecoration = TextDecoration.Underline
+                        )
 
                     Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
 
@@ -583,144 +590,144 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                         )
 
 
-                        Column(modifier = Modifier.padding(7.dp)) {
-                            Text(plakatHolder.title, fontSize = 20.sp)
-                            Spacer(modifier = Modifier.height(14.dp))
-                            Text(
-                                pris,
-                                fontSize = 18.sp
-                            )
-
-                            var selectedpris = MenuItems()
-
-                            if (selectedpris == 1) {
-                                pris = "DKK 179,00"
-                            }
-                            if (selectedpris == 2) {
-                                pris = "DKK 249,00"
-                            }
-                            if (selectedpris == 3) {
-                                pris = "DKK 389,00"
-                            } else {
-
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
-
-                            Row(
-                                modifier = Modifier
-                                    .width(200.dp)
-                            ) {
-
-                                PosterAmount()
-
-                                Box(
-                                    modifier = Modifier
-                                        .background(Color.Gray)
-                                        .border(0.5.dp, Color.Black)
-                                        .width(160.dp)
-                                        .height(30.dp)
-                                        .clickable { })
-                                {
-                                    Text(
-                                        "TILFØJ TIL KURV",
-                                        textAlign = TextAlign.Center,
-                                        color = Color.White,
-                                        modifier = Modifier.padding(5.dp)
-                                    )
-                                }
-                            }
-                            Spacer(modifier = Modifier.padding(47.dp))
-                            FavoritButton(modifier = Modifier.size(20.dp), index = index)
-                        }
-                    }
-                    Text(
-                        plakatHolder.description,
-                        Modifier.padding(12.dp),
-                        fontSize = 17.sp,
-                        textAlign = TextAlign.Justify
-                    )
-
-                    if (enlargeBillede.value) {
-                        AlertDialog(modifier = Modifier
-                            .height(400.dp),
-                            backgroundColor = Color.Transparent,
-                            onDismissRequest = { enlargeBillede.value = false },
-                            text = {
-                                Image(
-                                    painter = rememberImagePainter(data = plakatHolder.imageURL),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .fillMaxSize()
+                            Column(modifier = Modifier.padding(7.dp)) {
+                                Text(plakatHolder.title, fontSize = 20.sp)
+                                Spacer(modifier = Modifier.height(14.dp))
+                                Text(
+                                    pris,
+                                    fontSize = 18.sp
                                 )
-                            },
-                            confirmButton = {})
-                    }
 
+                                var selectedpris = MenuItems()
+
+                                if (selectedpris == 1) {
+                                    pris = "DKK 179,00"
+                                }
+                                if (selectedpris == 2) {
+                                    pris = "DKK 249,00"
+                                }
+                                if (selectedpris == 3) {
+                                    pris = "DKK 389,00"
+                                } else {
+
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+
+                                Row(
+                                    modifier = Modifier
+                                        .width(200.dp)
+                                ) {
+
+                                    PosterAmount()
+
+                                    Box(
+                                        modifier = Modifier
+                                            .background(Color.Gray)
+                                            .border(0.5.dp, Color.Black)
+                                            .width(160.dp)
+                                            .height(30.dp)
+                                            .clickable { })
+                                    {
+                                        Text(
+                                            "TILFØJ TIL KURV",
+                                            textAlign = TextAlign.Center,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(5.dp)
+                                        )
+                                    }
+                                }
+                                Spacer(modifier = Modifier.padding(47.dp))
+                                FavoritButton(modifier = Modifier.size(20.dp), index = index)
+                            }
+                        }
+                        Text(
+                            plakatHolder.description,
+                            Modifier.padding(12.dp),
+                            fontSize = 17.sp,
+                            textAlign = TextAlign.Justify
+                        )
+
+                        if (enlargeBillede.value) {
+                            AlertDialog(modifier = Modifier
+                                .height(400.dp),
+                                backgroundColor = Color.Transparent,
+                                onDismissRequest = { enlargeBillede.value = false },
+                                text = {
+                                    Image(
+                                        painter = rememberImagePainter(data = plakatHolder.imageURL),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                    )
+                                },
+                                confirmButton = {})
+                        }
+
+                    }
                 }
             }
-        }
 
-        @Composable
-        fun MenuItems(): Int {
-            val options = listOf(
-                "Vælg en mulighed",
-                "A3 - 170g silk",
-                "50x70 cm - 170g silk",
-                "70x100 cm - 170g silk"
-            )
-            var optionsExpanded by remember { mutableStateOf(false) }
-            var selectedIndex by remember { mutableStateOf(0) }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-            )
-            {
-                InspirationStart.DropdownMenu(
-                    menuItems = options,
-                    menuExpandedState = optionsExpanded,
-                    selectedIndex = selectedIndex,
-                    updateMenuExpandStatus = { optionsExpanded = true },
-                    onDismissMenuView = { optionsExpanded = false },
-                    onMenuItemClick = { index ->
-                        selectedIndex = index
-                        optionsExpanded = false
-                    }
+            @Composable
+            fun MenuItems(): Int {
+                val options = listOf(
+                    "Vælg en mulighed",
+                    "A3 - 170g silk",
+                    "50x70 cm - 170g silk",
+                    "70x100 cm - 170g silk"
                 )
+                var optionsExpanded by remember { mutableStateOf(false) }
+                var selectedIndex by remember { mutableStateOf(0) }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                )
+                {
+                    InspirationStart.DropdownMenu(
+                        menuItems = options,
+                        menuExpandedState = optionsExpanded,
+                        selectedIndex = selectedIndex,
+                        updateMenuExpandStatus = { optionsExpanded = true },
+                        onDismissMenuView = { optionsExpanded = false },
+                        onMenuItemClick = { index ->
+                            selectedIndex = index
+                            optionsExpanded = false
+                        }
+                    )
+                }
+                return selectedIndex
+
             }
-            return selectedIndex
+
+            @Composable
+            fun PosterAmount() {
+                var textFieldState by remember {
+                    mutableStateOf("1")
+                }
+
+                BasicTextField(
+                    modifier = Modifier
+                        .height(30.dp)
+                        .width(40.dp)
+                        .background(color = Color.LightGray)
+                        .border(0.5.dp, color = Color.Black)
+                        .padding(5.dp),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = Color.Black,
+                        fontSize = 15.sp,
+                        textAlign = TextAlign.Center
+                    ),
+                    value = textFieldState,
+                    onValueChange = {
+                        textFieldState = it
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+
+            }
 
         }
-
-        @Composable
-        fun PosterAmount() {
-            var textFieldState by remember {
-                mutableStateOf("1")
-            }
-
-            BasicTextField(
-                modifier = Modifier
-                    .height(30.dp)
-                    .width(40.dp)
-                    .background(color = Color.LightGray)
-                    .border(0.5.dp, color = Color.Black)
-                    .padding(5.dp),
-                textStyle = androidx.compose.ui.text.TextStyle(
-                    color = Color.Black,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
-                ),
-                value = textFieldState,
-                onValueChange = {
-                    textFieldState = it
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
-
-        }
-
-    }
 
     /**
      * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.

@@ -11,7 +11,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 /**
- *
  * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
  * https://firebase.google.com/docs/database
@@ -47,11 +46,8 @@ sealed class UploadImage {
         fun deleteImage(fileName: String) {
             val storageRef = Firebase.storage.reference.child("Images/$fileName")
             storageRef.delete().addOnSuccessListener {
-
             }.addOnFailureListener {
-
             }
-
         }
 
         private fun makeDirectory(context: Context, filePath: String) {

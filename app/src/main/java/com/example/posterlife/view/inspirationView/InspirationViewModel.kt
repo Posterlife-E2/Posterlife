@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import java.io.*
+import java.lang.Exception
 
 /**
  * @Author Kristoffer Pedersen (s205354)
@@ -59,7 +60,14 @@ class InspirationViewModel : ViewModel() {
 
     //Inspiration til at læse fra fil: https://www.javatpoint.com/kotlin-android-read-and-write-internal-storage
     fun getFavorites(context: Context): MutableList<Int> {
-        val fileInputStream = context.openFileInput("favorites")
+        val fileInputStream: FileInputStream = try {
+            context.openFileInput("favorites")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            val file = File("favorites").toString()
+            context.openFileOutput(file, Context.MODE_PRIVATE)
+            context.openFileInput("favorites")
+        }
         val inputStreamReader = InputStreamReader(fileInputStream)
         val bufferedReader = BufferedReader(inputStreamReader)
         val stringBuilder = StringBuilder()
