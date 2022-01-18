@@ -245,7 +245,7 @@ sealed class MineDesign(val route: String) {
                                                             openDialog.value = false
                                                             readsPost(
                                                                 context,
-                                                                result.get(index),
+                                                                result[index],
                                                                 true
                                                             )
                                                         }) {
