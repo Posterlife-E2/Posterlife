@@ -57,7 +57,7 @@ import java.io.ByteArrayOutputStream
  *
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/godaddy/compose-color-picker
- * @Source https://stackoverflow.com/questions/56651444/deprecated-getbitmap-with-api-29-any-alternative-codes
+ * @Source https://colinyeoh.wordpress.com/2012/05/18/android-getting-image-uri-from-bitmap/
  *
  * Diverse
  * @Source https://developer.android.com/reference/kotlin/android/view/inputmethod/InputMethodManager
@@ -614,6 +614,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
             switchPenselState = switchPenselStateTemp
 
             AlertDialog(onDismissRequest = { visPenselPopUp.value = false },
+                backgroundColor = Color(0xfffcfcf0),
                 title = null,
                 text = {
                     Column {
@@ -670,7 +671,6 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                             onColorChanged = { color: HsvColor ->
                                 colorValgPensel = color.toColor().toArgb()
                                 billedRedTool.brushColor = colorValgPensel
-
                                 penselColorState = colorValgPensel
                                 //Presser den til at skifte farve.
                                 val penselSizeTemp = penselSize
