@@ -342,10 +342,13 @@ sealed class MineDesign(val route: String) {
                 Log.d("Original Value", result.toString())
                 var outputString = ""
                 for (i in result.indices) {
-                    if (path != result[i] && i === 0) {
-                        outputString += result[i]
-                    } else if (path != result[i] && i > 0) {
-                        outputString += ",${result[i]}"
+                    when {
+                        path != result[i] && i == 0 -> {
+                            outputString += result[i]
+                        }
+                        path != result[i] && i > 0 -> {
+                            outputString += ",${result[i]}"
+                        }
                     }
                 }
                 if (outputString.isNotEmpty()) {
