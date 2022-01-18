@@ -153,10 +153,18 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
     @Composable
     fun AcceptPictureBottomBar(navController: NavController) {
-        BottomAppBar(
-            backgroundColor = MaterialTheme.colors.onPrimary.copy(0.5f)
+
+        Row(
+            modifier =
+            Modifier
+                .background(MaterialTheme.colors.onPrimary.copy(0.5f))
+                .height(55.dp)
         ) {
-            IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
+            IconButton(
+                onClick = { navController.navigate(NavigationBundNav.Kamera.route) },
+                modifier = Modifier.align(Alignment.CenterVertically)
+
+            ) {
                 Icon(
                     Icons.Filled.Close,
                     contentDescription = null,
@@ -165,14 +173,18 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
             }
             Box(modifier = Modifier.weight(1f)) {
             }
-            Text(text = "VÆLG BILLEDE", color = Color.White, fontSize = 25.sp)
+            Text(text = "VÆLG BILLEDE", color = Color.White, fontSize = 25.sp, modifier = Modifier.align(Alignment.CenterVertically))
             Box(modifier = Modifier.weight(1f)) {
             }
-            IconButton(onClick = { navController.navigate("billedRed") }) {
+            IconButton(
+                onClick = { navController.navigate("billedRed") },
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
                 Icon(
                     Icons.Filled.Done,
                     contentDescription = null,
-                    tint = Color.White
+                    tint = Color.White,
+
                 )
             }
         }
