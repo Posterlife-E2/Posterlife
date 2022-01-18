@@ -1,6 +1,7 @@
 package com.example.posterlife.view
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
@@ -329,6 +330,7 @@ sealed class MineDesign(val route: String) {
                 mediaDir else this.filesDir
         }
 
+        @SuppressLint("WrongConstant")
         private fun readsPost(context: Context, path: String, isDelete: Boolean) {
             if (isDelete) {
                 val fileDelete = File(context.getOutputDirectory(), "Files.txt")
