@@ -57,7 +57,7 @@ fun Navigation() {
             content = {
                 NavHost(
                     navController = navController,
-                    startDestination = Login.LoginScreen.route
+                    startDestination = NavigationBundNav.Inspiration.route
                 ) {
                     //---- Inspiration ----
                     composable(NavigationBundNav.Inspiration.route) {
@@ -66,8 +66,9 @@ fun Navigation() {
                     }
 
                     composable(Inspiration.InspirationFocusImage.rute) {
-                        InspirationFocusImage()
+                        InspirationFocusImage(navController = navController)
                     }
+
 
 
                     //----Favorit ----
