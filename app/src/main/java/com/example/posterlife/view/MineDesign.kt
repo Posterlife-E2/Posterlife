@@ -105,6 +105,7 @@ sealed class MineDesign(val route: String) {
         // variabel der skal bruges til at refreshe Mine design når et billede bliver slettet.
         private val refreshGrid = mutableStateOf(true)
 
+        @ExperimentalCoilApi
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
@@ -249,7 +250,7 @@ sealed class MineDesign(val route: String) {
                                                                 true
                                                             )
                                                         }) {
-                                                        Text("Ok")
+                                                        Text("Ja")
                                                     }
                                                 },
                                                 dismissButton = {
