@@ -84,7 +84,7 @@ sealed class MineDesign(val route: String) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { navController.navigate("Favorit"){
+                    /*IconButton(onClick = { navController.navigate("Favorit"){
                         popUpTo(NavigationBundNav.MineDesign.route)
                     } }) {
                         Icon(
@@ -92,7 +92,7 @@ sealed class MineDesign(val route: String) {
                             tint = Color.Red,
                             contentDescription = null
                         )
-                    }
+                    }*/
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)
                     }

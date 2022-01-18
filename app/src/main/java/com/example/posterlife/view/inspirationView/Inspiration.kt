@@ -48,7 +48,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * @Author Kristoffer Pedersen (s205354), Thamara Linnea (s205337), Camilla Bøjden (s205360)
+ * @Author Kristoffer Pedersen (s205354), Thamara Linnea (s205337), Camilla Bøjden (s205360), Lauritz Pepke (s191179)
  *
  * @source https://developer.android.com/jetpack/compose/navigation
  *
@@ -65,6 +65,8 @@ import kotlin.collections.ArrayList
  * Filter arraylist for searchfunction
  * @Source https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
  *
+ * Compose animations
+ * @Source https://www.youtube.com/watch?v=trVmP1rw0uw&t=310s
  *
  * @Source https://www.youtube.com/watch?v=KPVoQjwmWX4
  */
@@ -342,7 +344,9 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
         }
 
-
+        /**
+         * https://www.youtube.com/watch?v=trVmP1rw0uw&t=310s
+         */
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
@@ -453,7 +457,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 contentDescription = null
                             )
                     }
-                    if (!expanded)
+                    /*if (!expanded)
                         IconButton(onClick = {
                             navController.navigate(NavigationBundNav.Favorit.route) {
                                 popUpTo(NavigationBundNav.Inspiration.route)
@@ -464,7 +468,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 tint = Color.Red,
                                 contentDescription = null
                             )
-                        }
+                        }*/
                     if (!expanded)
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(Icons.Filled.ShoppingCart, contentDescription = null)
@@ -520,13 +524,13 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    /*IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             Icons.Filled.Favorite,
                             tint = Color.Red,
                             contentDescription = null
                         )
-                    }
+                    }*/
 
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)

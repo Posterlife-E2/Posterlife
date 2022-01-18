@@ -20,7 +20,7 @@ import com.example.posterlife.R
 sealed class NavigationBundNav(var route: String, var icon: Int, var title: String) {
 
     object Inspiration : NavigationBundNav("inspiration", R.drawable.ic_lightbulb, "Inspiration")
-    object Favorit: NavigationBundNav("favorit",R.drawable.ic_favorite, "Favorit")
+    object Favorit: NavigationBundNav("favorit",R.drawable.ic_favorite, "Favoritter")
     object Kamera : NavigationBundNav("kamera", R.drawable.ic_kamera, "Kamera")
     object Profil : NavigationBundNav("profil", R.drawable.ic_profil, "Profil")
     object MineDesign : NavigationBundNav("mine design", R.drawable.ic_star, "Designs")

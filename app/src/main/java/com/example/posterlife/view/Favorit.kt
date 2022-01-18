@@ -66,13 +66,13 @@ sealed class Favorit(val rute: String) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                   /* IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             Icons.Filled.Favorite,
                             tint = Color.Red,
                             contentDescription = null
                         )
-                    }
+                    }*/
 
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)
