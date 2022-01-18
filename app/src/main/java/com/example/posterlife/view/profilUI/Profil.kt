@@ -288,7 +288,7 @@ sealed class Profil(val rute: String) {
 
 
             }
-            Spacer(modifier = Modifier.padding(110.dp))
+            Spacer(modifier = Modifier.padding(100.dp))
 
             //row med ikoner hvor man bliver linket til posterlifes sider på de sociale medier.
             Row(
