@@ -343,7 +343,7 @@ sealed class MineDesign(val route: String) {
                 var outputString = ""
                 for (i in result.indices) {
                     when {
-                        path != result[i] && i == 0 -> {
+                        path == result[i] && i > 0 -> {
                             outputString += result[i]
                         }
                         path != result[i] && i > 0 -> {
