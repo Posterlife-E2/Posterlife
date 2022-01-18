@@ -266,7 +266,6 @@ sealed class MineDesign(val route: String) {
                                             )
                                         }
                                     }
-
                                 }
                             }
                         }
@@ -287,9 +286,7 @@ sealed class MineDesign(val route: String) {
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold
                         )
-
                     }
-
                 }
             } else {
                 Column(
@@ -305,10 +302,8 @@ sealed class MineDesign(val route: String) {
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold
                     )
-
                 }
             }
-
         }
 
         fun loadData(data: ArrayList<String>) {
@@ -357,7 +352,6 @@ sealed class MineDesign(val route: String) {
                     val file = File(context.getOutputDirectory(), "Files.txt")
                     Log.d("Update Value", outputString)
                     file.writeText(outputString)
-
                     UploadImage.deleteImage(path)
                 }
             } else {
