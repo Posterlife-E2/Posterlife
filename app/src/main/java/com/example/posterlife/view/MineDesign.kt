@@ -340,7 +340,7 @@ sealed class MineDesign(val route: String) {
                     if (fileDelete.delete()) {
                         Toast.makeText(context,"file Deleted",0).show()
                     } else {
-                        println("file not Deleted")
+                        Toast.makeText(context,"file Deleted",0).show()
                     }
                 }
                 Log.d("Original Value", result.toString())
