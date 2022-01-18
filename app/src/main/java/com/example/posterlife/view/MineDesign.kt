@@ -137,7 +137,7 @@ sealed class MineDesign(val route: String) {
                             {
                                 items(result.size) { index ->
                                     val source =
-                                        "content://media/external/images/media/" + result.get(index)
+                                        "content://media/external/images/media/" + result[index]
 
                                     Card(
                                         modifier = Modifier
