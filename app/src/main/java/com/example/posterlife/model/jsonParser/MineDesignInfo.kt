@@ -37,7 +37,6 @@ sealed class MineDesignInfo {
                     }
                     MineDesign.MineDesignStart.loadData(mineDesignData)
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                     // Failed to read value
                     Log.w("Error", "Failed to read value.", error.toException())
