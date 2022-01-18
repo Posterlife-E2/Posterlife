@@ -53,7 +53,6 @@ sealed class MineDesign(val route: String) {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
-
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @ExperimentalCoilApi
@@ -102,7 +101,6 @@ sealed class MineDesign(val route: String) {
         }
 
         private val refreshGrid = mutableStateOf(true)
-
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable

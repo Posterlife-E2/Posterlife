@@ -46,9 +46,7 @@ sealed class UploadImage {
         fun deleteImage(fileName: String) {
             val storageRef = Firebase.storage.reference.child("Images/$fileName")
             storageRef.delete().addOnSuccessListener {
-
             }.addOnFailureListener {
-
             }
         }
 
