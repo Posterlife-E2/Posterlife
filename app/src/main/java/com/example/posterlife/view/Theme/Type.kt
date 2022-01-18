@@ -1,4 +1,4 @@
-package com.example.posterlife.UI.Theme
+package com.example.posterlife.view.Theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

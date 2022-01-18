@@ -3,6 +3,8 @@ package com.example.posterlife.model
 import com.beust.klaxon.Json
 
 /**
+ * @author Kristoffer T. Pedersen (s205354)
+ *
  * Eksisterer kun som model for plakaten.
  */
 

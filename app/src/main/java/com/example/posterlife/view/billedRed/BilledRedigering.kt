@@ -65,6 +65,9 @@ import java.io.ByteArrayOutputStream
  * Material Sources
  * @Source https://foso.github.io/Jetpack-Compose-Playground/foundation/lazyrow/
  *
+ * XML baseret AlertDialog Builder
+ * @Source https://developer.android.com/reference/android/app/AlertDialog.Builder
+ *
  */
 
 sealed class BilledRedigering(var rute: String) : ViewModel() {
@@ -115,7 +118,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
             title = {
 
                 Text(
-                    text = "Foto baggrund",
+                    text = title,
                     color = Color.Black,
                     fontSize = 30.sp
                 )
@@ -221,7 +224,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                     val alertSetWindow = alertDialog.show()
                     alertSetWindow.window?.setBackgroundDrawableResource(R.drawable.transparent)
                     alertSetWindow.window?.setLayout(1, 1)
-                    alertSetWindow.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                    alertSetWindow.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
                     tekstInput.setSelection(tekstInput.length())
 

@@ -1,6 +1,5 @@
 package com.example.posterlife.view.loginUI
 
-import android.widget.ImageButton
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -24,14 +23,9 @@ import androidx.compose.ui.res.painterResource
 import com.example.posterlife.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import org.intellij.lang.annotations.JdkConstants
 
 open class Login(val route: String) {
 
@@ -71,9 +65,9 @@ open class Login(val route: String) {
                         .fillMaxWidth(),verticalArrangement = Arrangement.Center) {
 
                     //Logo
-                    val Logo: Painter = painterResource(id = R.drawable.posterlife_logo)
+                    val logo: Painter = painterResource(id = R.drawable.posterlife_logo)
                     Image(
-                        painter = Logo, contentDescription = "",
+                        painter = logo, contentDescription = "",
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth()

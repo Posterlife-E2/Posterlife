@@ -1,4 +1,4 @@
-package com.example.posterlife.UI.Theme
+package com.example.posterlife.view.Theme
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
-import com.example.posterlife.UI.Theme.PosterlifeTheme
+import com.example.posterlife.view.Theme.PosterlifeTheme
 import com.example.posterlife.model.jsonParser.MineDesignInfo
 import com.example.posterlife.view.profilUI.Reklamationsret
 import com.example.posterlife.view.inspirationView.Inspiration.InspirationStart.InspirationOverview
@@ -62,6 +62,7 @@ fun Navigation() {
                     //---- Inspiration ----
                     composable(NavigationBundNav.Inspiration.route) {
                         InspirationOverview(navController = navController)
+
                     }
 
                     composable(Inspiration.InspirationFocusImage.rute) {
@@ -71,7 +72,7 @@ fun Navigation() {
 
                     //----Favorit ----
                     composable(NavigationBundNav.Favorit.route) {
-                        FavoritOverview(navigation = navController)
+                        FavoritOverview()
                     }
 
                     //---- Kamera ----

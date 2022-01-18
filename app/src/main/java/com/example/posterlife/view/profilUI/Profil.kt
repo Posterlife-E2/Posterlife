@@ -1,7 +1,5 @@
 package com.example.posterlife.view.profilUI
 
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
@@ -17,15 +15,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import com.example.posterlife.R
+import com.example.posterlife.view.NavigationBundNav
 
 
 sealed class Profil(val rute: String) {
@@ -65,7 +62,7 @@ sealed class Profil(val rute: String) {
             actions = {
                 IconButton(onClick = {
                     navController.navigate("Favorit") {
-                        popUpTo("FavoritOverview")
+                        popUpTo(NavigationBundNav.Profil.route)
                     }
                 }) {
                     Icon(
@@ -110,7 +107,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Login") {
-                            popUpTo("Login.LoginScreen.LoginStart")
+                            popUpTo(NavigationBundNav.Profil.route)
 
                         }
                     }),
@@ -139,7 +136,7 @@ sealed class Profil(val rute: String) {
                     .padding(8.dp)
                     .clickable(onClick = {
                         navController.navigate("delStart") {
-                            popUpTo("DelOverview")
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -166,7 +163,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("Mine Design") {
-                            popUpTo("MineDesign.MineDesignStart.MineDesignStart")
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -192,7 +189,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("favorit") {
-                            popUpTo("FavoritOverview")
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -219,7 +216,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("privatPolitik") {
-                            popUpTo("PrivatPolitikOverview")
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -245,7 +242,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("betingelser") {
-                            popUpTo(" BetingelserOverview")
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
@@ -272,7 +269,7 @@ sealed class Profil(val rute: String) {
                     .padding(start = 8.dp)
                     .clickable(onClick = {
                         navController.navigate("kontakt") {
-                            popUpTo("KontaktOverview")
+                            popUpTo(NavigationBundNav.Profil.route)
                         }
                     }),
                 verticalAlignment = Alignment.CenterVertically,

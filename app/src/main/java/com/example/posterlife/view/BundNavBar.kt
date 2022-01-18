@@ -58,18 +58,21 @@ fun BottomNavigationBar(navController: NavController) {
 
                     navController.navigate(item.route) {
 
+
                         //Undgår ophopning af destinations.
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
                                 saveState = true
                             }
                         }
+                        popUpTo(item.route)
 
                         //Så vi undgår at den åbner den samme ting flere gange ved tryk.
                         launchSingleTop = true
 
                         //Husker hvad der skete på forrige frame
                         restoreState = true
+
                     }
                 }
             )
