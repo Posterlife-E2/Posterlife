@@ -43,10 +43,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
+import androidx.ui.engine.geometry.Outline
 import com.example.posterlife.view.loginUI.Login
 import ja.burhanrashid52.photoeditor.*
 import java.io.ByteArrayOutputStream
@@ -288,46 +290,48 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
 
             Scaffold(
-                topBar = {
-                    TopBar(title = "Rediger")
-                },
+                //topBar = {
+                    //TopBar(title = "Rediger")
+               // },
 
                 content = {
                     Column(
                         modifier = Modifier
-                            .background(Color.DarkGray)
+                            .background(MaterialTheme.colors.primary)
                             .fillMaxSize(),
 
                         ) {
                         BoxWithConstraints(
                             modifier = Modifier
-                                .background(Color(0xfffcfcf0))
-                                .fillMaxWidth(),
-                            contentAlignment = Alignment.TopCenter
+                                .background(MaterialTheme.colors.primary)
+                                .weight(1f),
+                            contentAlignment = Alignment.Center,
 
                         ) {
                             if (maxHeight < 700.dp) {
                                 AndroidView(
                                     factory = { billedRedView.value },
-                                    Modifier.width(350.dp),
+                                    Modifier
+                                        .scale(0.9f)
+                                        .shadow(elevation = 20.dp, shape = RectangleShape, clip = true),
+
                                 )
                             } else {
                                 AndroidView(
-                                    factory = { billedRedView.value }
+                                    factory = { billedRedView.value },
+                                    Modifier
+                                        .fillMaxSize()
+
                                 )
                             }
                         }
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .background(Color.DarkGray)
-                        )
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp),
                             horizontalArrangement = Arrangement.SpaceEvenly,
+                            verticalAlignment = Alignment.Bottom
 
                             ) {
                             Box(
