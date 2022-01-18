@@ -282,7 +282,7 @@ sealed class MineDesign(val route: String) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "No Mine Design",
+                            text = "Mine Designs er tom!",
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -298,7 +298,7 @@ sealed class MineDesign(val route: String) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "No Mine Design",
+                        text = "Mine Designs er tom!",
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold
                     )
