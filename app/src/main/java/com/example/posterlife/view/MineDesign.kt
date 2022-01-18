@@ -101,6 +101,8 @@ sealed class MineDesign(val route: String) {
             )
         }
 
+        private val refreshGrid = mutableStateOf(true)
+
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
@@ -125,144 +127,148 @@ sealed class MineDesign(val route: String) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         val openDialog = remember { mutableStateOf(false) }
-                        LazyVerticalGrid(
-                            cells = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(8.dp)
-                        )
-                        {
-                            items(result.size) { index ->
-                                val source =
-                                    "content://media/external/images/media/" + result.get(index)
+                        if (refreshGrid.value) {
+                            LazyVerticalGrid(
+                                cells = GridCells.Fixed(2),
+                                contentPadding = PaddingValues(8.dp)
+                            )
+                            {
+                                items(result.size) { index ->
+                                    val source =
+                                        "content://media/external/images/media/" + result.get(index)
 
-//                                    "file://" +
-//                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
-//                                        index
-//                                    )
-
-                                Card(
-                                    modifier = Modifier
-                                        .padding(8.dp),
-                                    elevation = 10.dp
-                                ) {
-                                    Column(
-                                        modifier = Modifier.padding(start = 3.dp, end = 3.dp)
+                                    Card(
+                                        modifier = Modifier
+                                            .padding(8.dp),
+                                        elevation = 10.dp
                                     ) {
-                                        Row(
-                                            modifier = Modifier.height(30.dp),
-                                            verticalAlignment = Alignment.CenterVertically
+                                        Column(
+                                            modifier = Modifier.padding(start = 3.dp, end = 3.dp)
                                         ) {
-                                            EditTitle()
-                                            Box(modifier = Modifier.weight(1f))
-                                            Box() {
-                                                IconButton(
-                                                    onClick = { openDialog.value = true },
-                                                    modifier = Modifier.size(22.dp)
-                                                ) {
-                                                    Icon(
-                                                        Icons.Filled.DeleteOutline,
-                                                        contentDescription = null,
-                                                        Modifier.size(22.dp)
-                                                    )
-                                                }
-                                            }
-                                        }
-                                        Image(
-                                            painter = rememberImagePainter(
-                                                data = Uri.parse(source)
-                                            ),
-                                            contentDescription = "Image",
-                                            modifier = Modifier
-                                                .size(250.dp)
-                                                .background(Color.White)
-                                        )
-                                        Row(
-                                            modifier = Modifier.height(30.dp),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                        ) {
-                                            Box(modifier = Modifier.clickable { }) {
-                                                Row() {
-                                                    Text(
-                                                        text = "Rediger",
-                                                        fontWeight = FontWeight.Light
-                                                    )
-                                                    Box() {
+                                            Row(
+                                                modifier = Modifier.height(30.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                EditTitle()
+                                                Box(modifier = Modifier.weight(1f))
+                                                Box() {
+                                                    IconButton(
+                                                        onClick = { openDialog.value = true
+                                                                  },
+                                                        modifier = Modifier.size(22.dp)
+                                                    ) {
                                                         Icon(
-                                                            Icons.Filled.Edit,
+                                                            Icons.Filled.DeleteOutline,
                                                             contentDescription = null,
                                                             Modifier.size(22.dp)
                                                         )
                                                     }
                                                 }
                                             }
-                                            Box(modifier = Modifier.weight(1f))
-                                            Box() {
-                                                IconButton(
-                                                    onClick = { /*TODO*/ },
-                                                    modifier = Modifier.size(22.dp)
-                                                ) {
-                                                    Icon(
-                                                        Icons.Filled.Send,
-                                                        contentDescription = null,
-                                                        Modifier.size(22.dp)
-                                                    )
-                                                }
-                                            }
-                                            Box(
+                                            Image(
+                                                painter = rememberImagePainter(
+                                                    data = Uri.parse(source)
+                                                ),
+                                                contentDescription = "Image",
                                                 modifier = Modifier
-                                                    .size(22.dp)
+                                                    .size(250.dp)
+                                                    .background(Color.White)
+                                            )
+                                            Row(
+                                                modifier = Modifier.height(30.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
                                             ) {
-                                                FavoritButton()
-                                            }
-                                            Box() {
-                                                IconButton(
-                                                    onClick = { /*TODO*/ },
-                                                    modifier = Modifier.size(22.dp)
+                                                Box(modifier = Modifier.clickable { }) {
+                                                    Row() {
+                                                        Text(
+                                                            text = "Rediger",
+                                                            fontWeight = FontWeight.Light
+                                                        )
+                                                        Box() {
+                                                            Icon(
+                                                                Icons.Filled.Edit,
+                                                                contentDescription = null,
+                                                                Modifier.size(22.dp)
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                                Box(modifier = Modifier.weight(1f))
+                                                Box() {
+                                                    IconButton(
+                                                        onClick = { /*TODO*/ },
+                                                        modifier = Modifier.size(22.dp)
+                                                    ) {
+                                                        Icon(
+                                                            Icons.Filled.Send,
+                                                            contentDescription = null,
+                                                            Modifier.size(22.dp)
+                                                        )
+                                                    }
+                                                }
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(22.dp)
                                                 ) {
-                                                    Icon(
-                                                        Icons.Filled.AddShoppingCart,
-                                                        contentDescription = null,
-                                                        Modifier.size(22.dp)
-                                                    )
+                                                    FavoritButton()
+                                                }
+                                                Box() {
+                                                    IconButton(
+                                                        onClick = { /*TODO*/ },
+                                                        modifier = Modifier.size(22.dp)
+                                                    ) {
+                                                        Icon(
+                                                            Icons.Filled.AddShoppingCart,
+                                                            contentDescription = null,
+                                                            Modifier.size(22.dp)
+                                                        )
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    if (openDialog.value) {
-                                        AlertDialog(
-                                            onDismissRequest = {
-                                                openDialog.value = false
-                                            },
-                                            title = {
-                                                Text(text = "Slet Plakat")
-                                            },
-                                            text = {
-                                                Text("Er du sikker på at du vil slette denne plakat?")
-                                            },
-                                            confirmButton = {
-                                                Button(
-                                                    onClick = {
-                                                        openDialog.value = false
-                                                        readsPost(context, result.get(index), true)
-                                                    }) {
-                                                    Text("Ok")
-                                                }
-                                            },
-                                            dismissButton = {
-                                                Button(
-                                                    onClick = {
-                                                        openDialog.value = false
-
+                                        if (openDialog.value) {
+                                            AlertDialog(
+                                                onDismissRequest = {
+                                                    openDialog.value = false
+                                                },
+                                                title = {
+                                                    Text(text = "Slet Plakat")
+                                                },
+                                                text = {
+                                                    Text("Er du sikker på at du vil slette denne plakat?")
+                                                },
+                                                confirmButton = {
+                                                    Button(
+                                                        onClick = {
+                                                            openDialog.value = false
+                                                            readsPost(
+                                                                context,
+                                                                result.get(index),
+                                                                true
+                                                            )
+                                                        }) {
+                                                        Text("Ok")
                                                     }
-                                                ) {
-                                                    Text("Afbryd")
-                                                }
-                                            }
-                                        )
-                                    }
-                                }
+                                                },
+                                                dismissButton = {
+                                                    Button(
+                                                        onClick = {
+                                                            openDialog.value = false
 
+                                                        }
+                                                    ) {
+                                                        Text("Afbryd")
+                                                    }
+                                                }
+                                            )
+                                        }
+                                    }
+
+                                }
                             }
                         }
+                        refreshGrid.value = false
+                        refreshGrid.value = true
                     }
                 } else {
                     Column(
