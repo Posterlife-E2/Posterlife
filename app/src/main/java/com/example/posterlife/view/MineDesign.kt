@@ -128,7 +128,7 @@ sealed class MineDesign(val rute: String) {
                         {
                             items(result.size) { index ->
                                 val source =
-                                    "content://media/external/images/media/" + result.get(index)
+                                    "content://media/external/images/media/" + result[index]
 
 //                                    "file://" +
 //                                    context.getPhotosDirectory().absolutePath + "/" + result.get(
