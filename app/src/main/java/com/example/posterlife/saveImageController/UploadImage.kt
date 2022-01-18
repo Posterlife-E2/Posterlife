@@ -16,8 +16,6 @@ import com.google.firebase.storage.ktx.storage
  * https://firebase.google.com/docs/database
  * https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
  * https://www.youtube.com/watch?v=MfCiiTEwt3g
- * https://stackoverflow.com/questions/40581930/how-to-upload-an-image-to-firebase-storage
- * https://www.youtube.com/watch?v=rfdQHOB3jCU
  * https://stackoverflow.com/questions/53876728/problem-to-upload-file-from-my-app-to-firebase
  */
 
