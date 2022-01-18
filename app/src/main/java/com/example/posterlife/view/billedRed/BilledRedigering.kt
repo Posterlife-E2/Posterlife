@@ -44,6 +44,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import com.example.posterlife.view.loginUI.Login
@@ -83,11 +84,20 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
             Scaffold(
                 scaffoldState = scaffoldState,
-                topBar = {
-                    TopBar("Foto Baggrund")
-                },
+                //topBar = {
+                    //TopBar("Foto Baggrund")
+                //},
                 content = {
-                    Column(
+                    Image(
+                        painter = rememberImagePainter(data = savedUri),
+                        contentDescription = "fotoKamera - Billed som blev taget.",
+                        Modifier
+                            .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                            .fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+
+                    /*Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(Color(0xfffcfcf0)),
@@ -100,9 +110,11 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                 contentDescription = "fotoKamera - Billed som blev taget.",
                                 Modifier
                                     .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                                    .fillMaxSize(),
+                                contentScale = ContentScale.Crop
                             )
                         }
-                    }
+                    }*/
                 },
                 bottomBar = {
                     AcceptPictureBottomBar(navController)
@@ -142,7 +154,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
     @Composable
     fun AcceptPictureBottomBar(navController: NavController) {
         BottomAppBar(
-            backgroundColor = Color.DarkGray
+            backgroundColor = MaterialTheme.colors.onPrimary.copy(0.5f)
         ) {
             IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
                 Icon(
