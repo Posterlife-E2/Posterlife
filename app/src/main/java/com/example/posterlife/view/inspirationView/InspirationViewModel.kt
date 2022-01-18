@@ -67,8 +67,6 @@ class InspirationViewModel : ViewModel() {
             val file = File("favorites").toString()
             context.openFileOutput(file, Context.MODE_PRIVATE)
             context.openFileInput("favorites")
-        } finally {
-
         }
         val inputStreamReader = InputStreamReader(fileInputStream)
         val bufferedReader = BufferedReader(inputStreamReader)
