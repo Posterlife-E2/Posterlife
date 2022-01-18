@@ -35,7 +35,6 @@ sealed class MineDesignInfo {
                         val url = ds.child("imageUrl").getValue(String::class.java)
                         mineDesignData.add(url.toString())
                     }
-
                     MineDesign.MineDesignStart.loadData(mineDesignData)
                 }
 
