@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.posterlife.R
@@ -44,7 +45,7 @@ import java.io.File
  * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
  */
-sealed class MineDesign(val rute: String) {
+sealed class MineDesign(val route: String) {
 
     object MineDesignStart : MineDesign("MineDesignStart") {
         var mineDesignData = ArrayList<String>()
@@ -57,12 +58,13 @@ sealed class MineDesign(val rute: String) {
         @ExperimentalFoundationApi
         @ExperimentalCoilApi
         @androidx.compose.runtime.Composable
-        fun MineDesignStart() {
+        fun MineDesignStart(navController: NavController
+        ) {
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    MineDesignTopBar()
+                    MineDesignTopBar(navController)
                 },
                 content = {
                     MineDesignContent()
@@ -71,7 +73,7 @@ sealed class MineDesign(val rute: String) {
         }
 
         @Composable
-        fun MineDesignTopBar() {
+        fun MineDesignTopBar(navController: NavController) {
             TopAppBar(
                 title = {
                     Text(
@@ -81,7 +83,9 @@ sealed class MineDesign(val rute: String) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { navController.navigate("Favorit"){
+                        popUpTo(NavigationBundNav.MineDesign.route)
+                    } }) {
                         Icon(
                             Icons.Filled.Favorite,
                             tint = Color.Red,
