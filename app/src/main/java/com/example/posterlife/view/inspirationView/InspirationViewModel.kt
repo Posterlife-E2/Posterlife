@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import java.io.*
+import java.lang.Exception
 
 /**
  * @Author Kristoffer Pedersen (s205354)
@@ -24,7 +25,8 @@ import java.io.*
  * Til håndtering af at kunne gemme listerne til strings.
  * @Source https://www.techiedelight.com/convert-list-to-string-kotlin/
  *
- *
+ * Til at gemme filer og læse
+ * @Source https://www.javatpoint.com/kotlin-android-read-and-write-internal-storage
  */
 
 class InspirationViewModel : ViewModel() {
@@ -42,20 +44,30 @@ class InspirationViewModel : ViewModel() {
         currentIndex = index
     }
 
+    //Inspiration til at sklrive til fil: https://www.javatpoint.com/kotlin-android-read-and-write-internal-storage
     fun setFavorites(index: Int, context: Context) {
 
         val file = File("favorites").toString()
         val fileOutputStream = context.openFileOutput(file, Context.MODE_PRIVATE)
-        favoriteIndexList.add(index)
+        if (index != -1) {
+        favoriteIndexList.add(index)}
         val seperator = "-"
-        Log.e("SEE HERE", favoriteIndexList.joinToString(seperator))
+        Log.e("Liste før read", favoriteIndexList.joinToString(seperator))
         val favStr = favoriteIndexList.joinToString(seperator)
         fileOutputStream.write(favStr.toByteArray())
         getFavorites(context)
     }
 
+    //Inspiration til at læse fra fil: https://www.javatpoint.com/kotlin-android-read-and-write-internal-storage
     fun getFavorites(context: Context): MutableList<Int> {
-        val fileInputStream = context.openFileInput("favorites")
+        val fileInputStream: FileInputStream = try {
+            context.openFileInput("favorites")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            val file = File("favorites").toString()
+            context.openFileOutput(file, Context.MODE_PRIVATE)
+            context.openFileInput("favorites")
+        }
         val inputStreamReader = InputStreamReader(fileInputStream)
         val bufferedReader = BufferedReader(inputStreamReader)
         val stringBuilder = StringBuilder()
@@ -67,15 +79,19 @@ class InspirationViewModel : ViewModel() {
             stringBuilder.append(text)
         }
 
-        stringBuilder.let { Log.e("SEE HERE EFTER LÆS", it.toString()) }
+        stringBuilder.let { Log.e("Liste efter read", it.toString()) }
+        if (stringBuilder.isNotEmpty()) {
         val favoritListeTemp = stringBuilder.split("-")
         val favoritListe = favoritListeTemp.map { it.toInt() }
-        favoriteIndexList = favoritListe.toMutableList()
+        favoriteIndexList = favoritListe.toMutableList()}
 
         return favoriteIndexList
     }
 
-    fun fjernFavorite(index: Int){
-        favoriteIndexList
+    fun fjernFavorite(index: Int, context: Context){
+        favoriteIndexList.remove(favoriteIndexList[index])
+        //Så vi kan gemme det.
+        setFavorites(-1, context)
+        Log.e("Liste efter delete", favoriteIndexList.toString())
     }
 }
