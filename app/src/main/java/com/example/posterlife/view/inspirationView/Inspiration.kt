@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
@@ -551,6 +552,12 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 }
 
                 if (plakatHolder != null) {
+                    val title = plakatHolder.title
+                    val dot = "·"
+                    val parentheses = "("
+                    val list = title.split(dot)
+                    val authorAndYear = list.get(1)
+                    val author = authorAndYear.split(parentheses)
 
                     Column(
                         Modifier
@@ -561,10 +568,10 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     ) {
 
                         Text(
-                            "Forfatter",
-                            fontWeight = FontWeight.Bold,
+                            author.get(0),
                             fontSize = 30.sp,
-                            modifier = Modifier.padding(10.dp)
+                            modifier = Modifier.padding(10.dp),
+                            textDecoration = TextDecoration.Underline
                         )
 
                         Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
