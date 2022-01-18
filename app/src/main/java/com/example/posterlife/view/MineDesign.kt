@@ -336,7 +336,7 @@ sealed class MineDesign(val route: String) {
                 val result: List<String> = text.split(",").map { it.trim() }
                 if (fileDelete.exists()) {
                     if (fileDelete.delete()) {
-                        Toast.makeText(context,"file Deleted",0)
+                        Toast.makeText(context,"file Deleted",0).show()
                     } else {
                         println("file not Deleted")
                     }
