@@ -17,7 +17,7 @@ private val Khand = FontFamily(
     Font(R.font.khand_semibold, FontWeight.SemiBold)
 )
 
-//skal redigeres/tilføjes flere fonts
+//fonts
 val PosterlifeTypography = Typography(
     h4 = TextStyle(
         fontFamily = Khand,

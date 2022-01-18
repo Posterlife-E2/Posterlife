@@ -52,6 +52,7 @@ import androidx.ui.engine.geometry.Outline
 import com.example.posterlife.view.loginUI.Login
 import ja.burhanrashid52.photoeditor.*
 import java.io.ByteArrayOutputStream
+import kotlin.math.round
 
 
 /**
@@ -86,9 +87,9 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
             Scaffold(
                 scaffoldState = scaffoldState,
-                //topBar = {
-                    //TopBar("Foto Baggrund")
-                //},
+                topBar = {
+                    TopBar("Foto Baggrund")
+                },
                 content = {
                     Image(
                         painter = rememberImagePainter(data = savedUri),
@@ -137,14 +138,14 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                     fontSize = 30.sp
                 )
             },
-            navigationIcon = {
+            /*navigationIcon = {
                 IconButton(onClick = { }) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = null
                     )
                 }
-            },
+            },*/
 
             backgroundColor = Color(0xfffcfcf0),
 
@@ -290,9 +291,9 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
 
             Scaffold(
-                //topBar = {
-                    //TopBar(title = "Rediger")
-               // },
+                topBar = {
+                    TopBar(title = "Rediger")
+                },
 
                 content = {
                     Column(
@@ -313,7 +314,8 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                     factory = { billedRedView.value },
                                     Modifier
                                         .scale(0.9f)
-                                        .shadow(elevation = 20.dp, shape = RectangleShape, clip = true),
+                                        .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                                        .border(2.dp, MaterialTheme.colors.onPrimary),
 
                                 )
                             } else {
@@ -325,7 +327,6 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                 )
                             }
                         }
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
