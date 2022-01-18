@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -335,7 +336,7 @@ sealed class MineDesign(val route: String) {
                 val result: List<String> = text.split(",").map { it.trim() }
                 if (fileDelete.exists()) {
                     if (fileDelete.delete()) {
-                        println("file Deleted")
+                        Toast.makeText(context,"file Deleted",0)
                     } else {
                         println("file not Deleted")
                     }
