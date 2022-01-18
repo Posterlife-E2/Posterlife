@@ -354,7 +354,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                         tint = Color.White,
                                         modifier = Modifier.size(30.dp)
                                     )
-                                    Text(text = "Undo", color = Color.White)
+                                    Text(text = "Fortryd", color = Color.White)
                                 }
                             }
                             Box(
@@ -416,7 +416,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                         tint = Color.White,
                                         modifier = Modifier.size(30.dp)
                                     )
-                                    Text(text = "Erase", color = Color.White)
+                                    Text(text = "Viskelæder", color = Color.White)
                                 }
                             }
                             Box(
