@@ -25,6 +25,8 @@ import com.example.posterlife.view.NavigationBundNav
 
 /**
  * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://www.pngwing.com/da
  */
 
 sealed class Profil(val rute: String) {

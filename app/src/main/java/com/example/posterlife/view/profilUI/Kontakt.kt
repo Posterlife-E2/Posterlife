@@ -22,6 +22,8 @@ import com.example.posterlife.view.NavigationBundNav
 
 /**
  * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://posterlife.dk/kontakt/?fbclid=IwAR1usNq3BcZP-bZMcrSMkU8KxyRO-_ECJs0f3OHXPoxi8xGwgER5Q4FbmaQ
  */
 
 

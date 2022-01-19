@@ -23,6 +23,8 @@ import androidx.compose.material.Text as MaterialText
 
 /**
  * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://posterlife.dk/privatlivspolitik/?fbclid=IwAR3uhj84ljB860vf_j33gP56lkrN5NdDAAT3xbsasJZ_QUw3kIO6zokRTQA
  */
 
 
