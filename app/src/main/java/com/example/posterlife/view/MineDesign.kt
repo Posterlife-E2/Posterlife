@@ -244,10 +244,9 @@ sealed class MineDesign(val route: String) {
                                                     Button(
                                                         onClick = {
                                                             openDialog.value = false
-                                                            readsPost(
+                                                            sletBillede(
                                                                 context,
-                                                                result[index],
-                                                                true
+                                                                result[index]
                                                             )
                                                             disableFresh.value = false
                                                         }) {
@@ -326,36 +325,49 @@ sealed class MineDesign(val route: String) {
         }
 
         @SuppressLint("WrongConstant")
-        private fun readsPost(context: Context, path: String, isDelete: Boolean) {
+        private fun sletBillede(context: Context, path: String, isDelete: Boolean = true) {
+
             if (isDelete) {
                 val fileDelete = File(context.getOutputDirectory(), "Files.txt")
                 val text = fileDelete.readText()
                 val result: List<String> = text.split(",").map { it.trim() }
+
                 if (fileDelete.exists()) {
+
                     if (fileDelete.delete()) {
                         Toast.makeText(context,"Billedet er blevet slettet",0).show()
                     } else {
                         Toast.makeText(context,"Billedet blev ikke slettet",0).show()
                     }
+
                 }
-                Log.d("Original Value", result.toString())
+
                 var outputString = ""
+
                 for (i in result.indices) {
-                    when {
-                        path == result[i] && i > 0 -> {
-                            outputString += result[i]
-                        }
-                        path != result[i] && i > 0 -> {
-                            outputString += ",${result[i]}"
+
+                    //Opretter vores outputString, så den ved hvad den ikke skal slette.
+                    if (result.size == 2 && path == result[1]) {
+                        outputString = result[0]
+                    } else {
+                        when {
+                            path == result[i] && i > 0 -> {
+                                outputString += result[i]
+                            }
+                            path != result[i] && i > 0 -> {
+                                outputString += "${result[i]},"
+                            }
                         }
                     }
                 }
+
+                //Tager de overskydne som ikke skal slettes og lægger tilbage i teksten med de rigtige delimiters.
                 if (outputString.isNotEmpty()) {
                     val file = File(context.getOutputDirectory(), "Files.txt")
-                    Log.d("Update Value", outputString)
                     file.writeText(outputString)
                     UploadImage.deleteImage(path)
                 }
+
             } else {
                 val file = File(context.getOutputDirectory(), "Files.txt")
                 file.readText()
