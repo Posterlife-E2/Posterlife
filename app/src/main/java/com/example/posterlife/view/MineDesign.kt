@@ -334,39 +334,39 @@ sealed class MineDesign(val route: String) {
         }
 
         @SuppressLint("WrongConstant")
-        private fun readsPost(context: Context, path: String, isDelete: Boolean) {
-            if (isDelete) {
-                val fileDelete = File(context.getOutputDirectory(), "Files.txt")
-                val text = fileDelete.readText()
-                val result: List<String> = text.split(",").map { it.trim() }
-                if (fileDelete.exists()) {
-                    if (fileDelete.delete()) {
-                        Toast.makeText(context,"Billedet er blevet slettet",0).show()
+        private fun readsPost (context: Context, path:String, isDelete:Boolean){
+            if(isDelete) {
+                var fdelete = File(context.getOutputDirectory(), "Files.txt")
+                val text = fdelete.readText()
+                var result: List<String> = text.split(",").map { it.trim() }
+                if (fdelete.exists()) {
+                    if (fdelete.delete()) {
+                       Toast.makeText(context,"Billedet er blevet slettet",0)
                     } else {
-                        Toast.makeText(context,"Billedet blev ikke slettet",0).show()
+                        Toast.makeText(context,"Billedet er ikke blevet slettet",0)
                     }
                 }
-                Log.d("Original Value", result.toString())
-                var outputString = ""
-                for (i in result.indices) {
-                    when {
-                        path == result[i] && i > 0 -> {
-                            outputString += result[i]
-                        }
-                        path != result[i] && i > 0 -> {
-                            outputString += ",${result[i]}"
-                        }
+
+                Log.d("Original Value",result.toString());
+                var outputString:String = ""
+                for (i in 0..result.size-1) {
+                    if (!path.equals(result.get(i)) && i===0) {
+                        outputString+=result.get(i);
+                    }else if (!path.equals(result.get(i)) && i>0){
+                        outputString+= ",${result.get(i)}";
                     }
                 }
-                if (outputString.isNotEmpty()) {
-                    val file = File(context.getOutputDirectory(), "Files.txt")
-                    Log.d("Update Value", outputString)
-                    file.writeText(outputString)
-                    UploadImage.deleteImage(path)
+                if(outputString.length>0) {
+                    var file = File(context.getOutputDirectory(), "Files.txt")
+                    Log.d("Update Value",outputString);
+                    file.writeText(outputString);
+
                 }
-            } else {
-                val file = File(context.getOutputDirectory(), "Files.txt")
-                file.readText()
+                UploadImage.deleteImage(path)
+
+            }else{
+                var file = File(context.getOutputDirectory(), "Files.txt")
+                val text = file.readText()
             }
         }
     }
