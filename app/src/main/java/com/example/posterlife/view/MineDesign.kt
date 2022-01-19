@@ -43,6 +43,10 @@ import java.io.File
 /**
  * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360), Kristoffer Pedersen (s205354)
  * @source https://developer.android.com/jetpack/compose/navigation
+*https://youtube.com/watch?v=MfCiiTEwt3g&feature=share
+*https://youtube.com/watch?v=SfiDWNZQk6M&feature=share
+*https://youtube.com/watch?v=741QCymuky4&feature=share
+*https://youtube.com/watch?v=Cofhptx6RRA&feature=share
  * Ting til at lave ting.
  * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
