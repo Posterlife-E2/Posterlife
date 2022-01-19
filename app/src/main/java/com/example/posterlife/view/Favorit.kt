@@ -30,6 +30,9 @@ import com.example.posterlife.model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.view.inspirationView.InspirationViewModel
 
+/**
+ * @Author Thamara Linnea (s205337), Kristoffer Pedersen (s205354)
+ */
 
 sealed class Favorit(val rute: String) {
 

@@ -19,6 +19,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
 
+/**
+ * @Author Camilla Bøjden (s205360)
+ */
+
 sealed class Reklamationsret(val route: String) {
     object Reklamation : Reklamationsret("reklamation")
 

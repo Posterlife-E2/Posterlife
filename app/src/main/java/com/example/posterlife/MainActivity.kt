@@ -9,6 +9,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import coil.annotation.ExperimentalCoilApi
 import com.example.posterlife.view.Navigation
 
+/**
+ * @Author Kristoffer Pedersen s205354
+ */
+
 class MainActivity : ComponentActivity() {
     @ExperimentalCoilApi
     @ExperimentalComposeUiApi

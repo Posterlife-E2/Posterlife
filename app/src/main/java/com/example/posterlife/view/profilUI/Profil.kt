@@ -24,6 +24,9 @@ import androidx.compose.ui.unit.sp
 import com.example.posterlife.R
 import com.example.posterlife.view.NavigationBundNav
 
+/**
+ * @Author Camilla Bøjden (s205360)
+ */
 
 sealed class Profil(val rute: String) {
 

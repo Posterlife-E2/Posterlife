@@ -27,14 +27,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 
+/**
+ * @Author Kristoffer Pedersen s205354
+ *
+ * @Source https://foso.github.io/Jetpack-Compose-Playground/material/textfield/
+ * @Source https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
+ */
+
 open class Login(val route: String) {
 
     object LoginScreen : Login("login") {
 
-        /**
-         * @Source https://foso.github.io/Jetpack-Compose-Playground/material/textfield/
-         * @Source https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
-         */
+
         @Composable
         fun LoginStart(navController: NavController) {
 

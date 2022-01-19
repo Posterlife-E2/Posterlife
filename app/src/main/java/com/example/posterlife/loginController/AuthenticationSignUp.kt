@@ -7,6 +7,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 /**
+ * @Author Kristoffer Pedersen s205354
+ *
  * @Source https://firebase.google.com/docs/auth
  *
  * Firebase har en god løsning og vi har implementeret en lignende version fra deres dokumentation.

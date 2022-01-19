@@ -11,6 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 
 
 /**
+ * @Author Lauritz Pepke s191179
+ *
  * @Source https://developer.android.com/jetpack/compose/themes/material
  */
 
