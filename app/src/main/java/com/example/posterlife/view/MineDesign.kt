@@ -70,7 +70,7 @@ sealed class MineDesign(val route: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    MineDesignTopBar(navController)
+                    MineDesignTopBar()
                 },
                 content = {
                     MineDesignContent()
@@ -79,7 +79,7 @@ sealed class MineDesign(val route: String) {
         }
 
         @Composable
-        fun MineDesignTopBar(navController: NavController) {
+        fun MineDesignTopBar() {
             TopAppBar(
                 title = {
                     Text(
@@ -89,15 +89,6 @@ sealed class MineDesign(val route: String) {
                     )
                 },
                 actions = {
-                    /*IconButton(onClick = { navController.navigate("Favorit"){
-                        popUpTo(NavigationBundNav.MineDesign.route)
-                    } }) {
-                        Icon(
-                            Icons.Filled.Favorite,
-                            tint = Color.Red,
-                            contentDescription = null
-                        )
-                    }*/
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)
                     }
@@ -165,6 +156,7 @@ sealed class MineDesign(val route: String) {
                                                                   },
                                                         modifier = Modifier.size(22.dp)
                                                     ) {
+                                                        // Slet ikon
                                                         Icon(
                                                             Icons.Filled.DeleteOutline,
                                                             contentDescription = null,
@@ -186,6 +178,7 @@ sealed class MineDesign(val route: String) {
                                                 modifier = Modifier.height(30.dp),
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
+                                                //Boks der kan klikkes så brugeren har mulighed for at redigere et af sine gemte designs. Denne funktion er ikke implmenteret endnu.
                                                 Box(modifier = Modifier.clickable { }) {
                                                     Row() {
                                                         Text(
@@ -207,6 +200,7 @@ sealed class MineDesign(val route: String) {
                                                         onClick = { /*TODO*/ },
                                                         modifier = Modifier.size(22.dp)
                                                     ) {
+                                                        // Del ikon. Denne featur er endnu ikke implmenteret.
                                                         Icon(
                                                             Icons.Filled.Send,
                                                             contentDescription = null,
@@ -221,6 +215,7 @@ sealed class MineDesign(val route: String) {
                                                     FavoritButton()
                                                 }
                                                 Box() {
+                                                    // Shoppingcart ikon. Denne funktion er endnu ikke implmenteret
                                                     IconButton(
                                                         onClick = { /*TODO*/ },
                                                         modifier = Modifier.size(22.dp)
@@ -234,6 +229,7 @@ sealed class MineDesign(val route: String) {
                                                 }
                                             }
                                         }
+                                        //Dialogboks der kaldes hvis sletknappen klikkes, og tillader brugeren at slette plaketen fra mine designs fanen.
                                         if (openDialog.value) {
                                             AlertDialog(
                                                 onDismissRequest = {
@@ -277,6 +273,7 @@ sealed class MineDesign(val route: String) {
                         refreshGrid.value = false
                         refreshGrid.value = true
                     }
+                    //Hvis brugeren ingen designs har.
                 } else {
                     Column(
                         Modifier
@@ -293,6 +290,7 @@ sealed class MineDesign(val route: String) {
                         )
                     }
                 }
+                // Hvis brugeren sletter den sidste plakat fra mine designs.
             } else {
                 Column(
                     Modifier
@@ -386,6 +384,7 @@ sealed class MineDesign(val route: String) {
         }
     }
 
+    // Textfeld der giver brugeren mulighed for at gemme en title til deres plakat.
     @ExperimentalComposeUiApi
     @Composable
     fun EditTitle() {

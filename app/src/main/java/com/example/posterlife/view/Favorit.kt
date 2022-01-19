@@ -69,14 +69,6 @@ sealed class Favorit(val rute: String) {
                     )
                 },
                 actions = {
-                   /* IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            Icons.Filled.Favorite,
-                            tint = Color.Red,
-                            contentDescription = null
-                        )
-                    }*/
-
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)
                     }
@@ -87,7 +79,7 @@ sealed class Favorit(val rute: String) {
             )
         }
 
-
+        // Composable der inde holder konteksten til scaffold.
         @ExperimentalCoilApi
         @ExperimentalFoundationApi
         @Composable
@@ -105,6 +97,7 @@ sealed class Favorit(val rute: String) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
+                //LazyVerticalGrid inddeler de likkede plakater i 2 scrollable verticale coloner.
                 if(refresh.value) {
                     LazyVerticalGrid(
                         cells = GridCells.Fixed(2),
@@ -113,6 +106,7 @@ sealed class Favorit(val rute: String) {
 
                         items(inspirationViewModel.getFavorites(context).size) { index ->
 
+                            // samme card layout er benyttes som på nederste den af inspirationssiden.
                             Card(
                                 modifier = Modifier
                                     .height(300.dp)
@@ -163,6 +157,7 @@ sealed class Favorit(val rute: String) {
                                         Box(modifier = Modifier.weight(1f)) {
                                         }
                                         Box() {
+                                            //FavoritButton kaldes på billede så det er muligt at fjerne plakatens fra sine likede plakater.
                                             FavoritButton(index = index)
                                         }
 
@@ -189,6 +184,10 @@ sealed class Favorit(val rute: String) {
             }
         }
 
+        /**
+         * IconToggleButtun bruges som Favoritknap, så når den trykkes bliver iconet tomt igen ud.
+         * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card?fbclid=IwAR049HmZ4oqEuPuE_qsdbz4CRUXbW6utEoY2gNmkZai40IoInSMJysIKi6M
+         */
         @Composable
         fun FavoritButton(
             color: Color = Color.Red,

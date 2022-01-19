@@ -56,7 +56,7 @@ import kotlin.math.round
 
 
 /**
- * @Author Kristoffer Pedersen s205354
+ * @Author Kristoffer Pedersen s205354, Thamara Chellakooty s205337
  *
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/godaddy/compose-color-picker
@@ -99,25 +99,6 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                             .fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
-
-                    /*Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color(0xfffcfcf0)),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-
-                        Box(modifier = Modifier.padding(top = 40.dp)) {
-                            Image(
-                                painter = rememberImagePainter(data = savedUri),
-                                contentDescription = "fotoKamera - Billed som blev taget.",
-                                Modifier
-                                    .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
-                                    .fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                    }*/
                 },
                 bottomBar = {
                     AcceptPictureBottomBar(navController)
@@ -138,18 +119,9 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                     fontSize = 30.sp
                 )
             },
-            /*navigationIcon = {
-                IconButton(onClick = { }) {
-                    Icon(
-                        Icons.Filled.ArrowBack,
-                        contentDescription = null
-                    )
-                }
-            },*/
-
             backgroundColor = Color(0xfffcfcf0),
 
-            //elevation = 12.dp
+            elevation = 12.dp
         )
 
     }
@@ -289,7 +261,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
             })
 
-
+            // Scaffold over den selve redigerings siden når brugeren acceptere billedet
             Scaffold(
                 topBar = {
                     TopBar(title = "Rediger")
@@ -327,6 +299,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                 )
                             }
                         }
+                        // Række der indeholder alle ikoner med tilsvarende tekst til redigeringsfunktionerne
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -492,6 +465,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                         }
                     }
                 },
+                // I bottombaren vælgeren har brugeren valgtet mellem at gemme deres design eller gp tilbage
                 bottomBar = {
                     BottomAppBar(
                         backgroundColor = Color.DarkGray
