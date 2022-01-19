@@ -79,8 +79,8 @@ open class Login(val route: String) {
                             .height(150.dp)
                     )
 
-                        //Email
-                        var emailValue by remember { mutableStateOf("") }
+                        //Email - PREFILLED fjern test@test123.net for at få det almindeligt.
+                        var emailValue by remember { mutableStateOf("test@test123.net") }
                         OutlinedTextField(
                             value = emailValue,
                             modifier = Modifier
@@ -104,8 +104,8 @@ open class Login(val route: String) {
                             }
                         )
 
-                        //Password
-                        var passwordValue by remember { mutableStateOf("") }
+                        //Password - PREFILLED fjern TestTest123 for at få det almindeligt.
+                        var passwordValue by remember { mutableStateOf("TestTest123") }
                         var passwordVisibility by remember { mutableStateOf(false) }
                         OutlinedTextField(
                             value = passwordValue,
@@ -153,6 +153,7 @@ open class Login(val route: String) {
                                 }
                             }
                         )
+
 
                         Row() {
 
