@@ -25,6 +25,7 @@ import com.example.posterlife.view.inspirationView.Inspiration
 import com.example.posterlife.view.loginUI.Login
 import com.example.posterlife.view.loginUI.SignUp
 import com.example.posterlife.view.profilUI.*
+
 /**
  * @Author Kristoffer Pedersen s205354, Lauritz Pepke s191179, Camilla Bøjden (s205360)
  *
@@ -70,7 +71,6 @@ fun Navigation() {
                     composable(Inspiration.InspirationFocusImage.rute) {
                         InspirationFocusImage(navController = navController)
                     }
-
 
 
                     //----Favorit ----
@@ -140,32 +140,32 @@ fun Navigation() {
                         Privatlivspolitik.Privatpolitik.PrivatPolitikOverview(navController = navController)
                     }
 
-                        //---- Mine Design ----
-                        composable(NavigationBundNav.MineDesign.route) {
-                            MineDesign.MineDesignStart.MineDesignStart(navController = navController)
-                        }
-
-                        //---- Login & Sign Up ----
-                        composable(Login.LoginScreen.route) {
-                            Login.LoginScreen.LoginStart(navController = navController)
-                        }
-                        composable(SignUp.SignUpScreen.route) {
-                            SignUp.SignUpScreen.SignUpScreen(navController = navController)
-                        }
-                        //------------------------
-
-                        //---- Redigering -----
-                        composable(BilledRedigering.BilledRed.rute,) {
-                            BilledRedigering.BilledRed.BilledRedigering(
-                                billedViewModel,
-                                navController = navController
-                            )
-                        }
-
-                        composable(BilledConfirm.rute) {
-                            BilledConfirm.BilledConfirm(billedViewModel, navController = navController)
-                        }
+                    //---- Mine Design ----
+                    composable(NavigationBundNav.MineDesign.route) {
+                        MineDesign.MineDesignStart.MineDesignStart(navController = navController)
                     }
+
+                    //---- Login & Sign Up ----
+                    composable(Login.LoginScreen.route) {
+                        Login.LoginScreen.LoginStart(navController = navController)
+                    }
+                    composable(SignUp.SignUpScreen.route) {
+                        SignUp.SignUpScreen.SignUpScreen(navController = navController)
+                    }
+                    //------------------------
+
+                    //---- Redigering -----
+                    composable(BilledRedigering.BilledRed.rute) {
+                        BilledRedigering.BilledRed.BilledRedigering(
+                            billedViewModel,
+                            navController = navController
+                        )
+                    }
+
+                    composable(BilledConfirm.rute) {
+                        BilledConfirm.BilledConfirm(billedViewModel, navController = navController)
+                    }
+                }
 
             })
 

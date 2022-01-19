@@ -284,10 +284,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                             if (maxHeight < 700.dp) {
                                 AndroidView(
                                     factory = { billedRedView.value },
-                                    Modifier
-                                        .scale(0.9f)
-                                        .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
-                                        .border(2.dp, MaterialTheme.colors.onPrimary),
+
 
                                 )
                             } else {

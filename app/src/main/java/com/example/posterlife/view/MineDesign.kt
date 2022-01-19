@@ -99,6 +99,7 @@ sealed class MineDesign(val route: String) {
 
         // variabel der skal bruges til at refreshe Mine design når et billede bliver slettet.
         private val refreshGrid = mutableStateOf(true)
+        private val disableFresh = mutableStateOf(true)
 
         @ExperimentalCoilApi
         @ExperimentalComposeUiApi
@@ -249,6 +250,7 @@ sealed class MineDesign(val route: String) {
                                                                 result[index],
                                                                 true
                                                             )
+                                                            disableFresh.value = false
                                                         }) {
                                                         Text("Ja")
                                                     }
@@ -269,8 +271,11 @@ sealed class MineDesign(val route: String) {
                                 }
                             }
                         }
-                        refreshGrid.value = false
-                        refreshGrid.value = true
+                        if (!disableFresh.value) {
+                            refreshGrid.value = false
+                            refreshGrid.value = true
+                            disableFresh.value = true
+                        }
                     }
                     //Hvis brugeren ingen designs har.
                 } else {
@@ -336,9 +341,9 @@ sealed class MineDesign(val route: String) {
                 val result: List<String> = text.split(",").map { it.trim() }
                 if (fileDelete.exists()) {
                     if (fileDelete.delete()) {
-                        Toast.makeText(context,"billedet er blevet slettet",0).show()
+                        Toast.makeText(context,"Billedet er blevet slettet",0).show()
                     } else {
-                        Toast.makeText(context,"billedet blev ikke slettet",0).show()
+                        Toast.makeText(context,"Billedet blev ikke slettet",0).show()
                     }
                 }
                 Log.d("Original Value", result.toString())
