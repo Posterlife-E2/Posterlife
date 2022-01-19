@@ -161,6 +161,7 @@ sealed class Favorit(val rute: String) {
                                             FavoritButton(index = index)
                                         }
 
+                                        //Shoppingcartet er ikke implementeret endnu, men det designet således at brugeren skal kunne trykke på ikonet og vælg plakatstørrelse igennem et popop vindue.
                                         Box(Modifier.padding(start = 4.dp, end = 4.dp)) {
                                             IconButton(
                                                 onClick = { /*TODO*/ },
