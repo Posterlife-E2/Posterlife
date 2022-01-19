@@ -759,13 +759,14 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         )
 
         var isFavorite by remember { mutableStateOf(false) }
-        if (index in inspirationViewModel.getFavorites(context)) {
-            isFavorite = true
-        }
+
         IconToggleButton(checked = isFavorite, onCheckedChange = {
             isFavorite = !isFavorite
             if (isFavorite) {
                 inspirationViewModel.setFavorites(index, context)
+            }
+            if (!isFavorite) {
+                inspirationViewModel.fjernSpecifikFavorite(index, context)
             }
         }) {
             Icon(
@@ -776,6 +777,9 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 },
                 contentDescription = null
             )
+        }
+        if (index in inspirationViewModel.getFavorites(context)) {
+            isFavorite = true
         }
     }
 
