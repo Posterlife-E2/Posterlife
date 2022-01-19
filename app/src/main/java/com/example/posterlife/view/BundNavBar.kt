@@ -13,7 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.posterlife.R
 
 /**
- * @Author Kristoffer Pedersen s205354, Laurtiz Pepke s191179
+ * @Author Kristoffer Pedersen s205354, Laurtiz Pepke s191179, Thamara Chellakooty s205337
  *
  * @source https://johncodeos.com/how-to-create-bottom-navigation-bar-with-jetpack-compose/
  */
