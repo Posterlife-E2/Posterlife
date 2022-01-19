@@ -26,7 +26,7 @@ import com.example.posterlife.view.loginUI.Login
 import com.example.posterlife.view.loginUI.SignUp
 import com.example.posterlife.view.profilUI.*
 /**
- * @Author Kristoffer Pedersen s205354, Lauritz Pepke s191179
+ * @Author Kristoffer Pedersen s205354, Lauritz Pepke s191179, Camilla Bøjden (s205360)
  *
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
  * @source https://johncodeos.com/how-to-create-bottom-navigation-bar-with-jetpack-compose/

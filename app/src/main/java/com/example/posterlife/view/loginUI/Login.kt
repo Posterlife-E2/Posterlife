@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 
 /**
- * @Author Kristoffer Pedersen s205354
+ * @Author Kristoffer Pedersen s205354, Camilla Bøjden (s205360)
  *
  * @Source https://foso.github.io/Jetpack-Compose-Playground/material/textfield/
  * @Source https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
@@ -54,7 +54,7 @@ open class Login(val route: String) {
                         .fillMaxHeight()
 
                 ) {
-
+                    // baggrundsbillede
                     Image(
                         painter = painterResource(id = R.drawable.baggrundsbillede),
                         contentDescription = "background_image",
@@ -155,7 +155,7 @@ open class Login(val route: String) {
 
                         Row() {
 
-                            // log in
+                            // login
                             TextButton(
                                 onClick = {
 
@@ -203,7 +203,7 @@ open class Login(val route: String) {
                             fontStyle = FontStyle.Italic,
                             modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp, bottom = 30.dp)
                         )
-
+                        // facebook billede der er gjordt clickable.
                             Image(
                                 painter = painterResource(id = R.drawable.facebookbutton),
                                 contentDescription = "facebookbutton",

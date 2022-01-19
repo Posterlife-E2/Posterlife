@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.Alignment
@@ -38,7 +37,7 @@ sealed class Profil(val rute: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    ProfilTopBar(navController)
+                    ProfilTopBar()
                 },
                 content = {
                     ProfilContent(navController = navController)
@@ -52,7 +51,7 @@ sealed class Profil(val rute: String) {
 
     // TopAppBar til Profilsiden.
     @Composable
-    fun ProfilTopBar(navController: NavController) {
+    fun ProfilTopBar() {
 
         TopAppBar(
             title = {

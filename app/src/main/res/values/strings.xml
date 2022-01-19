@@ -4,6 +4,7 @@
     <string name="icn_camera_view_switch_camera_content_description" />
     <string name="icn_camera_view_view_gallery_content_description" />
     <!-- TODO: Remove or change this placeholder text -->
+
     <string name="Login">Login</string>
 
     <string name="LeveringInfo">Her kan du læse mere om vores leveringsbetingelser- og vilkår.</string>

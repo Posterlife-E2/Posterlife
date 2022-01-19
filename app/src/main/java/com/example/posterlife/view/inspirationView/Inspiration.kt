@@ -105,6 +105,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         /**
          *
          * https://betterprogramming.pub/build-android-dropdownmenu-in-jetpack-compose-25512fe08068
+         * dropdown menu der indeholder de forskllige størrelse til plakaterne i en string.
          */
 
         @Composable
@@ -170,7 +171,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
         }
 
-
+        // Inspirationssidens indhold. Indeholder en arraylist med json fil af posterlifes plakater.
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
@@ -207,7 +208,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
+                // Overskrift
                 Text(
                     text = "Nyheder",
                     fontSize = 30.sp,
@@ -259,7 +260,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
 
 
-
+                // underoverskrift.
                 Text(
                     "Find din yndlings sang eller digt blandt vores smukke plakater!",
                     fontSize = 15.sp,
