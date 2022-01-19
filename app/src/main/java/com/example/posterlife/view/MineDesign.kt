@@ -152,6 +152,8 @@ sealed class MineDesign(val route: String) {
                                                 Box() {
                                                     IconButton(
                                                         onClick = { openDialog.value = true
+                                                            sletBillede(context, result[index])
+                                                            disableFresh.value = false
                                                                   },
                                                         modifier = Modifier.size(22.dp)
                                                     ) {
@@ -229,42 +231,47 @@ sealed class MineDesign(val route: String) {
                                             }
                                         }
                                         //Dialogboks der kaldes hvis sletknappen klikkes, og tillader brugeren at slette plaketen fra mine designs fanen.
-                                        if (openDialog.value) {
-                                            AlertDialog(
-                                                onDismissRequest = {
-                                                    openDialog.value = false
-                                                },
-                                                title = {
-                                                    Text(text = "Slet Plakat")
-                                                },
-                                                text = {
-                                                    Text("Er du sikker på at du vil slette denne plakat?")
-                                                },
-                                                confirmButton = {
-                                                    Button(
-                                                        onClick = {
-                                                            openDialog.value = false
-                                                            sletBillede(
-                                                                context,
-                                                                result[index]
-                                                            )
-                                                            disableFresh.value = false
-                                                        }) {
-                                                        Text("Ja")
-                                                    }
-                                                },
-                                                dismissButton = {
-                                                    Button(
-                                                        onClick = {
-                                                            openDialog.value = false
 
-                                                        }
-                                                    ) {
-                                                        Text("Afbryd")
-                                                    }
-                                                }
-                                            )
-                                        }
+                                        /**
+                                         * Fejl i hvordan index virker med AlertDialogs nested i items, så den vælger altid sidste mulige index.
+                                         */
+
+//                                        if (openDialog.value) {
+//                                            AlertDialog(
+//                                                onDismissRequest = {
+//                                                    openDialog.value = false
+//                                                },
+//                                                title = {
+//                                                    Text(text = "Slet Plakat")
+//                                                },
+//                                                text = {
+//                                                    Text("Er du sikker på at du vil slette denne plakat?")
+//                                                },
+//                                                confirmButton = {
+//                                                    Button(
+//                                                        onClick = {
+//                                                            openDialog.value = false
+//                                                            sletBillede(
+//                                                                context,
+//                                                                result[index]
+//                                                            )
+//                                                            disableFresh.value = false
+//                                                        }) {
+//                                                        Text("Ja")
+//                                                    }
+//                                                },
+//                                                dismissButton = {
+//                                                    Button(
+//                                                        onClick = {
+//                                                            openDialog.value = false
+//
+//                                                        }
+//                                                    ) {
+//                                                        Text("Afbryd")
+//                                                    }
+//                                                }
+//                                            )
+//                                        }
                                     }
                                 }
                             }
@@ -330,7 +337,7 @@ sealed class MineDesign(val route: String) {
             if (isDelete) {
                 val fileDelete = File(context.getOutputDirectory(), "Files.txt")
                 val text = fileDelete.readText()
-                val result: List<String> = text.split(",").map { it.trim() }
+                val result: List<Int> = text.split(",").map { it.toInt() }
 
                 if (fileDelete.exists()) {
 
@@ -344,21 +351,15 @@ sealed class MineDesign(val route: String) {
 
                 var outputString = ""
 
-                for (i in result.indices) {
+                val resultTemp = result.toMutableList()
 
-                    //Opretter vores outputString, så den ved hvad den ikke skal slette.
-                    if (result.size == 2 && path == result[1]) {
-                        outputString = result[0]
-                    } else {
-                        when {
-                            path == result[i] && i > 0 -> {
-                                outputString += result[i]
-                            }
-                            path != result[i] && i > 0 -> {
-                                outputString += "${result[i]},"
-                            }
-                        }
-                    }
+                resultTemp.remove(path.toInt())
+
+                outputString = resultTemp.joinToString()
+                outputString = outputString.replace(" ", "")
+
+                if (outputString == ",") {
+                    outputString = ""
                 }
 
                 //Tager de overskydne som ikke skal slettes og lægger tilbage i teksten med de rigtige delimiters.
