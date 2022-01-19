@@ -354,7 +354,7 @@ sealed class MineDesign(val route: String) {
                             outputString += result[i]
                         }
                         path != result[i] && i > 0 -> {
-                            outputString += ",${result[i]}"
+                            outputString += "${result[i]},"
                         }
                     }
                 }
