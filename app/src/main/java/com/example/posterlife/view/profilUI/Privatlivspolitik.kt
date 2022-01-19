@@ -21,6 +21,11 @@ import com.example.posterlife.R
 import com.example.posterlife.view.NavigationBundNav
 import androidx.compose.material.Text as MaterialText
 
+/**
+ * @Author Camilla Bøjden, (s205360)
+ */
+
+
 sealed class Privatlivspolitik(var route: String) {
     object Privatpolitik : Privatlivspolitik("privatPolitik")
 
@@ -37,12 +42,12 @@ sealed class Privatlivspolitik(var route: String) {
 
             },
             content = {
-                Priv()
+                PrivatPage()
             }
         )
     }
 
-    // top app bar til leveringssiden. den indeholder et ikon så det er muligt at gå tilbage.
+    // TopAppBar til Privatlivspolitiksiden. Den indeholder et ikon så det er muligt at gå tilbage til profilsiden.
     @Composable
     fun PrivatPolitikTopBar(navController: NavController) {
         TopAppBar(
@@ -75,7 +80,7 @@ sealed class Privatlivspolitik(var route: String) {
     }
 
     @Composable
-    fun Priv() {
+    fun PrivatPage() {
         val context = LocalContext.current
 
         Column(

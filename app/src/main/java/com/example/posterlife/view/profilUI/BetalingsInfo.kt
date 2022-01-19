@@ -16,6 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
+/**
+ * @Author Camilla Bøjden, (s205360)
+ */
 
 sealed class BetalingsInfo(val route: String) {
     object InfoBetaling : BetalingsInfo("betaling")
@@ -69,7 +72,7 @@ sealed class BetalingsInfo(val route: String) {
 
     }
 
-    // funktion der indeholder tekst til levering, denne tekst er defineret som en string i res mappen.
+    // Funktion der indeholder tekst til betalingssiden, denne tekst er defineret som en string i res mappen.
     @Composable
     fun BetalingsPage() {
         val context = LocalContext.current
