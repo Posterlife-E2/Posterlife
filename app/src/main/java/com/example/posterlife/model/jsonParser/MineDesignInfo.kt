@@ -16,6 +16,8 @@ import com.google.firebase.database.ValueEventListener
  * https://www.youtube.com/watch?v=rfdQHOB3jCU
  * https://stackoverflow.com/questions/53876728/problem-to-upload-file-from-my-app-to-firebase.
  */
+
+//Primært fra https://firebase.google.com/docs/database/
 sealed class MineDesignInfo {
     companion object {
         var database = FirebaseDatabase.getInstance()

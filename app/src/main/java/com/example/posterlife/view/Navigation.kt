@@ -80,9 +80,10 @@ fun Navigation() {
 
                     //---- Kamera ----
 
+                    //https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
                     composable(NavigationBundNav.Kamera.route) {
                         Kamera.KameraAccess.KameraAccess(onImageCaptured = { uri, fromGallery ->
-                            Log.d(TAG, "Image Uri Captured from Camera View")
+                            Log.d(TAG, "Billed URI taget og sendt videre")
 
                         }, onError = { imageCaptureException ->
                             navController.navigate(NavigationBundNav.Inspiration.route)

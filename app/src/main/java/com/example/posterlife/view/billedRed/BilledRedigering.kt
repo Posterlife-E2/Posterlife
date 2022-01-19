@@ -136,7 +136,10 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                 .height(55.dp)
         ) {
             IconButton(
-                onClick = { navController.navigate(NavigationBundNav.Kamera.route) },
+                onClick = { navController.navigate(NavigationBundNav.Kamera.route) {
+                    navController.popBackStack()
+                    launchSingleTop = true
+                } },
                 modifier = Modifier.align(Alignment.CenterVertically)
 
             ) {
@@ -152,7 +155,10 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
             Box(modifier = Modifier.weight(1f)) {
             }
             IconButton(
-                onClick = { navController.navigate("billedRed") },
+                onClick = { navController.navigate("billedRed") {
+                    navController.popBackStack()
+                    launchSingleTop = true
+                } },
                 modifier = Modifier.align(Alignment.CenterVertically)
             ) {
                 Icon(
@@ -467,7 +473,13 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                     BottomAppBar(
                         backgroundColor = Color.DarkGray
                     ) {
-                        IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
+                        IconButton(
+                            onClick =
+                            { navController.navigate(NavigationBundNav.Kamera.route) {
+                                navController.popBackStack()
+                                launchSingleTop = true
+                                }
+                            }) {
                             Icon(
                                 Icons.Filled.Close,
                                 contentDescription = null,
@@ -698,8 +710,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                     if (uri != null) {
                         uploadBillede(uri, context)
                         navController.navigate(NavigationBundNav.MineDesign.route) {
-                            //sletter backstack indtil login.page
-                            popUpTo(Login.LoginScreen.route)
+                            popUpTo(0)
                         }
                     }
                 }

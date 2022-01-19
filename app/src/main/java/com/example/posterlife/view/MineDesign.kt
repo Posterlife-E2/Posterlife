@@ -36,7 +36,6 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.example.posterlife.R
 import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
 
@@ -317,20 +316,13 @@ sealed class MineDesign(val route: String) {
             mineDesignData = data
         }
 
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         private fun Context.getOutputDirectory(): File {
-            val mediaDir = this.externalMediaDirs.firstOrNull()?.let {
+            val billedDirectory = this.externalMediaDirs.firstOrNull()?.let {
                 File(it, "ImagesFile").apply { mkdirs() }
             }
-            return if (mediaDir != null && mediaDir.exists())
-                mediaDir else this.filesDir
-        }
-
-        fun Context.getPhotosDirectory(): File {
-            val mediaDir = this.externalMediaDirs.firstOrNull()?.let {
-                File(it, this.resources.getString(R.string.app_name)).apply { mkdirs() }
-            }
-            return if (mediaDir != null && mediaDir.exists())
-                mediaDir else this.filesDir
+            return if (billedDirectory != null && billedDirectory.exists())
+                billedDirectory else this.filesDir
         }
 
         @SuppressLint("WrongConstant")

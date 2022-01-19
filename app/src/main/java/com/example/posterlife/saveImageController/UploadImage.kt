@@ -41,12 +41,14 @@ sealed class UploadImage {
                 }
         }
 
+        //Bruges til at slette Firebase billeder når man sletter plakater i MineDesign
         fun deleteImage(fileName: String) {
             val storageRef = Firebase.storage.reference.child("Images/$fileName")
             storageRef.delete().addOnSuccessListener {
             }.addOnFailureListener {
             }
         }
+
 
         private fun makeDirectory(context: Context, filePath: String) {
             val file = File(context.getOutputDirectory(), "Files.txt")
@@ -57,6 +59,7 @@ sealed class UploadImage {
             }
         }
 
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         fun android.content.Context.getOutputDirectory(): File {
             val mediaDir = this.externalMediaDirs.firstOrNull()?.let {
                 File(it, "ImagesFile").apply { mkdirs() }
