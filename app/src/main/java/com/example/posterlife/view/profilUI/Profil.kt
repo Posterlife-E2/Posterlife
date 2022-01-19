@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.Alignment
@@ -25,7 +24,9 @@ import com.example.posterlife.R
 import com.example.posterlife.view.NavigationBundNav
 
 /**
- * @Author Camilla Bøjden (s205360)
+ * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://www.pngwing.com/da
  */
 
 sealed class Profil(val rute: String) {
@@ -38,7 +39,7 @@ sealed class Profil(val rute: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    ProfilTopBar(navController)
+                    ProfilTopBar()
                 },
                 content = {
                     ProfilContent(navController = navController)
@@ -50,8 +51,9 @@ sealed class Profil(val rute: String) {
         }
     }
 
+    // TopAppBar til Profilsiden.
     @Composable
-    fun ProfilTopBar(navController: NavController) {
+    fun ProfilTopBar() {
 
         TopAppBar(
             title = {
@@ -62,19 +64,8 @@ sealed class Profil(val rute: String) {
                     fontSize = 30.sp
                 )
             },
+            // indkøbskurv magler stadig funktionalitet.
             actions = {
-                IconButton(onClick = {
-                    navController.navigate("Favorit") {
-                        popUpTo(NavigationBundNav.Profil.route)
-                    }
-                }) {
-                    Icon(
-                        Icons.Filled.Favorite,
-                        tint = Color.Red,
-                        contentDescription = null
-                    )
-                }
-
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(Icons.Filled.ShoppingCart, contentDescription = null)
                 }
@@ -87,9 +78,7 @@ sealed class Profil(val rute: String) {
 
     }
 
-    /**
-     *  @Source https://stackoverflow.com/questions/66801838/how-do-i-programmatically-open-an-external-url-on-button-click-with-jetpack-comp?fbclid=IwAR1n9oUU0LJ3xaFE633WAfAGWPlO6Q9cwIZoJ2AUAmNU5yHaXhRM6ifEAJo
-     */
+    // Denne funktion indeholder profilsidens indhold. Denne består af flere rows der hver har en tekst og et icon som indikere af brugeren kan trykke videre.
     @Composable
     fun ProfilContent(navController: NavController) {
         val context = LocalContext.current
@@ -184,22 +173,18 @@ sealed class Profil(val rute: String) {
                 )
 
             }
-            // række til at tilgå siden med favoritter
+            // række til at tilgå sin ordrehistorik. mangler funktionalitet.
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {
-                        navController.navigate("favorit") {
-                            popUpTo(NavigationBundNav.Profil.route)
-                        }
-                    }),
+                    .clickable(onClick = {/*TODO*/ }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Favoritter",
+                    text = "Ordrehistorik",
                     fontWeight = FontWeight.Light,
                     fontSize = 22.sp
                 )
@@ -291,6 +276,10 @@ sealed class Profil(val rute: String) {
 
 
             }
+            /**
+             *  @Source https://stackoverflow.com/questions/66801838/how-do-i-programmatically-open-an-external-url-on-button-click-with-jetpack-comp?fbclid=IwAR1n9oUU0LJ3xaFE633WAfAGWPlO6Q9cwIZoJ2AUAmNU5yHaXhRM6ifEAJo
+             *  Række der indeholder billeder som er clickable der gør det muligt for brugeren at komme ind på Posterlifes egne sider.
+             */
             Spacer(modifier = Modifier.padding(100.dp))
 
             //row med ikoner hvor man bliver linket til posterlifes sider på de sociale medier.

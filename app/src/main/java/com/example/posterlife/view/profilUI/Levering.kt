@@ -21,9 +21,10 @@ import androidx.navigation.NavController
 import com.example.posterlife.R
 
 /**
- * @Author Camilla Bøjden (s205360)
+ * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://posterlife.dk/handelsbetingelser/?fbclid=IwAR0djcebIY0rdN7v-8neduRGFUmgeTtyKfPW_nyt6w3g0fJF9SaB7IXJQR4
  */
-
 sealed class Levering(val route: String) {
     object LeveringUI : Levering("levering")
 
@@ -45,7 +46,7 @@ sealed class Levering(val route: String) {
         )
     }
 
-    // top app bar til leveringssiden. den indeholder et ikon så det er muligt at gå tilbage.
+    // top app bar til leveringssiden. Den indeholder et ikon så det er muligt at gå tilbage.
     @Composable
     fun LeveringTopBar(navController: NavController) {
         TopAppBar(
@@ -78,7 +79,7 @@ sealed class Levering(val route: String) {
     }
 
 
-    // funktion der indeholder tekst til levering, denne tekst er defineret som en string i res mappen.
+    // Funktion der indeholder tekst til levering, denne tekst er defineret som en string i res mappen.
     @Composable
     fun LeveringPage() {
         val context = LocalContext.current
@@ -99,9 +100,11 @@ sealed class Levering(val route: String) {
                     .padding(top = 5.dp)
             )
 
-            Text(text = context.getString(R.string.LeveringInfo),
+            Text(
+                text = context.getString(R.string.LeveringInfo),
                 fontSize = 20.sp,
-                modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp))
+                modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp)
+            )
 
             Text(
                 text = context.getString(R.string.Levering),

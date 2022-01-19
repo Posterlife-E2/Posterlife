@@ -21,14 +21,17 @@ import com.example.posterlife.R
 import com.example.posterlife.view.NavigationBundNav
 
 /**
- * @Author Camilla Bøjden (s205360)
+ * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://posterlife.dk/kontakt/?fbclid=IwAR1usNq3BcZP-bZMcrSMkU8KxyRO-_ECJs0f3OHXPoxi8xGwgER5Q4FbmaQ
  */
 
-sealed class Kontakt(val route : String) {
+
+sealed class Kontakt(val route: String) {
     object KontaktInfo : Kontakt("kontakt")
 
     @Composable
-    fun KontaktOverview(navController: NavController){
+    fun KontaktOverview(navController: NavController) {
 
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
         Scaffold(
@@ -89,29 +92,17 @@ sealed class Kontakt(val route : String) {
 
         ) {
 
-            Text(text = context.getString(R.string.KontaktOs),
+            Text(
+                text = context.getString(R.string.KontaktOs),
                 fontStyle = FontStyle.Italic,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier
-                    .padding(top = 25.dp, start = 10.dp, end = 10.dp))
-
-            Text(text = "Posterlife:",
-            fontStyle = FontStyle.Italic,
-                fontSize = 20.sp,
-                modifier = Modifier
                     .padding(top = 25.dp, start = 10.dp, end = 10.dp)
             )
 
-
-            Text(text = context.getString(R.string.MailInfo),
-                fontStyle = FontStyle.Italic,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp))
-
-            Text(text = "Addresse:",
+            Text(
+                text = "Posterlife:",
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
                 modifier = Modifier
@@ -119,30 +110,52 @@ sealed class Kontakt(val route : String) {
             )
 
 
-            Text(text = context.getString(R.string.Addresse),
+            Text(
+                text = context.getString(R.string.MailInfo),
                 fontStyle = FontStyle.Italic,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp))
+                    .padding(start = 10.dp, end = 10.dp)
+            )
 
-            Text(text = "CVR:",
+            Text(
+                text = "Addresse:",
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
                 modifier = Modifier
                     .padding(top = 25.dp, start = 10.dp, end = 10.dp)
             )
 
-            Text(text = context.getString(R.string.CVR),
+
+            Text(
+                text = context.getString(R.string.Addresse),
                 fontStyle = FontStyle.Italic,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Light,
                 modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp))
+                    .padding(start = 10.dp, end = 10.dp)
+            )
+
+            Text(
+                text = "CVR:",
+                fontStyle = FontStyle.Italic,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .padding(top = 25.dp, start = 10.dp, end = 10.dp)
+            )
+
+            Text(
+                text = context.getString(R.string.CVR),
+                fontStyle = FontStyle.Italic,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Light,
+                modifier = Modifier
+                    .padding(start = 10.dp, end = 10.dp)
+            )
 
         }
     }
-
 
 
 }

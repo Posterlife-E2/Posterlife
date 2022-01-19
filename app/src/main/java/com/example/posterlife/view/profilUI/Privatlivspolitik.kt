@@ -22,8 +22,11 @@ import com.example.posterlife.view.NavigationBundNav
 import androidx.compose.material.Text as MaterialText
 
 /**
- * @Author Camilla Bøjden (s205360)
+ * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://posterlife.dk/privatlivspolitik/?fbclid=IwAR3uhj84ljB860vf_j33gP56lkrN5NdDAAT3xbsasJZ_QUw3kIO6zokRTQA
  */
+
 
 sealed class Privatlivspolitik(var route: String) {
     object Privatpolitik : Privatlivspolitik("privatPolitik")
@@ -41,12 +44,12 @@ sealed class Privatlivspolitik(var route: String) {
 
             },
             content = {
-                Priv()
+                PrivatPage()
             }
         )
     }
 
-    // top app bar til leveringssiden. den indeholder et ikon så det er muligt at gå tilbage.
+    // TopAppBar til Privatlivspolitiksiden. Den indeholder et ikon så det er muligt at gå tilbage til profilsiden.
     @Composable
     fun PrivatPolitikTopBar(navController: NavController) {
         TopAppBar(
@@ -79,7 +82,7 @@ sealed class Privatlivspolitik(var route: String) {
     }
 
     @Composable
-    fun Priv() {
+    fun PrivatPage() {
         val context = LocalContext.current
 
         Column(
@@ -109,7 +112,7 @@ sealed class Privatlivspolitik(var route: String) {
                     .padding(top = 25.dp, start = 10.dp, end = 10.dp)
 
             )
-            // Tekst der beskriver generalt.
+            // Tekst der beskriver generalt. er definerer som en string i res mappen.
             androidx.compose.material.Text(
                 text = context.getString(R.string.PersonoplysningerGeneralt),
                 fontSize = 18.sp,

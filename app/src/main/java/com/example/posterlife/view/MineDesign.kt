@@ -43,8 +43,12 @@ import java.io.File
 /**
  * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360), Kristoffer Pedersen (s205354)
  * @source https://developer.android.com/jetpack/compose/navigation
+ * @source https://youtube.com/watch?v=MfCiiTEwt3g&feature=share
+ * @source https://youtube.com/watch?v=SfiDWNZQk6M&feature=share
+ * @source https://youtube.com/watch?v=741QCymuky4&feature=share
+ * @source https://youtube.com/watch?v=Cofhptx6RRA&feature=share
+ * @source https://firebase.google.com/docs/android/setup
  * Ting til at lave ting.
- * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
  */
 sealed class MineDesign(val route: String) {
@@ -65,7 +69,7 @@ sealed class MineDesign(val route: String) {
             Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    MineDesignTopBar(navController)
+                    MineDesignTopBar()
                 },
                 content = {
                     MineDesignContent()
@@ -74,7 +78,7 @@ sealed class MineDesign(val route: String) {
         }
 
         @Composable
-        fun MineDesignTopBar(navController: NavController) {
+        fun MineDesignTopBar() {
             TopAppBar(
                 title = {
                     Text(
@@ -84,15 +88,6 @@ sealed class MineDesign(val route: String) {
                     )
                 },
                 actions = {
-                    /*IconButton(onClick = { navController.navigate("Favorit"){
-                        popUpTo(NavigationBundNav.MineDesign.route)
-                    } }) {
-                        Icon(
-                            Icons.Filled.Favorite,
-                            tint = Color.Red,
-                            contentDescription = null
-                        )
-                    }*/
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)
                     }
@@ -104,6 +99,7 @@ sealed class MineDesign(val route: String) {
 
         // variabel der skal bruges til at refreshe Mine design når et billede bliver slettet.
         private val refreshGrid = mutableStateOf(true)
+        private val disableFresh = mutableStateOf(true)
 
         @ExperimentalCoilApi
         @ExperimentalComposeUiApi
@@ -160,6 +156,7 @@ sealed class MineDesign(val route: String) {
                                                                   },
                                                         modifier = Modifier.size(22.dp)
                                                     ) {
+                                                        // Slet ikon
                                                         Icon(
                                                             Icons.Filled.DeleteOutline,
                                                             contentDescription = null,
@@ -181,6 +178,7 @@ sealed class MineDesign(val route: String) {
                                                 modifier = Modifier.height(30.dp),
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
+                                                //Boks der kan klikkes så brugeren har mulighed for at redigere et af sine gemte designs. Denne funktion er ikke implmenteret endnu.
                                                 Box(modifier = Modifier.clickable { }) {
                                                     Row() {
                                                         Text(
@@ -202,6 +200,7 @@ sealed class MineDesign(val route: String) {
                                                         onClick = { /*TODO*/ },
                                                         modifier = Modifier.size(22.dp)
                                                     ) {
+                                                        // Del ikon. Denne featur er endnu ikke implmenteret.
                                                         Icon(
                                                             Icons.Filled.Send,
                                                             contentDescription = null,
@@ -216,6 +215,7 @@ sealed class MineDesign(val route: String) {
                                                     FavoritButton()
                                                 }
                                                 Box() {
+                                                    // Shoppingcart ikon. Denne funktion er endnu ikke implmenteret
                                                     IconButton(
                                                         onClick = { /*TODO*/ },
                                                         modifier = Modifier.size(22.dp)
@@ -229,6 +229,7 @@ sealed class MineDesign(val route: String) {
                                                 }
                                             }
                                         }
+                                        //Dialogboks der kaldes hvis sletknappen klikkes, og tillader brugeren at slette plaketen fra mine designs fanen.
                                         if (openDialog.value) {
                                             AlertDialog(
                                                 onDismissRequest = {
@@ -249,6 +250,7 @@ sealed class MineDesign(val route: String) {
                                                                 result[index],
                                                                 true
                                                             )
+                                                            disableFresh.value = false
                                                         }) {
                                                         Text("Ja")
                                                     }
@@ -269,9 +271,13 @@ sealed class MineDesign(val route: String) {
                                 }
                             }
                         }
-                        refreshGrid.value = false
-                        refreshGrid.value = true
+                        if (!disableFresh.value) {
+                            refreshGrid.value = false
+                            refreshGrid.value = true
+                            disableFresh.value = true
+                        }
                     }
+                    //Hvis brugeren ingen designs har.
                 } else {
                     Column(
                         Modifier
@@ -288,6 +294,7 @@ sealed class MineDesign(val route: String) {
                         )
                     }
                 }
+                // Hvis brugeren sletter den sidste plakat fra mine designs.
             } else {
                 Column(
                     Modifier
@@ -334,9 +341,9 @@ sealed class MineDesign(val route: String) {
                 val result: List<String> = text.split(",").map { it.trim() }
                 if (fileDelete.exists()) {
                     if (fileDelete.delete()) {
-                        Toast.makeText(context,"billedet er blevet slettet",0).show()
+                        Toast.makeText(context,"Billedet er blevet slettet",0).show()
                     } else {
-                        Toast.makeText(context,"billedet blev ikke slettet",0).show()
+                        Toast.makeText(context,"Billedet blev ikke slettet",0).show()
                     }
                 }
                 Log.d("Original Value", result.toString())
@@ -381,6 +388,7 @@ sealed class MineDesign(val route: String) {
         }
     }
 
+    // Textfeld der giver brugeren mulighed for at gemme en title til deres plakat.
     @ExperimentalComposeUiApi
     @Composable
     fun EditTitle() {

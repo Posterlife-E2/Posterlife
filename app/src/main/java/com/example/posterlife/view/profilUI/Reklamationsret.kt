@@ -20,7 +20,9 @@ import androidx.navigation.NavController
 import com.example.posterlife.R
 
 /**
- * @Author Camilla Bøjden (s205360)
+ * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://posterlife.dk/handelsbetingelser/?fbclid=IwAR0djcebIY0rdN7v-8neduRGFUmgeTtyKfPW_nyt6w3g0fJF9SaB7IXJQR4
  */
 
 sealed class Reklamationsret(val route: String) {

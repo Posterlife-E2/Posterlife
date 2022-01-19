@@ -23,7 +23,7 @@ import com.example.posterlife.R
 import com.example.posterlife.view.NavigationBundNav
 
 /**
- * @Author Camilla Bøjden (s205360)
+ * @Author Camilla Bøjden, (s205360)
  */
 
 sealed class DelMedVenner(val route: String) {
@@ -47,6 +47,7 @@ sealed class DelMedVenner(val route: String) {
         )
     }
 
+    // TopAppBar til delsiden. Den indeholder et ikon så det er muligt at gå tilbage til profilsiden.
     @Composable
     fun DelTopBar(navController: NavController) {
         TopAppBar(
@@ -59,14 +60,18 @@ sealed class DelMedVenner(val route: String) {
                 )
             },
             navigationIcon = {
-                             IconButton(onClick = { navController.navigate(NavigationBundNav.Profil.route){
-                                 popUpTo("ProfilUI")
-                             } }) {
-                                 Icon(Icons.Filled.ArrowBack,
-                                     tint = Color.Black,
-                                     contentDescription = null )
+                IconButton(onClick = {
+                    navController.navigate(NavigationBundNav.Profil.route) {
+                        popUpTo("ProfilUI")
+                    }
+                }) {
+                    Icon(
+                        Icons.Filled.ArrowBack,
+                        tint = Color.Black,
+                        contentDescription = null
+                    )
 
-                             }
+                }
             },
             actions = {
                 IconButton(onClick = { /*TODO*/ }) {
@@ -87,6 +92,12 @@ sealed class DelMedVenner(val route: String) {
         )
 
     }
+
+    /**
+     * Del sidens indhold. Denne består af rows, som hver har et billede der er gjordt clickable,
+     * som på sigt skal give brugeren mulighed for at dele sit billede på sociale medier, dorfor står de stadig som TODO.
+     */
+
 
     @ExperimentalFoundationApi
     @Composable

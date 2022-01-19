@@ -19,7 +19,9 @@ import androidx.navigation.NavController
 import com.example.posterlife.view.NavigationBundNav
 
 /**
- * @Author Camilla Bøjden (s205360)
+ * @Author Camilla Bøjden, (s205360)
+ *
+ * @Source https://posterlife.dk/handelsbetingelser/?fbclid=IwAR0djcebIY0rdN7v-8neduRGFUmgeTtyKfPW_nyt6w3g0fJF9SaB7IXJQR4
  */
 
 sealed class Handelsbetingelser(val route: String) {
@@ -44,7 +46,8 @@ sealed class Handelsbetingelser(val route: String) {
         )
 
     }
-//top app bar til handelsbetingelser. inderholder en tilbageknap.
+
+    //top app bar til handelsbetingelser. Inderholder en tilbageknap så det er muligt at komme tilbage til profilsiden.
     @Composable
     fun BetingelserTopBar(navController: NavController) {
         TopAppBar(
@@ -57,9 +60,11 @@ sealed class Handelsbetingelser(val route: String) {
                 )
             },
             navigationIcon = {
-                IconButton(onClick = {navController.navigate(NavigationBundNav.Profil.route){
-                    popUpTo("ProfilUI")
-                } }) {
+                IconButton(onClick = {
+                    navController.navigate(NavigationBundNav.Profil.route) {
+                        popUpTo("ProfilUI")
+                    }
+                }) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         tint = Color.Black,
@@ -73,7 +78,8 @@ sealed class Handelsbetingelser(val route: String) {
         )
 
     }
-//funktion der håndtere de forskellige vælg man har i handelsbetingelser.
+
+    //funktion der håndtere de forskellige vælg man har i handelsbetingelser. Består af tre rows.
     @ExperimentalFoundationApi
     @Composable
     fun BetingelserPage(navController: NavController) {
@@ -120,9 +126,11 @@ sealed class Handelsbetingelser(val route: String) {
                     .fillMaxWidth()
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {navController.navigate("betaling"){
-                        popUpTo("BetalingOverview")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("betaling") {
+                            popUpTo("BetalingOverview")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -145,9 +153,10 @@ sealed class Handelsbetingelser(val route: String) {
                     .background(Color.White)
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {navController.navigate("reklamation"){
-                        popUpTo("ReklamationUI")
-                    }
+                    .clickable(onClick = {
+                        navController.navigate("reklamation") {
+                            popUpTo("ReklamationUI")
+                        }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween

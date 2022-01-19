@@ -105,6 +105,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         /**
          *
          * https://betterprogramming.pub/build-android-dropdownmenu-in-jetpack-compose-25512fe08068
+         * dropdown menu der indeholder de forskllige størrelse til plakaterne i en string.
          */
 
         @Composable
@@ -170,7 +171,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
         }
 
-
+        // Inspirationssidens indhold. Indeholder en arraylist med json fil af posterlifes plakater.
         @ExperimentalFoundationApi
         @Composable
         fun InspirationContent(
@@ -207,7 +208,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
+                // Overskrift
                 Text(
                     text = "Nyheder",
                     fontSize = 30.sp,
@@ -259,7 +260,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
 
 
-
+                // underoverskrift.
                 Text(
                     "Find din yndlings sang eller digt blandt vores smukke plakater!",
                     fontSize = 15.sp,
@@ -290,6 +291,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                             shape = RoundedCornerShape(4.dp),
                             elevation = 5.dp
                         ) {
+                            //Der laves en boks så tekst og favorit knap kan placeres oven på billedet.
                             Box(Modifier.fillMaxSize()) {
 
                                 Image(
@@ -301,6 +303,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                     modifier = Modifier
                                         .size(300.dp)
                                 )
+                                // Box der ligges oven på billede som giver en brush effekt.
                                 Box(
                                     modifier = Modifier
                                         .matchParentSize()
@@ -457,18 +460,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 contentDescription = null
                             )
                     }
-                    /*if (!expanded)
-                        IconButton(onClick = {
-                            navController.navigate(NavigationBundNav.Favorit.route) {
-                                popUpTo(NavigationBundNav.Inspiration.route)
-                            }
-                        }) {
-                            Icon(
-                                Icons.Filled.Favorite,
-                                tint = Color.Red,
-                                contentDescription = null
-                            )
-                        }*/
                     if (!expanded)
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(Icons.Filled.ShoppingCart, contentDescription = null)
@@ -484,7 +475,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         }
     }
 
-
+    // FocusImage referere til når man trykker på en plakat og brugeren ledes videre til den en ny side med plakaten i fokus.
     object InspirationFocusImage : Inspiration("focusImage") {
 
         @Composable
@@ -524,14 +515,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     }
                 },
                 actions = {
-                    /*IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            Icons.Filled.Favorite,
-                            tint = Color.Red,
-                            contentDescription = null
-                        )
-                    }*/
-
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)
                     }
@@ -557,6 +540,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 mutableStateOf(" DKK" + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString())
             }
 
+            // variablerne bruges til at opdattere titlen på siden, med den valgte plakats forfatter
                 if (plakatHolder != null) {
                     val title = plakatHolder.title
                     val dot = "·"
@@ -573,6 +557,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
+                    // Plakatens forfatter indsættes i denne tekst.
                         Text(
                             author.get(0),
                             fontSize = 30.sp,
@@ -602,6 +587,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                     fontSize = 18.sp
                                 )
 
+                                // ud fra det valgte menuItem som repræsentere de forskelleige plakatstørelser indsættes den tilsvarende pris i vaiablen pris som vises i et tekst felt.
                                 var selectedpris = MenuItems()
 
                                 if (selectedpris == 1) {
@@ -622,6 +608,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                         .width(200.dp)
                                 ) {
 
+                                    // Funktion der tillader brugeren at et x antal plakater.
                                     PosterAmount()
 
                                     Box(
@@ -671,6 +658,10 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 }
             }
 
+        /**
+         * https://betterprogramming.pub/build-android-dropdownmenu-in-jetpack-compose-25512fe08068
+         * MenuItems opretter de forskellige muligheder i dropdownbaren og fortæller dropdownbaren hvornår den skal lukkes og opdatere tilsvarende med den valgte mulighed.
+         */
             @Composable
             fun MenuItems(): Int {
                 val options = listOf(
@@ -704,6 +695,10 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
             }
 
+        /**
+         * https://www.goodrequest.com/blog/jetpack-compose-basics-text-input
+         * Tillader brugen at angiver via tastaur hvor mange plakater de ønsker
+         */
             @Composable
             fun PosterAmount() {
                 var textFieldState by remember {
@@ -734,14 +729,20 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         }
 
     /**
-     * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.
      * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card
+     * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.
      */
 
     private val permissions = arrayOf(
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
+
+    /**
+     * IconToggleButtun bruges som Favoritknap, så når den klikkes bliver iconet fyldt ud.
+     * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card?fbclid=IwAR049HmZ4oqEuPuE_qsdbz4CRUXbW6utEoY2gNmkZai40IoInSMJysIKi6M
+     */
+
 
     @Composable
     fun FavoritButton(
@@ -759,13 +760,14 @@ sealed class Inspiration(val rute: String) : ViewModel() {
         )
 
         var isFavorite by remember { mutableStateOf(false) }
-        if (index in inspirationViewModel.getFavorites(context)) {
-            isFavorite = true
-        }
+
         IconToggleButton(checked = isFavorite, onCheckedChange = {
             isFavorite = !isFavorite
             if (isFavorite) {
                 inspirationViewModel.setFavorites(index, context)
+            }
+            if (!isFavorite) {
+                inspirationViewModel.fjernSpecifikFavorite(index, context)
             }
         }) {
             Icon(
@@ -776,6 +778,9 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                 },
                 contentDescription = null
             )
+        }
+        if (index in inspirationViewModel.getFavorites(context)) {
+            isFavorite = true
         }
     }
 

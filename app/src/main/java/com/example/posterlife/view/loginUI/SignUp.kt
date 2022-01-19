@@ -26,7 +26,7 @@ import com.example.posterlife.loginController.AuthenticationSignUp
 import com.example.posterlife.R
 
 /**
- * @Author Kristoffer Pedersen s205354
+ * @Author Kristoffer Pedersen s205354, Camilla Bøjden (s205360)
  *
  * @Source https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
  */
@@ -54,7 +54,7 @@ sealed class SignUp(val route: String) {
                         .align(Alignment.CenterHorizontally)
 
                 ) {
-
+                    // Baggrundbillede
                     Image(
                         painter = painterResource(id = R.drawable.baggrundsbillede),
                         contentDescription = "background_SignUp",
@@ -70,6 +70,8 @@ sealed class SignUp(val route: String) {
                             .fillMaxWidth(),
                         verticalArrangement = Arrangement.Center
                     ) {
+
+                        // Overskrift.
                         Text(
                             text = "Opret Bruger",
                             fontSize = 50.sp,

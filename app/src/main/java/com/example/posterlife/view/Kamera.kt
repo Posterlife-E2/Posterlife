@@ -303,8 +303,6 @@ sealed class Kamera(val route: String) {
                             uriViewModel.setBilledURI(savedUri)
                             navControllerKamera.navigate(BilledRedigering.BilledConfirm.rute)
                         }
-
-
                     }
 
                     override fun onError(exception: ImageCaptureException) {
