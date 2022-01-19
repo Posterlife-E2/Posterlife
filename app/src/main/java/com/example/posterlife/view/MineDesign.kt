@@ -327,20 +327,28 @@ sealed class MineDesign(val route: String) {
 
         @SuppressLint("WrongConstant")
         private fun readsPost(context: Context, path: String, isDelete: Boolean) {
+
             if (isDelete) {
                 val fileDelete = File(context.getOutputDirectory(), "Files.txt")
                 val text = fileDelete.readText()
                 val result: List<String> = text.split(",").map { it.trim() }
+
                 if (fileDelete.exists()) {
+
                     if (fileDelete.delete()) {
                         Toast.makeText(context,"Billedet er blevet slettet",0).show()
                     } else {
                         Toast.makeText(context,"Billedet blev ikke slettet",0).show()
                     }
+
                 }
+
                 Log.d("Original Value", result.toString())
+
                 var outputString = ""
+
                 for (i in result.indices) {
+
                     when {
                         path == result[i] && i > 0 -> {
                             outputString += result[i]
@@ -350,12 +358,14 @@ sealed class MineDesign(val route: String) {
                         }
                     }
                 }
+
                 if (outputString.isNotEmpty()) {
                     val file = File(context.getOutputDirectory(), "Files.txt")
                     Log.d("Update Value", outputString)
                     file.writeText(outputString)
                     UploadImage.deleteImage(path)
                 }
+
             } else {
                 val file = File(context.getOutputDirectory(), "Files.txt")
                 file.readText()

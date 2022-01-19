@@ -51,7 +51,9 @@ sealed class UploadImage {
 
 
         private fun makeDirectory(context: Context, filePath: String) {
+
             val file = File(context.getOutputDirectory(), "Files.txt")
+
             if (file.exists()) {
                 file.appendText(",${filePath}")
             } else {
