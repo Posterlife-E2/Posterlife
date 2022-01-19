@@ -94,4 +94,11 @@ class InspirationViewModel : ViewModel() {
         setFavorites(-1, context)
         Log.e("Liste efter delete", favoriteIndexList.toString())
     }
+
+    fun fjernSpecifikFavorite(index: Int, context: Context){
+        favoriteIndexList.remove(index)
+        //Så vi kan gemme det.
+        setFavorites(-1, context)
+        Log.e("Liste efter delete", favoriteIndexList.toString())
+    }
 }
