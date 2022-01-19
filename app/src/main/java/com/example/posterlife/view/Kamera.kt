@@ -179,7 +179,7 @@ sealed class Kamera(val route: String) {
 
                     IconButton(
                         onClick = {
-                           navControllerKamera.navigate(Login.LoginScreen.route)
+                           navControllerKamera.navigateUp()
                         }){
                         Icon(Icons.Filled.ArrowBack,
                             contentDescription = "Back",
