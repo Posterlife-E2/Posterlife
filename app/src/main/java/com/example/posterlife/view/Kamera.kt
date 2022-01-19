@@ -54,7 +54,7 @@ import kotlin.coroutines.suspendCoroutine
  * @Source https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
  *
  * Ift. implementeringen af CameraX har vi stort set udlukkende brugt hvordan MK fra Devbitsandbytes har implementeret, og ændret i den
- * så den passer til vores app. Vi har selv tilføjet permissions, da Android ikke selv kunne finde frem til at spørge efter permissions.
+ * så den passer til vores app. Vi har tilføjet permissions, da Android ikke selv kunne finde frem til at spørge efter permissions.
  *
  * @Source https://gabrieltanner.org/blog/android-camerax
  * @Source https://developer.android.com/training/camerax/architecture#permissions
