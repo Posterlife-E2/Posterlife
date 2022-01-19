@@ -6,6 +6,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
@@ -554,16 +555,17 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                         .background(Color(0xfffcfcf0))
                         .fillMaxWidth()
                         .fillMaxHeight(),
+
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
                     // Plakatens forfatter indsættes i denne tekst.
-                        Text(
-                            author.get(0),
-                            fontSize = 30.sp,
-                            modifier = Modifier.padding(10.dp),
-                            textDecoration = TextDecoration.Underline
-                        )
+                    Text(
+                        author.get(0),
+                        fontSize = 30.sp,
+                        modifier = Modifier.padding(10.dp),
+                        textDecoration = TextDecoration.Underline
+                    )
 
                     Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
 
@@ -579,82 +581,97 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                         )
 
 
-                            Column(modifier = Modifier.padding(7.dp)) {
-                                Text(plakatHolder.title, fontSize = 20.sp)
-                                Spacer(modifier = Modifier.height(14.dp))
-                                Text(
-                                    pris,
-                                    fontSize = 18.sp
-                                )
+                        Column(modifier = Modifier.padding(7.dp)) {
+                            Text(plakatHolder.title, fontSize = 20.sp)
+                            Spacer(modifier = Modifier.height(14.dp))
+                            Text(
+                                pris,
+                                fontSize = 18.sp
+                            )
 
-                                // ud fra det valgte menuItem som repræsentere de forskelleige plakatstørelser indsættes den tilsvarende pris i vaiablen pris som vises i et tekst felt.
-                                var selectedpris = MenuItems()
+                            // ud fra det valgte menuItem som repræsentere de forskelleige plakatstørelser indsættes den tilsvarende pris i vaiablen pris som vises i et tekst felt.
+                            var selectedpris = MenuItems()
 
-                                if (selectedpris == 1) {
-                                    pris = "DKK 179,00"
-                                }
-                                if (selectedpris == 2) {
-                                    pris = "DKK 249,00"
-                                }
-                                if (selectedpris == 3) {
-                                    pris = "DKK 389,00"
-                                } else {
-
-                                }
-                                Spacer(modifier = Modifier.height(4.dp))
-
-                                Row(
-                                    modifier = Modifier
-                                        .width(200.dp)
-                                ) {
-
-                                    // Funktion der tillader brugeren at et x antal plakater.
-                                    PosterAmount()
-
-                                    Box(
-                                        modifier = Modifier
-                                            .background(Color.Gray)
-                                            .border(0.5.dp, Color.Black)
-                                            .width(160.dp)
-                                            .height(30.dp)
-                                            .clickable { })
-                                    {
-                                        Text(
-                                            "TILFØJ TIL KURV",
-                                            textAlign = TextAlign.Center,
-                                            color = Color.White,
-                                            modifier = Modifier.padding(5.dp)
-                                        )
-                                    }
-                                }
-                                Spacer(modifier = Modifier.padding(47.dp))
-                                FavoritButton(modifier = Modifier.size(20.dp), index = index)
+                            if (selectedpris == 1) {
+                                pris = "DKK 179,00"
                             }
+                            if (selectedpris == 2) {
+                                pris = "DKK 249,00"
+                            }
+                            if (selectedpris == 3) {
+                                pris = "DKK 389,00"
+                            } else {
+
+                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+
+                            Row(
+                                modifier = Modifier
+                                    .width(200.dp)
+                            ) {
+
+                                // Funktion der tillader brugeren at et x antal plakater.
+                                PosterAmount()
+
+                                Box(
+                                    modifier = Modifier
+                                        .background(Color.Gray)
+                                        .border(0.5.dp, Color.Black)
+                                        .width(160.dp)
+                                        .height(30.dp)
+                                        .clickable { })
+                                {
+                                    Text(
+                                        "TILFØJ TIL KURV",
+                                        textAlign = TextAlign.Center,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(5.dp)
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.padding(35.dp))
+                            FavoritButton(modifier = Modifier.size(20.dp), index = index)
                         }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .background(Color(0xfffcfcf0))
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .verticalScroll(rememberScrollState())
+                            .weight(1f, false)
+                            .padding(bottom = 50.dp),
+
+                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+
                         Text(
                             plakatHolder.description,
                             Modifier.padding(12.dp),
                             fontSize = 17.sp,
                             textAlign = TextAlign.Justify
                         )
-
-                        if (enlargeBillede.value) {
-                            AlertDialog(modifier = Modifier
-                                .height(400.dp),
-                                backgroundColor = Color.Transparent,
-                                onDismissRequest = { enlargeBillede.value = false },
-                                text = {
-                                    Image(
-                                        painter = rememberImagePainter(data = plakatHolder.imageURL),
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                    )
-                                },
-                                confirmButton = {})
-                        }
-
                     }
+
+                    if (enlargeBillede.value) {
+                        AlertDialog(modifier = Modifier
+                            .height(400.dp),
+                            backgroundColor = Color.Transparent,
+                            onDismissRequest = { enlargeBillede.value = false },
+                            text = {
+                                Image(
+                                    painter = rememberImagePainter(data = plakatHolder.imageURL),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                )
+                            },
+                            confirmButton = {})
+                    }
+                }
+
                 }
             }
 

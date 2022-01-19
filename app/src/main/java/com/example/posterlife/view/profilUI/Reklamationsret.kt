@@ -5,8 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -88,7 +88,7 @@ sealed class Reklamationsret(val route: String) {
     @Composable
     fun DropdownInfo() {
         val context = LocalContext.current
-        val expandedReklamationsret = remember { mutableStateOf(false)}
+        val expandedReklamationsret = remember { mutableStateOf(false) }
         val expandedRetur = remember { mutableStateOf(false) }
         val expandedOmbyt = remember { mutableStateOf(false) }
         val expandedRettigheder = remember { mutableStateOf(false) }
@@ -111,7 +111,7 @@ sealed class Reklamationsret(val route: String) {
                     .padding(top = 5.dp)
             )
 
-            Spacer(modifier = Modifier.padding(top = 25.dp))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
 
             Box(
                 modifier = Modifier
@@ -137,7 +137,7 @@ sealed class Reklamationsret(val route: String) {
 
                     }
                     IconButton(onClick = { expandedReklamationsret.value = true }) {
-                        Icon(Icons.Filled.Add, contentDescription = null)
+                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
 
                     }
                     // Dropdown som indeholder tekst ang. reklamations information.
@@ -145,18 +145,111 @@ sealed class Reklamationsret(val route: String) {
                         expanded = expandedReklamationsret.value,
                         onDismissRequest = { expandedReklamationsret.value = false },
                     ) {
-                            Text(
-                                text = context.getString(R.string.ReklamationsInfo),
-                                fontStyle = FontStyle.Italic,
-                                fontWeight = FontWeight.Light,
-                                fontSize = 18.sp,
-                                modifier = Modifier.padding(start = 10.dp, end = 10.dp)
-                            )
+                        Text(
+                            text = context.getString(R.string.ReklamationsInfo),
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
 
                     }
 
                 }
             }
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+            Box(
+                modifier = Modifier
+                    .width(410.dp)
+                    .height(60.dp)
+                    .background(Color.White)
+                    .border(1.dp, color = Color(0xfffcfcf0))
+                    .padding(10.dp)
+                    .align(CenterHorizontally)
+            )
+            {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+
+                    Text(
+                        text = "Retur- og ombytningsret",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding()
+                    )
+                    Box(modifier = Modifier.weight(1f)) {
+
+                    }
+                    IconButton(onClick = { expandedRettigheder.value = true }) {
+                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
+
+                    }
+                    // Dropdown som indeholder tekst ang. reklamations -og ombytningsret.
+                    DropdownMenu(
+                        expanded = expandedRettigheder.value,
+                        onDismissRequest = { expandedRettigheder.value = false },
+                    ) {
+                        Text(
+                            text = context.getString(R.string.Retur_ombytningsret),
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
+                        )
+
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+
+            Box(
+                modifier = Modifier
+                    .width(410.dp)
+                    .height(60.dp)
+                    .background(Color.White)
+                    .border(1.dp, color = Color(0xfffcfcf0))
+                    .padding(10.dp)
+                    .align(CenterHorizontally)
+            )
+            {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+
+                    Text(
+                        text = "Returret/ombytning",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding()
+                    )
+                    Box(modifier = Modifier.weight(1f)) {
+
+                    }
+                    IconButton(onClick = { expandedOmbyt.value = true }) {
+                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
+
+                    }
+                    // Dropdown som indeholder tekst ang. ombytning.
+                    DropdownMenu(
+                        expanded = expandedOmbyt.value,
+                        onDismissRequest = { expandedOmbyt.value = false },
+                    ) {
+                        Text(
+                            text = context.getString(R.string.Returret_ombytning),
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
+                        )
+
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.padding(top = 10.dp))
 
 
@@ -185,7 +278,7 @@ sealed class Reklamationsret(val route: String) {
 
                     }
                     IconButton(onClick = { expandedRetur.value = true }) {
-                        Icon(Icons.Filled.Add, contentDescription = null)
+                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
 
                     }
                     // Dropdown som indeholder tekst ang. retur.
@@ -197,103 +290,7 @@ sealed class Reklamationsret(val route: String) {
                             text = context.getString(R.string.ReklmationRetur),
                             fontStyle = FontStyle.Italic,
                             fontWeight = FontWeight.Light,
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
-                        )
-
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.padding(top = 10.dp))
-
-
-            Box(
-                modifier = Modifier
-                    .width(410.dp)
-                    .height(60.dp)
-                    .background(Color.White)
-                    .border(1.dp, color = Color(0xfffcfcf0))
-                    .padding(10.dp)
-                    .align(CenterHorizontally)
-            )
-            {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-
-                    Text(
-                        text = "Returret/ombytning",
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding()
-                    )
-                    Box(modifier = Modifier.weight(1f)) {
-
-                    }
-                    IconButton(onClick = { expandedOmbyt.value = true }) {
-                        Icon(Icons.Filled.Add, contentDescription = null)
-
-                    }
-                    // Dropdown som indeholder tekst ang. ombytning.
-                    DropdownMenu(
-                        expanded = expandedOmbyt.value,
-                        onDismissRequest = { expandedOmbyt.value = false },
-                    ) {
-                        Text(
-                            text = context.getString(R.string.Returret_ombytning),
-                            fontStyle = FontStyle.Italic,
-                            fontWeight = FontWeight.Light,
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(start = 10.dp, end = 10.dp)
-                        )
-
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.padding(top = 10.dp))
-
-
-            Box(
-                modifier = Modifier
-                    .width(410.dp)
-                    .height(60.dp)
-                    .background(Color.White)
-                    .border(1.dp, color = Color(0xfffcfcf0))
-                    .padding(10.dp)
-                    .align(CenterHorizontally)
-            )
-            {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                ) {
-
-                    Text(
-                        text = "Retur- og ombytningsret",
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding()
-                    )
-                    Box(modifier = Modifier.weight(1f)) {
-
-                    }
-                    IconButton(onClick = { expandedRettigheder.value = true }) {
-                        Icon(Icons.Filled.Add, contentDescription = null)
-
-                    }
-                    // Dropdown som indeholder tekst ang. reklamations -og ombytningsret.
-                    DropdownMenu(
-                        expanded = expandedRettigheder.value,
-                        onDismissRequest = { expandedRettigheder.value = false },
-                    ) {
-                        Text(
-                            text = context.getString(R.string.Retur_ombytningsret),
-                            fontStyle = FontStyle.Italic,
-                            fontWeight = FontWeight.Light,
-                            fontSize = 18.sp,
+                            fontSize = 16.sp,
                             modifier = Modifier.padding(start = 10.dp, end = 10.dp)
                         )
 

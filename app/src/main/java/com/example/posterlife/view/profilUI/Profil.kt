@@ -125,7 +125,7 @@ sealed class Profil(val rute: String) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .padding(8.dp)
+                    .padding(8.dp, end = 0.dp)
                     .clickable(onClick = {
                         navController.navigate("delStart") {
                             popUpTo(NavigationBundNav.Profil.route)
