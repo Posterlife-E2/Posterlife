@@ -4,6 +4,10 @@ import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
+/**
+ * @Author Kristoffer Pedersen s205354
+ */
+
 class BilledViewModel : ViewModel() {
 
     var billedURI = mutableStateOf("")

@@ -41,7 +41,7 @@ import com.example.posterlife.saveImageController.UploadImage
 import java.io.File
 
 /**
- * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
+ * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360), Kristoffer Pedersen (s205354)
  * @source https://developer.android.com/jetpack/compose/navigation
  * Ting til at lave ting.
  * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
