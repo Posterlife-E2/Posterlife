@@ -76,7 +76,7 @@ sealed class Profil(val rute: String) {
 
     }
 
-// Denne funktion indeholder profilsidens indhold. Denne består af flere rows der hver har en tekst og et icon som indikere af brugeren kan trykke videre.
+    // Denne funktion indeholder profilsidens indhold. Denne består af flere rows der hver har en tekst og et icon som indikere af brugeren kan trykke videre.
     @Composable
     fun ProfilContent(navController: NavController) {
         val context = LocalContext.current
@@ -177,7 +177,7 @@ sealed class Profil(val rute: String) {
                     .fillMaxWidth()
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {/*TODO*/}),
+                    .clickable(onClick = {/*TODO*/ }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

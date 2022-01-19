@@ -44,7 +44,8 @@ sealed class Handelsbetingelser(val route: String) {
         )
 
     }
-//top app bar til handelsbetingelser. Inderholder en tilbageknap så det er muligt at komme tilbage til profilsiden.
+
+    //top app bar til handelsbetingelser. Inderholder en tilbageknap så det er muligt at komme tilbage til profilsiden.
     @Composable
     fun BetingelserTopBar(navController: NavController) {
         TopAppBar(
@@ -57,9 +58,11 @@ sealed class Handelsbetingelser(val route: String) {
                 )
             },
             navigationIcon = {
-                IconButton(onClick = {navController.navigate(NavigationBundNav.Profil.route){
-                    popUpTo("ProfilUI")
-                } }) {
+                IconButton(onClick = {
+                    navController.navigate(NavigationBundNav.Profil.route) {
+                        popUpTo("ProfilUI")
+                    }
+                }) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         tint = Color.Black,
@@ -73,7 +76,8 @@ sealed class Handelsbetingelser(val route: String) {
         )
 
     }
-//funktion der håndtere de forskellige vælg man har i handelsbetingelser. Består af tre rows.
+
+    //funktion der håndtere de forskellige vælg man har i handelsbetingelser. Består af tre rows.
     @ExperimentalFoundationApi
     @Composable
     fun BetingelserPage(navController: NavController) {
@@ -120,9 +124,11 @@ sealed class Handelsbetingelser(val route: String) {
                     .fillMaxWidth()
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {navController.navigate("betaling"){
-                        popUpTo("BetalingOverview")
-                    } }),
+                    .clickable(onClick = {
+                        navController.navigate("betaling") {
+                            popUpTo("BetalingOverview")
+                        }
+                    }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -145,9 +151,10 @@ sealed class Handelsbetingelser(val route: String) {
                     .background(Color.White)
                     .height(60.dp)
                     .padding(start = 8.dp)
-                    .clickable(onClick = {navController.navigate("reklamation"){
-                        popUpTo("ReklamationUI")
-                    }
+                    .clickable(onClick = {
+                        navController.navigate("reklamation") {
+                            popUpTo("ReklamationUI")
+                        }
                     }),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween

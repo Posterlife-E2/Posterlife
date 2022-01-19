@@ -110,7 +110,7 @@ sealed class Privatlivspolitik(var route: String) {
                     .padding(top = 25.dp, start = 10.dp, end = 10.dp)
 
             )
-            // Tekst der beskriver generalt.
+            // Tekst der beskriver generalt. er definerer som en string i res mappen.
             androidx.compose.material.Text(
                 text = context.getString(R.string.PersonoplysningerGeneralt),
                 fontSize = 18.sp,

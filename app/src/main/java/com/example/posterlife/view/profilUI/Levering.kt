@@ -98,9 +98,11 @@ sealed class Levering(val route: String) {
                     .padding(top = 5.dp)
             )
 
-            Text(text = context.getString(R.string.LeveringInfo),
+            Text(
+                text = context.getString(R.string.LeveringInfo),
                 fontSize = 20.sp,
-                modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp))
+                modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp)
+            )
 
             Text(
                 text = context.getString(R.string.Levering),

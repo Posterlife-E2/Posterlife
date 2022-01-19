@@ -16,19 +16,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
+
 /**
  * @Author Camilla Bøjden, (s205360)
  */
 
-/**
- * @Author Camilla Bøjden (s205360)
- */
 
 sealed class BetalingsInfo(val route: String) {
     object InfoBetaling : BetalingsInfo("betaling")
 
     @Composable
-    fun BetalingOverview(navController: NavController){
+    fun BetalingOverview(navController: NavController) {
         val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Open))
         Scaffold(
             scaffoldState = scaffoldState,
@@ -97,9 +95,13 @@ sealed class BetalingsInfo(val route: String) {
                     .padding(top = 5.dp)
             )
 
-            Text(text = context.getString(R.string.BetalingInfo),
-            fontSize = 20.sp,
-            modifier = Modifier.padding(top = 25.dp, start = 10.dp, end = 10.dp).align(CenterHorizontally))
+            Text(
+                text = context.getString(R.string.BetalingInfo),
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .padding(top = 25.dp, start = 10.dp, end = 10.dp)
+                    .align(CenterHorizontally)
+            )
 
 
             Text(
@@ -113,6 +115,4 @@ sealed class BetalingsInfo(val route: String) {
     }
 
 
-
-
-    }
+}
