@@ -10,6 +10,8 @@ import com.example.posterlife.R
 
 /**
  * @Author Laurtiz Pepke s191179
+ *
+ * @Source https://developer.android.com/jetpack/compose/themes/material
  */
 
 //Fra posterlife

@@ -7,6 +7,8 @@ import androidx.compose.ui.unit.dp
 
 /**
  * @Author Laurtiz Pepke s191179
+ *
+ * @Source https://developer.android.com/jetpack/compose/themes/material
  */
 
 val PosterlifeShapes = Shapes(

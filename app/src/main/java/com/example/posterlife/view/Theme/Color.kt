@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * @Author Laurtiz Pepke s191179
+ *
+ * @Source https://developer.android.com/jetpack/compose/themes/material
  */
 
 //Posterlife farvepalette
