@@ -24,8 +24,7 @@ sealed class AuthenticationLogin {
 
             val user = authentication.currentUser
             if(user != null) {
-                //Tjek om den allerede er logget ind.
-                return
+                //Hvis brugeren allerede er logget ind gør x.
             }
 
             authentication.signInWithEmailAndPassword(email, password)
