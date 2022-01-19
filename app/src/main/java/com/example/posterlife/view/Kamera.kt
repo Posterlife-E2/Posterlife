@@ -77,7 +77,7 @@ sealed class Kamera(val route: String) {
         private lateinit var uriViewModel: BilledViewModel
 
 
-        //Dele taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+        //Dele fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @SuppressLint("StaticFieldLeak")
         @Composable
         fun KameraAccess(
@@ -134,7 +134,7 @@ sealed class Kamera(val route: String) {
             }
         }
 
-        //Taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @SuppressLint("RestrictedApi")
         @Composable
         private fun CameraPreviewView(
@@ -205,7 +205,7 @@ sealed class Kamera(val route: String) {
             }
         }
 
-        //Taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         suspend fun Context.getCameraProvider(): ProcessCameraProvider =
             suspendCoroutine { continuation ->
                 ProcessCameraProvider.getInstance(this).also { cameraProvider ->
@@ -215,7 +215,7 @@ sealed class Kamera(val route: String) {
                 }
             }
 
-        //Taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @Composable
         fun CameraControls(cameraUIAction: (CameraUIAction) -> Unit) {
 
@@ -251,7 +251,7 @@ sealed class Kamera(val route: String) {
             }
         }
 
-        //Taget fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         @Composable
         fun CameraControl(
             imageVector: ImageVector,
@@ -274,11 +274,11 @@ sealed class Kamera(val route: String) {
             }
 
         }
-
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         private const val FILENAME = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val PHOTO_EXTENSION = ".jpg"
 
-
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         fun ImageCapture.takePicture(
             context: Context,
             lensFacing: Int,
@@ -311,7 +311,7 @@ sealed class Kamera(val route: String) {
                 })
         }
 
-
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         private fun getOutputFileOptions(
             lensFacing: Int,
             photoFile: File
@@ -323,19 +323,18 @@ sealed class Kamera(val route: String) {
                 isReversedHorizontal = lensFacing == CameraSelector.LENS_FACING_FRONT
             }
             // Create output options object which contains file + metadata
-
             return ImageCapture.OutputFileOptions.Builder(photoFile)
                 .setMetadata(metadata)
                 .build()
         }
-
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         private fun createFile(baseFolder: File, format: String, extension: String) =
             File(
                 baseFolder, SimpleDateFormat(format, Locale.US)
                     .format(System.currentTimeMillis()) + extension
             )
 
-
+        //Fra https://www.devbitsandbytes.com/configuring-camerax-in-jetpack-compose-to-take-picture/
         private fun Context.getOutputDirectory(): File {
             val mediaDir = this.externalMediaDirs.firstOrNull()?.let {
                 File(it, this.resources.getString(R.string.app_name)).apply { mkdirs() }
@@ -344,14 +343,14 @@ sealed class Kamera(val route: String) {
                 mediaDir else this.filesDir
         }
 
-        //Taget fra https://gabrieltanner.org/blog/android-camerax
+        //Fra https://gabrieltanner.org/blog/android-camerax
         private val permissions = arrayOf(
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
 
-        // Taget fra https://gabrieltanner.org/blog/android-camerax
+        //Fra https://gabrieltanner.org/blog/android-camerax
         private fun hasNoPermissions(context: Context): Boolean {
             return ContextCompat.checkSelfPermission(
                 context,
@@ -365,7 +364,7 @@ sealed class Kamera(val route: String) {
             ) != PackageManager.PERMISSION_GRANTED
         }
 
-        // Taget fra https://gabrieltanner.org/blog/android-camerax
+        //Fra https://gabrieltanner.org/blog/android-camerax
         fun requestPermission(context: Context) {
             ActivityCompat.requestPermissions(context as Activity, permissions, 0)
         }
