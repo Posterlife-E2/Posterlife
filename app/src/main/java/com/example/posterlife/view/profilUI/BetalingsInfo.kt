@@ -17,6 +17,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
 
+/**
+ * @Author Camilla Bøjden (s205360)
+ */
+
 sealed class BetalingsInfo(val route: String) {
     object InfoBetaling : BetalingsInfo("betaling")
 

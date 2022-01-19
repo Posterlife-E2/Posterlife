@@ -25,6 +25,11 @@ import androidx.navigation.NavController
 import com.example.posterlife.loginController.AuthenticationSignUp
 import com.example.posterlife.R
 
+/**
+ * @Author Kristoffer Pedersen s205354
+ *
+ * @Source https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
+ */
 
 sealed class SignUp(val route: String) {
 

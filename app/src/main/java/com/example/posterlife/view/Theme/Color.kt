@@ -2,6 +2,9 @@ package com.example.posterlife.view.Theme
 
 import androidx.compose.ui.graphics.Color
 
+/**
+ * @Author Laurtiz Pepke s191179
+ */
 
 //Posterlife farvepalette
 val Sort = Color(0xFF000000)

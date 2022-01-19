@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
@@ -47,7 +48,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * @Author Kristoffer Pedersen (s205354), Thamara Linnea (s205337), Camilla Bøjden (s205360)
+ * @Author Kristoffer Pedersen (s205354), Thamara Linnea (s205337), Camilla Bøjden (s205360), Lauritz Pepke (s191179)
  *
  * @source https://developer.android.com/jetpack/compose/navigation
  *
@@ -64,6 +65,8 @@ import kotlin.collections.ArrayList
  * Filter arraylist for searchfunction
  * @Source https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
  *
+ * Compose animations
+ * @Source https://www.youtube.com/watch?v=trVmP1rw0uw&t=310s
  *
  * @Source https://www.youtube.com/watch?v=KPVoQjwmWX4
  */
@@ -180,7 +183,6 @@ sealed class Inspiration(val rute: String) : ViewModel() {
             inspirationViewModel.getFavorites(context)
 
 
-
             //https://johncodeos.com/how-to-add-search-in-list-with-jetpack-compose/
             //Viser en filtreret liste af Plakat-objekter, hvis der er skrevet noget i søgefelt, ellers viser den originale liste
             val searchedQuery = query.value.text
@@ -214,7 +216,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                     modifier = Modifier
                         .offset(y = (8).dp)
                 )
-
+                // Lazyrow der indeholder plakatnyheder.
                 LazyRow(
                     modifier = Modifier
                         .fillMaxHeight(0.4f)
@@ -258,91 +260,93 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
 
 
-            Text(
-                "Find din yndlings sang eller digt blandt vores smukke plakater!",
-                fontSize = 15.sp,
-                style = MaterialTheme.typography.subtitle2,
-                //fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(5.dp)
-            )
+                Text(
+                    "Find din yndlings sang eller digt blandt vores smukke plakater!",
+                    fontSize = 15.sp,
+                    style = MaterialTheme.typography.subtitle2,
+                    //fontWeight = FontWeight.Light,
+                    modifier = Modifier.padding(5.dp)
+                )
+                // indeholder posterlifes egen plakater fra en jsonfil. Hvorpå der er sat et like ikon.
+                LazyVerticalGrid(
+                    cells = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(8.dp),
+                    modifier = Modifier.padding(bottom = 50.dp)
+                ) {
 
-            LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
-                contentPadding = PaddingValues(8.dp),
-                modifier = Modifier.padding(bottom = 50.dp)
-            ) {
+                    items(filteredPosters.size) { index ->
 
-                items(filteredPosters.size) { index ->
+                        Card(
+                            modifier = Modifier
+                                .height(280.dp)
+                                .width(150.dp)
+                                .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
+                                .clickable {
+                                    inspirationViewModel.setIndex(index)
+                                    navController.navigate("focusImage") {
+                                        popUpTo(NavigationBundNav.Inspiration.route)
+                                    }
+                                },
+                            shape = RoundedCornerShape(4.dp),
+                            elevation = 5.dp
+                        ) {
+                            Box(Modifier.fillMaxSize()) {
 
-                    Card(
-                        modifier = Modifier
-                            .height(280.dp)
-                            .width(150.dp)
-                            .padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom = 10.dp)
-                            .clickable {
-                                inspirationViewModel.setIndex(index)
-                                navController.navigate("focusImage"){
-                                    popUpTo(NavigationBundNav.Inspiration.route)
-                                }
-                            },
-                        shape = RoundedCornerShape(4.dp),
-                        elevation = 5.dp
-                    ) {
-                        Box(Modifier.fillMaxSize()) {
-
-                            Image(
-                                contentScale = ContentScale.Crop,
-                                painter = rememberImagePainter(
-                                    data = filteredPosters.get(index).imageURL,
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(300.dp)
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .matchParentSize()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            colors = listOf(Color.Transparent, Color.White),
+                                Image(
+                                    contentScale = ContentScale.Crop,
+                                    painter = rememberImagePainter(
+                                        data = filteredPosters.get(index).imageURL,
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(300.dp)
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .matchParentSize()
+                                        .background(
+                                            Brush.verticalGradient(
+                                                colors = listOf(Color.Transparent, Color.White),
+                                            )
                                         )
-                                    )
-                            )
-                            {}
+                                )
+                                {}
 
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(8.dp),
-                                contentAlignment = Alignment.BottomCenter
-                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    contentAlignment = Alignment.BottomCenter
+                                ) {
 
-                                Row() {
-                                    Column(modifier = Modifier.weight(5f)) {
-                                        Text(
-                                            fontSize = 12.sp,
-                                            style = MaterialTheme.typography.subtitle2,
-                                            text = filteredPosters[index].title
+                                    Row() {
+                                        Column(modifier = Modifier.weight(5f)) {
+                                            Text(
+                                                fontSize = 12.sp,
+                                                style = MaterialTheme.typography.subtitle2,
+                                                text = filteredPosters[index].title
+                                            )
+                                        }
+                                        FavoritButton(
+                                            index = index,
+                                            modifier = Modifier
+                                                .weight(1F)
                                         )
                                     }
-                                    FavoritButton(
-                                        index = index,
-                                        modifier = Modifier
-                                            .weight(1F)
-                                    )
+
                                 }
-
                             }
-                        }
 
+                        }
                     }
-                }
                 }
             }
 
         }
 
-
+        /**
+         * https://www.youtube.com/watch?v=trVmP1rw0uw&t=310s
+         */
         @ExperimentalComposeUiApi
         @ExperimentalFoundationApi
         @Composable
@@ -453,7 +457,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 contentDescription = null
                             )
                     }
-                    if (!expanded)
+                    /*if (!expanded)
                         IconButton(onClick = {
                             navController.navigate(NavigationBundNav.Favorit.route) {
                                 popUpTo(NavigationBundNav.Inspiration.route)
@@ -464,7 +468,7 @@ sealed class Inspiration(val rute: String) : ViewModel() {
                                 tint = Color.Red,
                                 contentDescription = null
                             )
-                        }
+                        }*/
                     if (!expanded)
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(Icons.Filled.ShoppingCart, contentDescription = null)
@@ -481,104 +485,113 @@ sealed class Inspiration(val rute: String) : ViewModel() {
     }
 
 
-        object InspirationFocusImage : Inspiration("focusImage") {
+    object InspirationFocusImage : Inspiration("focusImage") {
 
-            @Composable
-            fun InspirationFocusImage() {
-                Scaffold(
-                    topBar = {
-                        FocusImageTopBar()
-                    },
-                    content = {
-                        FocusImageContent()
-                    },
-                )
-            }
+        @Composable
+        fun InspirationFocusImage(navController: NavController) {
+            Scaffold(
+                topBar = {
+                    FocusImageTopBar(navController)
+                },
+                content = {
+                    FocusImageContent()
+                },
+            )
+        }
 
-            @Composable
-            fun FocusImageTopBar() {
-                TopAppBar(
-                    title = {
+        @Composable
+        fun FocusImageTopBar(navController: NavController) {
+            TopAppBar(
+                title = {
 
-                        Text(
-                            text = "Inspiration",
-                            color = Color.Black,
-                            fontSize = 30.sp
+                    Text(
+                        text = "Inspiration",
+                        color = Color.Black,
+                        fontSize = 30.sp
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.navigate(NavigationBundNav.Inspiration.route) {
+                            popUpTo("InspirationOverview")
+                        }
+                    }) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            tint = Color.Black,
+                            contentDescription = null
                         )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                        }) {
-                            Icon(
-                                Icons.Filled.ArrowBack,
-                                tint = Color.Black,
-                                contentDescription = null
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                Icons.Filled.Favorite,
-                                tint = Color.Red,
-                                contentDescription = null
-                            )
-                        }
+                    }
+                },
+                actions = {
+                    /*IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            tint = Color.Red,
+                            contentDescription = null
+                        )
+                    }*/
 
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(Icons.Filled.ShoppingCart, contentDescription = null)
-                        }
-                    },
-                    backgroundColor = Color(0xfffcfcf0),
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ShoppingCart, contentDescription = null)
+                    }
+                },
+                backgroundColor = Color(0xfffcfcf0),
 
-                    elevation = 12.dp
-                )
+                elevation = 12.dp
+            )
 
+        }
+
+        @Composable
+        fun FocusImageContent() {
+            val inspirationViewModel = InspirationViewModel
+
+            val context = LocalContext.current
+            val plakatInfo = PlakatInfo(context)
+            val index = inspirationViewModel.currentIndex
+            val plakatHolder = index?.let { filteredPosters[it] }
+
+            var enlargeBillede = remember { mutableStateOf(false) }
+            var pris by remember {
+                mutableStateOf(" DKK" + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString())
             }
-
-            @Composable
-            fun FocusImageContent() {
-                val inspirationViewModel = InspirationViewModel
-
-                val context = LocalContext.current
-                val plakatInfo = PlakatInfo(context)
-                val index = inspirationViewModel.currentIndex
-                val plakatHolder = index?.let { filteredPosters[it] }
-
-                var enlargeBillede = remember { mutableStateOf(false) }
-                var pris by remember {
-                    mutableStateOf(" DKK" + plakatHolder.priceA3.toString() + " - " + "DKK " + plakatHolder.price70x100.toString())
-                }
 
                 if (plakatHolder != null) {
+                    val title = plakatHolder.title
+                    val dot = "·"
+                    val parentheses = "("
+                    val list = title.split(dot)
+                    val authorAndYear = list.get(1)
+                    val author = authorAndYear.split(parentheses)
 
-                    Column(
-                        Modifier
-                            .background(Color(0xfffcfcf0))
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
+                Column(
+                    Modifier
+                        .background(Color(0xfffcfcf0))
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
                         Text(
-                            "Forfatter",
-                            fontWeight = FontWeight.Bold,
+                            author.get(0),
                             fontSize = 30.sp,
-                            modifier = Modifier.padding(10.dp)
+                            modifier = Modifier.padding(10.dp),
+                            textDecoration = TextDecoration.Underline
                         )
 
-                        Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
+                    Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp)) {
 
-                            Image(
-                                painter = rememberImagePainter(data = plakatHolder.imageURL),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .height(300.dp)
-                                    .width(200.dp)
-                                    .clickable {
-                                        enlargeBillede.value = true
-                                    }
-                            )
+                        Image(
+                            painter = rememberImagePainter(data = plakatHolder.imageURL),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(300.dp)
+                                .width(200.dp)
+                                .clickable {
+                                    enlargeBillede.value = true
+                                }
+                        )
 
 
                             Column(modifier = Modifier.padding(7.dp)) {
@@ -720,30 +733,30 @@ sealed class Inspiration(val rute: String) : ViewModel() {
 
         }
 
-        /**
-         * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.
-         * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card
-         */
+    /**
+     * Funktion for FavoritButton, der gør det muligt at trykke på ikonet.
+     * https://stackoverflow.com/questions/69453277/how-to-create-an-icon-in-the-corner-of-the-android-compose-card
+     */
 
-        private val permissions = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+    private val permissions = arrayOf(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
+    @Composable
+    fun FavoritButton(
+        modifier: Modifier = Modifier,
+        color: Color = Color.Red,
+        index: Int
+    ) {
+
+        val context = LocalContext.current
+        val inspirationViewModel = InspirationViewModel()
+
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            permissions, 0
         )
-
-        @Composable
-        fun FavoritButton(
-            modifier: Modifier = Modifier,
-            color: Color = Color.Red,
-            index: Int
-        ) {
-
-            val context = LocalContext.current
-            val inspirationViewModel = InspirationViewModel()
-
-            ActivityCompat.requestPermissions(
-                context as Activity,
-                permissions, 0
-            )
 
         var isFavorite by remember { mutableStateOf(false) }
         if (index in inspirationViewModel.getFavorites(context)) {

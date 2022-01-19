@@ -20,6 +20,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.R
 
+/**
+ * @Author Camilla Bøjden (s205360)
+ */
+
 sealed class Levering(val route: String) {
     object LeveringUI : Levering("levering")
 

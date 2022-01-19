@@ -26,6 +26,8 @@ import com.example.posterlife.view.loginUI.Login
 import com.example.posterlife.view.loginUI.SignUp
 import com.example.posterlife.view.profilUI.*
 /**
+ * @Author Kristoffer Pedersen s205354, Lauritz Pepke s191179
+ *
  * @Source https://www.youtube.com/watch?v=4gUeyNkGE3g
  * @source https://johncodeos.com/how-to-create-bottom-navigation-bar-with-jetpack-compose/
  */
@@ -57,7 +59,7 @@ fun Navigation() {
             content = {
                 NavHost(
                     navController = navController,
-                    startDestination = Login.LoginScreen.route
+                    startDestination = NavigationBundNav.Inspiration.route
                 ) {
                     //---- Inspiration ----
                     composable(NavigationBundNav.Inspiration.route) {
@@ -66,8 +68,9 @@ fun Navigation() {
                     }
 
                     composable(Inspiration.InspirationFocusImage.rute) {
-                        InspirationFocusImage()
+                        InspirationFocusImage(navController = navController)
                     }
+
 
 
                     //----Favorit ----
@@ -139,7 +142,7 @@ fun Navigation() {
 
                         //---- Mine Design ----
                         composable(NavigationBundNav.MineDesign.route) {
-                            MineDesign.MineDesignStart.MineDesignStart()
+                            MineDesign.MineDesignStart.MineDesignStart(navController = navController)
                         }
 
                         //---- Login & Sign Up ----

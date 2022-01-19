@@ -11,14 +11,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 /**
- *
  * @Author M-Najib Hebrawi (s181663), Thamara Linnea (s205337), Camilla Bøjden (s205360)
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
  * https://firebase.google.com/docs/database
  * https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
  * https://www.youtube.com/watch?v=MfCiiTEwt3g
- * https://stackoverflow.com/questions/40581930/how-to-upload-an-image-to-firebase-storage
- * https://www.youtube.com/watch?v=rfdQHOB3jCU
  * https://stackoverflow.com/questions/53876728/problem-to-upload-file-from-my-app-to-firebase
  */
 
@@ -47,11 +44,8 @@ sealed class UploadImage {
         fun deleteImage(fileName: String) {
             val storageRef = Firebase.storage.reference.child("Images/$fileName")
             storageRef.delete().addOnSuccessListener {
-
             }.addOnFailureListener {
-
             }
-
         }
 
         private fun makeDirectory(context: Context, filePath: String) {

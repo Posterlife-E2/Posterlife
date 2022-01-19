@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.posterlife.view.NavigationBundNav
 
+/**
+ * @Author Camilla Bøjden (s205360)
+ */
 
 sealed class Handelsbetingelser(val route: String) {
     object Betingelser : Handelsbetingelser("betingelser")

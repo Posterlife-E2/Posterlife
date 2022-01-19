@@ -43,12 +43,16 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
+import androidx.ui.engine.geometry.Outline
 import com.example.posterlife.view.loginUI.Login
 import ja.burhanrashid52.photoeditor.*
 import java.io.ByteArrayOutputStream
+import kotlin.math.round
 
 
 /**
@@ -56,7 +60,7 @@ import java.io.ByteArrayOutputStream
  *
  * @Source https://github.com/burhanrashid52/PhotoEditor
  * @Source https://github.com/godaddy/compose-color-picker
- * @Source https://stackoverflow.com/questions/56651444/deprecated-getbitmap-with-api-29-any-alternative-codes
+ * @Source https://colinyeoh.wordpress.com/2012/05/18/android-getting-image-uri-from-bitmap/
  *
  * Diverse
  * @Source https://developer.android.com/reference/kotlin/android/view/inputmethod/InputMethodManager
@@ -87,7 +91,16 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                     TopBar("Foto Baggrund")
                 },
                 content = {
-                    Column(
+                    Image(
+                        painter = rememberImagePainter(data = savedUri),
+                        contentDescription = "fotoKamera - Billed som blev taget.",
+                        Modifier
+                            .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                            .fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+
+                    /*Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(Color(0xfffcfcf0)),
@@ -100,9 +113,11 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                 contentDescription = "fotoKamera - Billed som blev taget.",
                                 Modifier
                                     .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                                    .fillMaxSize(),
+                                contentScale = ContentScale.Crop
                             )
                         }
-                    }
+                    }*/
                 },
                 bottomBar = {
                     AcceptPictureBottomBar(navController)
@@ -123,14 +138,14 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                     fontSize = 30.sp
                 )
             },
-            navigationIcon = {
+            /*navigationIcon = {
                 IconButton(onClick = { }) {
                     Icon(
                         Icons.Filled.ArrowBack,
                         contentDescription = null
                     )
                 }
-            },
+            },*/
 
             backgroundColor = Color(0xfffcfcf0),
 
@@ -141,10 +156,18 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
 
     @Composable
     fun AcceptPictureBottomBar(navController: NavController) {
-        BottomAppBar(
-            backgroundColor = Color.DarkGray
+
+        Row(
+            modifier =
+            Modifier
+                .background(MaterialTheme.colors.onPrimary.copy(0.5f))
+                .height(55.dp)
         ) {
-            IconButton(onClick = { navController.navigate(NavigationBundNav.Kamera.route) }) {
+            IconButton(
+                onClick = { navController.navigate(NavigationBundNav.Kamera.route) },
+                modifier = Modifier.align(Alignment.CenterVertically)
+
+            ) {
                 Icon(
                     Icons.Filled.Close,
                     contentDescription = null,
@@ -153,14 +176,18 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
             }
             Box(modifier = Modifier.weight(1f)) {
             }
-            Text(text = "VÆLG BILLEDE", color = Color.White, fontSize = 25.sp)
+            Text(text = "VÆLG BILLEDE", color = Color.White, fontSize = 25.sp, modifier = Modifier.align(Alignment.CenterVertically))
             Box(modifier = Modifier.weight(1f)) {
             }
-            IconButton(onClick = { navController.navigate("billedRed") }) {
+            IconButton(
+                onClick = { navController.navigate("billedRed") },
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
                 Icon(
                     Icons.Filled.Done,
                     contentDescription = null,
-                    tint = Color.White
+                    tint = Color.White,
+
                 )
             }
         }
@@ -271,39 +298,41 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                 content = {
                     Column(
                         modifier = Modifier
-                            .background(Color.DarkGray)
+                            .background(MaterialTheme.colors.primary)
                             .fillMaxSize(),
 
                         ) {
                         BoxWithConstraints(
                             modifier = Modifier
-                                .background(Color(0xfffcfcf0))
-                                .fillMaxWidth(),
-                            contentAlignment = Alignment.TopCenter
+                                .background(MaterialTheme.colors.primary)
+                                .weight(1f),
+                            contentAlignment = Alignment.Center,
 
                         ) {
                             if (maxHeight < 700.dp) {
                                 AndroidView(
                                     factory = { billedRedView.value },
-                                    Modifier.width(350.dp),
+                                    Modifier
+                                        .scale(0.9f)
+                                        .shadow(elevation = 20.dp, shape = RectangleShape, clip = true)
+                                        .border(2.dp, MaterialTheme.colors.onPrimary),
+
                                 )
                             } else {
                                 AndroidView(
-                                    factory = { billedRedView.value }
+                                    factory = { billedRedView.value },
+                                    Modifier
+                                        .fillMaxSize()
+
                                 )
                             }
                         }
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .background(Color.DarkGray)
-                        )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp),
                             horizontalArrangement = Arrangement.SpaceEvenly,
+                            verticalAlignment = Alignment.Bottom
 
                             ) {
                             Box(
@@ -326,7 +355,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                         tint = Color.White,
                                         modifier = Modifier.size(30.dp)
                                     )
-                                    Text(text = "Undo", color = Color.White)
+                                    Text(text = "Fortryd", color = Color.White)
                                 }
                             }
                             Box(
@@ -388,7 +417,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                                         tint = Color.White,
                                         modifier = Modifier.size(30.dp)
                                     )
-                                    Text(text = "Erase", color = Color.White)
+                                    Text(text = "Viskelæder", color = Color.White)
                                 }
                             }
                             Box(
@@ -590,6 +619,7 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
             switchPenselState = switchPenselStateTemp
 
             AlertDialog(onDismissRequest = { visPenselPopUp.value = false },
+                backgroundColor = Color(0xfffcfcf0),
                 title = null,
                 text = {
                     Column {
@@ -646,7 +676,6 @@ sealed class BilledRedigering(var rute: String) : ViewModel() {
                             onColorChanged = { color: HsvColor ->
                                 colorValgPensel = color.toColor().toArgb()
                                 billedRedTool.brushColor = colorValgPensel
-
                                 penselColorState = colorValgPensel
                                 //Presser den til at skifte farve.
                                 val penselSizeTemp = penselSize

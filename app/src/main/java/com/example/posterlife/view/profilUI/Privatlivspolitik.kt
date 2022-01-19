@@ -21,6 +21,10 @@ import com.example.posterlife.R
 import com.example.posterlife.view.NavigationBundNav
 import androidx.compose.material.Text as MaterialText
 
+/**
+ * @Author Camilla Bøjden (s205360)
+ */
+
 sealed class Privatlivspolitik(var route: String) {
     object Privatpolitik : Privatlivspolitik("privatPolitik")
 

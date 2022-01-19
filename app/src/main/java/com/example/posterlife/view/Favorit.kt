@@ -30,6 +30,9 @@ import com.example.posterlife.model.Plakat
 import com.example.posterlife.model.jsonParser.PlakatInfo
 import com.example.posterlife.view.inspirationView.InspirationViewModel
 
+/**
+ * @Author Thamara Linnea (s205337), Kristoffer Pedersen (s205354)
+ */
 
 sealed class Favorit(val rute: String) {
 
@@ -66,13 +69,13 @@ sealed class Favorit(val rute: String) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                   /* IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             Icons.Filled.Favorite,
                             tint = Color.Red,
                             contentDescription = null
                         )
-                    }
+                    }*/
 
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(Icons.Filled.ShoppingCart, contentDescription = null)

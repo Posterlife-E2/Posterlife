@@ -13,6 +13,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.posterlife.R
 
 /**
+ * @Author Kristoffer Pedersen s205354, Laurtiz Pepke s191179
+ *
  * @source https://johncodeos.com/how-to-create-bottom-navigation-bar-with-jetpack-compose/
  */
 
@@ -20,7 +22,7 @@ import com.example.posterlife.R
 sealed class NavigationBundNav(var route: String, var icon: Int, var title: String) {
 
     object Inspiration : NavigationBundNav("inspiration", R.drawable.ic_lightbulb, "Inspiration")
-    object Favorit: NavigationBundNav("favorit",R.drawable.ic_favorite, "Favorit")
+    object Favorit: NavigationBundNav("favorit",R.drawable.ic_favorite, "Favoritter")
     object Kamera : NavigationBundNav("kamera", R.drawable.ic_kamera, "Kamera")
     object Profil : NavigationBundNav("profil", R.drawable.ic_profil, "Profil")
     object MineDesign : NavigationBundNav("mine design", R.drawable.ic_star, "Designs")
@@ -29,6 +31,8 @@ sealed class NavigationBundNav(var route: String, var icon: Int, var title: Stri
 @Composable
 fun BottomNavigationBar(navController: NavController) {
 
+    //Vi har i store dele brugt løsningen fra https://johncodeos.com/how-to-create-bottom-navigation-bar-with-jetpack-compose/
+    //og ændret den til at den passer til vores use case.
 
     val items = listOf(
         NavigationBundNav.Inspiration,
@@ -78,10 +82,4 @@ fun BottomNavigationBar(navController: NavController) {
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BottomNavigationBarPreview() {
-//    BottomNavigationBar()
 }

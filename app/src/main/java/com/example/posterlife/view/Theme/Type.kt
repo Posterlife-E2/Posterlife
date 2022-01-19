@@ -8,6 +8,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.posterlife.R
 
+/**
+ * @Author Laurtiz Pepke s191179
+ */
+
 //Fra posterlife
 private val Khand = FontFamily(
     Font(R.font.khand_regular),
@@ -17,7 +21,7 @@ private val Khand = FontFamily(
     Font(R.font.khand_semibold, FontWeight.SemiBold)
 )
 
-//skal redigeres/tilføjes flere fonts
+//fonts
 val PosterlifeTypography = Typography(
     h4 = TextStyle(
         fontFamily = Khand,
