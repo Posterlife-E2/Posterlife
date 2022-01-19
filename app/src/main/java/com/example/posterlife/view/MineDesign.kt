@@ -47,6 +47,7 @@ import java.io.File
 *https://youtube.com/watch?v=SfiDWNZQk6M&feature=share
 *https://youtube.com/watch?v=741QCymuky4&feature=share
 *https://youtube.com/watch?v=Cofhptx6RRA&feature=share
+*https://firebase.google.com/docs/android/setup
  * Ting til at lave ting.
  * https://juliensalvi.medium.com/parallax-effect-made-it-simple-with-jetpack-compose-d19bde5688fc
  * https://github.com/vinaygaba/Learn-Jetpack-Compose-By-Example
